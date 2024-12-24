@@ -1,4 +1,12 @@
 
+using DropFreaks.CustomerPortal.Services;
+using DropFreaks.DataAccess;
+using DropFreaks.Domain.Entities;
+using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.ModelBuilder;
+using System.Reflection;
+
 namespace DropFreaks.CustomerPortal.Api
 {
     public class Program
@@ -8,8 +16,21 @@ namespace DropFreaks.CustomerPortal.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDbContext<MainDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddControllers();
+            Assembly serviceAssembly = Assembly.GetAssembly(typeof(SellerService));
+            RegisterServices(builder.Services, serviceAssembly);
+
+            var modelBuilder = SetupOdata(builder.Services, serviceAssembly);
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                })
+                .AddOData(options => options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(null)
+                    .AddRouteComponents("odata", modelBuilder.GetEdmModel())
+                );
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
@@ -23,12 +44,40 @@ namespace DropFreaks.CustomerPortal.Api
 
             app.UseHttpsRedirection();
 
+            app.UseCors(policy =>
+            {
+                policy.WithOrigins("http://localhost:4200",
+                                   "http://www.contoso.com")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
+            });
+
             app.UseAuthorization();
 
 
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void RegisterServices(IServiceCollection services, Assembly serviceAssembly)
+        {
+            var types = serviceAssembly.GetTypes();
+            var serviceTypes = types.Where(t => t.Name.EndsWith("Service")
+                && !t.IsInterface // not interfaces
+                ).ToList();
+            foreach (var type in serviceTypes)
+            {
+                services.AddScoped(type.GetInterfaces()[0], type);
+            }
+        }
+
+        private static ODataConventionModelBuilder SetupOdata(IServiceCollection services, Assembly assembly)
+        {
+            var modelBuilder = new ODataConventionModelBuilder();
+            modelBuilder.EntitySet<seller>("SellersOdata").EntityType.HasKey(e => e.seller_id);
+
+            return modelBuilder;
         }
     }
 }

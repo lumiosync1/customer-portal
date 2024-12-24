@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="DropFreaks.DataAccess">
       <HintPath>..\..\..\..\dropfreaks-common\src\DropFreaks.DataAccess\bin\Debug\net9.0\DropFreaks.DataAccess.dll</HintPath>
     </Reference>

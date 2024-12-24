@@ -7,6 +7,17 @@ import { ModalConfig, ModalComponent } from '../../_metronic/partials';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
+  public gridData: any[] = [
+    {
+        ProductID: 1,
+        ProductName: 'Chai',
+        UnitPrice: 18,
+        Category: {
+            CategoryID: 1,
+            CategoryName: 'Beverages'
+        }
+    }
+];
   modalConfig: ModalConfig = {
     modalTitle: 'Modal title',
     dismissButtonLabel: 'Submit',

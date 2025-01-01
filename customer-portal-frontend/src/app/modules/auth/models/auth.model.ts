@@ -1,11 +1,14 @@
+import { CurrentUserDto } from "./current-user-dto";
 export class AuthModel {
-  authToken: string;
-  refreshToken: string;
-  expiresIn: Date;
+  AccessToken: string;
+  ExpiresAt: Date;
+  User: CurrentUserDto;
+  PaymentLink: string;
 
   setAuth(auth: AuthModel) {
-    this.authToken = auth.authToken;
-    this.refreshToken = auth.refreshToken;
-    this.expiresIn = auth.expiresIn;
+    this.AccessToken = auth.AccessToken;
+    this.ExpiresAt = auth.ExpiresAt;
+    this.User = auth.User;
+    this.PaymentLink = auth.PaymentLink;
   }
 }

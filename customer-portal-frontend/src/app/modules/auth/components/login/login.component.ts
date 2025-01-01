@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { UserModel } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CurrentUserDto } from '../../models/current-user-dto';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginComponent implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:
   defaultAuth: any = {
-    email: 'admin@demo.com',
-    password: 'demo',
+    email: 'bachvi98@gmail.com',
+    password: 'abcde12345-',
   };
   loginForm: FormGroup;
   hasError: boolean;
@@ -77,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const loginSubscr = this.authService
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
-      .subscribe((user: UserModel | undefined) => {
+      .subscribe((user: CurrentUserDto | undefined) => {
         if (user) {
           this.router.navigate([this.returnUrl]);
         } else {

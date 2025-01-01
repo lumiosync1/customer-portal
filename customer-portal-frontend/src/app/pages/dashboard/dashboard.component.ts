@@ -21,7 +21,7 @@ export class DashboardComponent {
       this.data = new DataManager({
         url: 'https://localhost:7133/odata/sellersodata',
         adaptor: new ODataV4Adaptor,
-        crossDomain: true
+        crossDomain: true, 
       });
       
       this.pageSettings = { pageCount: 5 };

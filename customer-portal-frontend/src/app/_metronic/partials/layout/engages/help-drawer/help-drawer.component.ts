@@ -7,7 +7,7 @@ import {environment} from 'src/environments/environment';
 })
 export class HelpDrawerComponent implements OnInit {
   appThemeName: string = environment.appThemeName;
-  appPurchaseUrl: string = environment.appPurchaseUrl;
+  appPurchaseUrl: string = '';
 
   constructor() {
   }

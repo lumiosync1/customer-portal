@@ -39,6 +39,7 @@ import { ExtendedComponent } from './components/toolbar/extended/extended.compon
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
 import {SharedModule} from "../shared/shared.module";
+import { ToastContainerComponent } from 'src/app/modules/shared/components/toast-container/toast-container.component';
 
 const routes: Routes = [
   {
@@ -86,7 +87,8 @@ const routes: Routes = [
     NgbTooltipModule,
     TranslateModule,
     ThemeModeModule,
-    SharedModule
+    SharedModule,
+    ToastContainerComponent,
   ],
   exports: [RouterModule],
 })

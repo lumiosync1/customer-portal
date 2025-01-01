@@ -1,7 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { ModalConfig, ModalComponent } from '../../_metronic/partials';
 import { FilterService, SortService, GridComponent, IFilter, VirtualScrollService, Filter, Sort, Page, Toolbar, Edit } from '@syncfusion/ej2-angular-grids';
 import { DataManager, ODataV4Adaptor, WebApiAdaptor, UrlAdaptor, Query } from '@syncfusion/ej2-data';
+import { ToastService } from 'src/app/modules/shared/services/toast.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +18,9 @@ export class DashboardComponent {
   public orderidrules: Object;
   public customeridrules: Object;
   public freightrules: Object;
+
+  toastService = inject(ToastService);
+
   ngOnInit(): void {
       this.data = new DataManager({
         url: 'https://localhost:7133/odata/sellersodata',
@@ -43,5 +47,9 @@ export class DashboardComponent {
 
   async openModal() {
     return await this.modalComponent.open();
+  }
+
+  showSuccess() {
+    this.toastService.showSuccess('Success message');
   }
 }

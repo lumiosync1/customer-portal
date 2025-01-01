@@ -1,0 +1,16 @@
+@for (toast of toastService.toasts; track toast) {
+    <ngb-toast
+        [class]="toast.classname"
+        [autohide]="toast.autohide"
+        (mouseenter)="toast.autohide = false"
+		(mouseleave)="toast.autohide = true"
+        [delay]="toast.delay || 5000"
+        (hidden)="toastService.remove(toast)"
+    >
+        @if (toast.template) {
+            <ng-template [ngTemplateOutlet]="toast.template"></ng-template>
+        } @else if (toast.message) {
+            {{ toast.message }}
+        }
+    </ngb-toast>
+}

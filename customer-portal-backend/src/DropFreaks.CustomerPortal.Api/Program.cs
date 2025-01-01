@@ -1,11 +1,13 @@
-
-using DropFreaks.CustomerPortal.Services;
+using DropFreaks.CustomerPortal.Services.Auth;
+using DropFreaks.CustomerPortal.Services.Seller;
 using DropFreaks.DataAccess;
 using DropFreaks.Domain.Entities;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
 using System.Reflection;
+using System.Text;
 
 namespace DropFreaks.CustomerPortal.Api
 {
@@ -18,11 +20,26 @@ namespace DropFreaks.CustomerPortal.Api
             // Add services to the container.
             builder.Services.AddDbContext<MainDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            JwtConfiguration jwtConfiguration = builder.Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
+            builder.Services.AddTransient<JwtConfiguration>(s => jwtConfiguration);
+
             Assembly serviceAssembly = Assembly.GetAssembly(typeof(SellerService));
             RegisterServices(builder.Services, serviceAssembly);
 
-            var modelBuilder = SetupOdata(builder.Services, serviceAssembly);
+            // configure authentication
+            var key = Encoding.ASCII.GetBytes(jwtConfiguration.Secret);
+            builder.Services.AddAuthentication("Bearer")
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(key);
+                    //options.TokenValidationParameters.ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha256Signature };
+                    options.TokenValidationParameters.ValidAudiences = jwtConfiguration.ValidAudiences;
+                    options.TokenValidationParameters.ValidIssuers = jwtConfiguration.ValidIssuers;
+                    options.TokenValidationParameters.ValidateIssuerSigningKey = true;
+                });
+            builder.Services.AddAuthorization();
 
+            var modelBuilder = SetupOdata(builder.Services, serviceAssembly);
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {

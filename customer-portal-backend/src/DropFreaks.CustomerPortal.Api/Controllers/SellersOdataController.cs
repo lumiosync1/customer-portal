@@ -1,4 +1,4 @@
-﻿using DropFreaks.CustomerPortal.Services;
+﻿using DropFreaks.CustomerPortal.Services.Seller;
 using DropFreaks.Domain.Entities;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;

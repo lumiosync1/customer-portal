@@ -1,7 +1,7 @@
 ﻿using DropFreaks.DataAccess;
 using DropFreaks.Domain.Entities;
 
-namespace DropFreaks.CustomerPortal.Services
+namespace DropFreaks.CustomerPortal.Services.Seller
 {
     public class SellerService : ISellerService
     {

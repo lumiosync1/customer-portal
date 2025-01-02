@@ -4,12 +4,14 @@ import {
   ViewChild,
   ElementRef,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LayoutService } from './core/layout.service';
 import { LayoutInitService } from './core/layout-init.service';
 import { ILayout, LayoutType } from './core/configs/config';
+import { LoadingService } from 'src/app/modules/shared/services/loading.service';
 
 @Component({
   selector: 'app-layout',
@@ -66,15 +68,19 @@ export class LayoutComponent implements OnInit, OnDestroy {
   // scrolltop
   scrolltopDisplay: boolean;
 
+  isLoading: boolean;
+
   @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
   @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
   @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
 
   constructor(
+    private ref: ChangeDetectorRef,
     private initService: LayoutInitService,
     private layout: LayoutService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private loadingService: LoadingService,
   ) {
     // define layout type and load layout
     this.router.events.subscribe((event) => {
@@ -100,6 +106,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.updateProps(config);
       });
     this.unsubscribe.push(subscr);
+
+    const loadingSub = this.loadingService.isLoading$.subscribe(load => {
+      this.isLoading = load;
+      this.ref.markForCheck();
+      this.ref.detectChanges();
+    });
+    this.unsubscribe.push(loadingSub);
   }
 
   updateProps(config: ILayout) {

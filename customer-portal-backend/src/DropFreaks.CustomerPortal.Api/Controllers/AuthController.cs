@@ -34,5 +34,27 @@ namespace DropFreaks.CustomerPortal.Api.Controllers
                 return response;
             }
         }
+
+        [Route("register")]
+        [HttpPost]
+        public async Task<BaseResponse<string>> RegisterAsync(RegistrationDto dto)
+        {
+            BaseResponse<string> response = new BaseResponse<string>();
+            try
+            {
+                await authService.RegisterAsync(dto);
+                response.Data = "Success";
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
     }
 }

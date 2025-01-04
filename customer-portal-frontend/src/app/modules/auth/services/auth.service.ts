@@ -8,7 +8,8 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CurrentUserDto } from '../models/current-user-dto';
-import { BaseResponse } from '../../shared/models/base-response.model';
+import { BaseResponse, ResponseStatus } from '../../shared/models/base-response.model';
+import { RegistrationDto } from '../models/registration.model';
 
 export type UserType = UserModel | undefined;
 
@@ -82,16 +83,12 @@ export class AuthService implements OnDestroy {
   }
 
   // need create new user then login
-  registration(user: UserModel): Observable<any> {
+  registration(registration: RegistrationDto): Observable<BaseResponse<string>> {
     this.isLoadingSubject.next(true);
-    return this.authHttpService.createUser(user).pipe(
-      map(() => {
-        this.isLoadingSubject.next(false);
-      }),
-      switchMap(() => this.login(user.email, user.password)),
+    return this.http.post<BaseResponse<string>>(`${environment.apiUrl}/api/auth/register`, registration).pipe(
       catchError((err) => {
         console.error('err', err);
-        return of(undefined);
+        return of({ Status: ResponseStatus.Error, Message: err.error.Message, Data: '', AdditionalInfo: '' });
       }),
       finalize(() => this.isLoadingSubject.next(false))
     );

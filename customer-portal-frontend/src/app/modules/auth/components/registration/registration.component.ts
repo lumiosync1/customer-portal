@@ -6,6 +6,8 @@ import { AuthService } from '../../services/auth.service';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
 import { UserModel } from '../../models/user.model';
 import { first } from 'rxjs/operators';
+import { RegistrationDto } from '../../models/registration.model';
+import { BaseResponse, ResponseStatus } from 'src/app/modules/shared/models/base-response.model';
 
 @Component({
   selector: 'app-registration',
@@ -16,6 +18,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   registrationForm: FormGroup;
   hasError: boolean;
   isLoading$: Observable<boolean>;
+  success: boolean = false;
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -87,20 +90,20 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   submit() {
     this.hasError = false;
-    const result: {
-      [key: string]: string;
-    } = {};
-    Object.keys(this.f).forEach((key) => {
-      result[key] = this.f[key].value;
-    });
-    const newUser = new UserModel();
-    newUser.setUser(result);
+    this.registrationForm.markAllAsTouched();
+    if (this.registrationForm.invalid) {
+      return;
+    }
+    const newUser: RegistrationDto = {
+      FullName: this.f.fullname.value,
+      Email: this.f.email.value,
+      Password: this.f.password.value,
+    };
     const registrationSubscr = this.authService
       .registration(newUser)
-      .pipe(first())
-      .subscribe((user: UserModel) => {
-        if (user) {
-          this.router.navigate(['/']);
+      .subscribe((res: BaseResponse<string>) => {
+        if (res.Status === ResponseStatus.Success) {
+          this.success = true;
         } else {
           this.hasError = true;
         }

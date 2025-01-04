@@ -1,7 +1,9 @@
 ﻿using DropFreaks.DataAccess;
+using DropFreaks.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 
@@ -89,6 +91,35 @@ namespace DropFreaks.CustomerPortal.Services.Auth
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public async Task RegisterAsync(RegistrationDto dto)
+        {
+            // create new seller
+            seller seller = new seller()
+            {
+                seller_name = dto.Email.ToLower(),
+                active = true,
+                created_at = DateTime.UtcNow,
+                created_by = "portal",
+            };
+            mainDbContext.sellers.Add(seller);
+            await mainDbContext.SaveChangesAsync();
+
+            // create new user
+            portal_user user = new portal_user()
+            {
+                seller_id = seller.seller_id,
+                user_name = dto.Email.ToLower(),
+                password = Domain.Utils.PasswordHasher.HashPasswordV3(dto.Password),
+                full_name = dto.FullName,
+                active = true,
+                role = PortalUserRoles.admin,
+                created_at = DateTime.UtcNow,
+                created_by = "portal",
+            };
+            mainDbContext.portal_users.Add(user);
+            await mainDbContext.SaveChangesAsync();
         }
     }
 }

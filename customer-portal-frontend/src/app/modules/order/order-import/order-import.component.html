@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-body">
+    <ejs-uploader #defaultupload id='defaultfileupload' 
+        [asyncSettings]='path' 
+        [autoUpload]='false' 
+        [multiple]='false'
+        allowedExtensions=".csv"
+        maxFileSize="2000000"
+        (uploading)="onFileUploading($event)">
+    </ejs-uploader>
+  </div>
+</div>

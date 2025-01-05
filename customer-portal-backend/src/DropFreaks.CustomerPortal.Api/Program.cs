@@ -1,3 +1,4 @@
+using Amazon.S3;
 using DropFreaks.CustomerPortal.Services.Auth;
 using DropFreaks.CustomerPortal.Services.Seller;
 using DropFreaks.DataAccess;
@@ -38,9 +39,13 @@ namespace DropFreaks.CustomerPortal.Api
                     options.TokenValidationParameters.ValidateIssuerSigningKey = true;
                 });
             builder.Services.AddAuthorization();
+            
 
             var modelBuilder = SetupOdata(builder.Services, serviceAssembly);
-            builder.Services.AddControllers()
+            builder.Services.AddControllers(config =>
+                {
+                    config.Filters.Add(typeof(Attributes.CurrentUserFilterAttribute));
+                })
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
@@ -50,6 +55,8 @@ namespace DropFreaks.CustomerPortal.Api
                 );
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            RegisterOtherServices(builder);
 
             var app = builder.Build();
 
@@ -95,6 +102,19 @@ namespace DropFreaks.CustomerPortal.Api
             modelBuilder.EntitySet<seller>("SellersOdata").EntityType.HasKey(e => e.seller_id);
 
             return modelBuilder;
+        }
+
+        private static void RegisterOtherServices(WebApplicationBuilder builder)
+        {
+            // AWS
+            string region = builder.Configuration["Aws:Region"];
+            string accessKeyId = builder.Configuration["Aws:AccessKeyId"];
+            string secretAccessKey = builder.Configuration["Aws:SecretAccessKey"];
+            builder.Services.AddScoped<AmazonS3Client>(provider => new AmazonS3Client
+                (accessKeyId, 
+                secretAccessKey, 
+                new AmazonS3Config { RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region) }
+                ));
         }
     }
 }

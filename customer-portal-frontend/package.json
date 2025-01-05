@@ -29,6 +29,7 @@
     "@popperjs/core": "2.11.8",
     "@sweetalert2/ngx-sweetalert2": "^12.2.0",
     "@syncfusion/ej2-angular-grids": "^28.1.35",
+    "@syncfusion/ej2-angular-inputs": "^28.1.37",
     "angular-datatables": "^18.0.0",
     "angular-in-memory-web-api": "^0.18.0",
     "animate.css": "4.1.1",

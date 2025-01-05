@@ -22,6 +22,10 @@ const Routing: Routes = [
     loadChildren: () => import('./permission/permission.module').then((m) => m.PermissionModule),
   },
   {
+    path: 'orders',
+    loadChildren: () => import('../modules/order/order.module').then((m) => m.OrderModule),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',

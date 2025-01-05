@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.411" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
@@ -24,6 +25,12 @@
     <Reference Include="DropFreaks.Domain">
       <HintPath>..\..\..\..\dropfreaks-common\src\DropFreaks.Domain\bin\Debug\net9.0\DropFreaks.Domain.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

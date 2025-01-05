@@ -3,6 +3,7 @@ import { ModalConfig, ModalComponent } from '../../_metronic/partials';
 import { FilterService, SortService, GridComponent, IFilter, VirtualScrollService, Filter, Sort, Page, Toolbar, Edit } from '@syncfusion/ej2-angular-grids';
 import { DataManager, ODataV4Adaptor, WebApiAdaptor, UrlAdaptor, Query } from '@syncfusion/ej2-data';
 import { ToastService } from 'src/app/modules/shared/services/toast.service';
+import { LoadingService } from 'src/app/modules/shared/services/loading.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,7 +44,9 @@ export class DashboardComponent {
     closeButtonLabel: 'Cancel'
   };
   @ViewChild('modal') private modalComponent: ModalComponent;
-  constructor() {}
+  constructor(
+    private loadingService: LoadingService,
+  ) {}
 
   async openModal() {
     return await this.modalComponent.open();
@@ -51,5 +54,9 @@ export class DashboardComponent {
 
   showSuccess() {
     this.toastService.showSuccess('Success message');
+    this.loadingService.showLoading();
+    setTimeout(() => {
+      this.loadingService.hideLoading();
+    }, 5000);
   }
 }

@@ -21,37 +21,21 @@ namespace DropFreaks.CustomerPortal.Api.Controllers
 
         [Route("import")]
         [HttpPost]
-        public async Task<BaseResponse<string>> ImportAsync(IFormFile UploadFiles)
+        public async Task ImportAsync(IFormFile UploadFiles)
         {
-            BaseResponse<string> response = new BaseResponse<string>();
-            try
-            {
-                var import = await orderService.CreateOrderImportAsync(UploadFiles.FileName);
-                
-                string bucket = configuration["Aws:OrderImportBucket"];
-                AmazonS3Client s3Client = serviceProvider.GetService<AmazonS3Client>();
-                Amazon.S3.Model.PutObjectRequest request = new Amazon.S3.Model.PutObjectRequest()
-                {
-                    BucketName = bucket,
-                    Key = import.unique_file_name,
-                    InputStream = UploadFiles.OpenReadStream()
-                };
-                request.Metadata.Add("seller_id", import.seller_id.ToString());
-                request.Metadata.Add("import_id", import.import_id.ToString());
-                var s3Response = await s3Client.PutObjectAsync(request);
+            var import = await orderService.CreateOrderImportAsync(UploadFiles.FileName);
 
-                response.Data = "Success";
-                response.Status = ResponseStatus.Success;
-                return response;
-            }
-            catch (Exception ex)
+            string bucket = configuration["Aws:OrderImportBucket"];
+            AmazonS3Client s3Client = serviceProvider.GetService<AmazonS3Client>();
+            Amazon.S3.Model.PutObjectRequest request = new Amazon.S3.Model.PutObjectRequest()
             {
-                response.Status = ResponseStatus.Error;
-                response.Message = ex.Message;
-                response.Data = null;
-                response.AdditionalInfo = ex.StackTrace;
-                return response;
-            }
+                BucketName = bucket,
+                Key = import.unique_file_name,
+                InputStream = UploadFiles.OpenReadStream()
+            };
+            request.Metadata.Add("seller_id", import.seller_id.ToString());
+            request.Metadata.Add("import_id", import.import_id.ToString());
+            var s3Response = await s3Client.PutObjectAsync(request);
         }
     }
 }

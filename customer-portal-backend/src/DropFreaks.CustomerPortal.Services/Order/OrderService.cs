@@ -1,6 +1,7 @@
 ﻿using DropFreaks.CustomerPortal.Services.Auth;
 using DropFreaks.DataAccess;
 using DropFreaks.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DropFreaks.CustomerPortal.Services.Order
 {
@@ -13,6 +14,13 @@ namespace DropFreaks.CustomerPortal.Services.Order
         {
             this.dbContext = dbContext;
             this.authService = authService;
+        }
+
+        public IQueryable<portal_order_import> GetOrderImportsQueryable()
+        {
+            return dbContext.portal_order_imports
+                .Where(e => e.seller_id == authService.CurrentUser.SellerId)
+                .AsNoTracking();
         }
 
         public async Task<portal_order_import> CreateOrderImportAsync(string fileName)
@@ -31,5 +39,7 @@ namespace DropFreaks.CustomerPortal.Services.Order
 
             return import;
         }
+
+        
     }
 }

@@ -4,6 +4,7 @@ import { FilterService, SortService, GridComponent, IFilter, VirtualScrollServic
 import { DataManager, ODataV4Adaptor, WebApiAdaptor, UrlAdaptor, Query } from '@syncfusion/ej2-data';
 import { ToastService } from 'src/app/modules/shared/services/toast.service';
 import { LoadingService } from 'src/app/modules/shared/services/loading.service';
+import { AuthService } from 'src/app/modules/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,12 +22,14 @@ export class DashboardComponent {
   public freightrules: Object;
 
   toastService = inject(ToastService);
+  authService = inject(AuthService);
 
   ngOnInit(): void {
       this.data = new DataManager({
         url: 'https://localhost:7133/odata/sellersodata',
-        adaptor: new ODataV4Adaptor,
-        crossDomain: true, 
+        adaptor: new ODataV4Adaptor(),
+        crossDomain: true,
+        headers: [{ Authorization: 'Bearer ' + this.authService.getAuthFromLocalStorage()?.AccessToken }]
       });
       
       this.pageSettings = { pageCount: 5 };

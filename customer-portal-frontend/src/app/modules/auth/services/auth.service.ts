@@ -51,7 +51,7 @@ export class AuthService implements OnDestroy {
   // public methods
   login(email: string, password: string): Observable<CurrentUserDto|undefined> {
     this.isLoadingSubject.next(true);
-    return this.http.post<BaseResponse<AuthModel>>(`${environment.apiUrl}/api/auth/login`, { UserName: email, Password: password }).pipe(
+    return this.http.post<BaseResponse<AuthModel>>(`${environment.backendUrl}/api/auth/login`, { UserName: email, Password: password }).pipe(
       map((auth: BaseResponse<AuthModel>) => {
         const result = this.setAuthFromLocalStorage(auth.Data);
         return result;
@@ -85,7 +85,7 @@ export class AuthService implements OnDestroy {
   // need create new user then login
   registration(registration: RegistrationDto): Observable<BaseResponse<string>> {
     this.isLoadingSubject.next(true);
-    return this.http.post<BaseResponse<string>>(`${environment.apiUrl}/api/auth/register`, registration).pipe(
+    return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/auth/register`, registration).pipe(
       catchError((err) => {
         console.error('err', err);
         return of({ Status: ResponseStatus.Error, Message: err.error.Message, Data: '', AdditionalInfo: '' });

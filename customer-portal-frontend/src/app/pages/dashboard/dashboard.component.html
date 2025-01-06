@@ -1,6 +1,7 @@
 <button class="btn btn-primary" (click)="showSuccess()">Show toast</button>
 
-<ejs-grid [dataSource]='data' allowPaging='true' [pageSettings]='pageSettings' [allowSorting]='true' [allowFiltering]='true' [filterSettings]='filterSettings' >
+<ejs-grid [dataSource]='data' allowPaging='true' [pageSettings]='pageSettings' [allowSorting]='true' [allowFiltering]='true' [filterSettings]='filterSettings'
+     >
     <e-columns>
         <e-column field='seller_id' headerText='Seller ID' width='120' textAlign='Right' isPrimaryKey='true' [validationRules]='orderidrules'></e-column>
         <e-column field='seller_name' headerText='Seller Name' width='150' [validationRules]='customeridrules'></e-column>

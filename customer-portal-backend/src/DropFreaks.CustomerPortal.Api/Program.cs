@@ -100,6 +100,7 @@ namespace DropFreaks.CustomerPortal.Api
         {
             var modelBuilder = new ODataConventionModelBuilder();
             modelBuilder.EntitySet<seller>("SellersOdata").EntityType.HasKey(e => e.seller_id);
+            modelBuilder.EntitySet<portal_order_import>("OrderImportsOdata").EntityType.HasKey(e => e.import_id);
 
             return modelBuilder;
         }

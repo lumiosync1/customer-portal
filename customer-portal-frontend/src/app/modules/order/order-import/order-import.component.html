@@ -6,7 +6,29 @@
         [multiple]='false'
         allowedExtensions=".csv"
         maxFileSize="2000000"
-        (uploading)="onFileUploading($event)">
-    </ejs-uploader>
+        (uploading)="onFileUploading($event)"
+        (success)="onFileUploadSuccess($event)"
+    ></ejs-uploader>
+  </div>
+</div>
+
+<div class="card mt-4">
+  <div class="card-header">
+    <h3 class="card-title">Import History</h3>
+  </div>
+  <div class="card-body">
+    <ejs-grid #grid [dataSource]='data' 
+      allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
+      [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'created_at', direction: 'Descending' }] }"
+      [allowFiltering]='true' [filterSettings]='{type: "Menu"}'
+     >
+    <e-columns>
+        <e-column field='file_name' headerText='File Name' width='120' ></e-column>
+        <e-column field='created_at' headerText='Imported At' width='150' format="MM/dd/yyyy HH:mm" ></e-column>
+        <e-column field='created_by' headerText='Imported By' width='130' ></e-column>
+        <e-column field='count_success' headerText='Count Success' width='130' ></e-column>
+        <e-column field='count_error' headerText='Count Failed' width='130' ></e-column>
+    </e-columns>
+</ejs-grid>
   </div>
 </div>

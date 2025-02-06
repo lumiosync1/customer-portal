@@ -1,0 +1,12 @@
+﻿using Lumio.Domain.Entities;
+
+namespace Lumio.CustomerPortal.Services.Order
+{
+    public interface IOrderService
+    {
+        public IQueryable<portal_order_import> GetOrderImportsQueryable();
+        public Task<portal_order_import> CreateOrderImportAsync(string fileName);
+
+        public IQueryable<om_order> GetOrdersQueryable();
+    }
+}

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Lumio.DataAccess">
+      <HintPath>..\..\..\..\lumio-common\src\Lumio.DataAccess\bin\Debug\net9.0\Lumio.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Lumio.Domain">
+      <HintPath>..\..\..\..\lumio-common\src\Lumio.Domain\bin\Debug\net9.0\Lumio.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

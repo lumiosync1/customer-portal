@@ -1,0 +1,39 @@
+<div class="card mt-4">
+    
+    <div class="card-body">
+      <ejs-grid #grid [dataSource]='data' 
+        allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
+        [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'order_id', direction: 'Descending' }] }"
+        [allowFiltering]='true' [filterSettings]='{type: "Menu"}'
+        allowTextWrap='true'
+       >
+        <e-columns>
+            <e-column field='order_id' headerText='Order ID' textAlign='Right' width='70' ></e-column>
+            <e-column field='market_order_number' headerText='Ref. No.' width='100' ></e-column>
+            <e-column field='item_title' headerText='Item' width='130' [filter]="{ params: { autofill: false } }"></e-column>
+            <e-column field='sale_date' headerText='Sale Date' width='150' format="MM/dd/yyyy HH:mm" ></e-column>
+            <e-column field='quantity' headerText='Quantity' textAlign='Right' width='70' ></e-column>
+            <e-column field='market_total_price' headerText='Total Price' textAlign='Right' width='130' ></e-column>
+            <e-column field='order_status' headerText='Status' width='130' [filter]="{operators: [{ value: 'equal', text: 'Equal' }]}">
+                <ng-template #template let-data>
+                    @if(data.order_status == 'pending') {
+                        <span class="badge badge-warning">{{data.order_status}}</span>
+                    } @else {
+                        {{data.order_status}}
+                    }
+                </ng-template>
+                <ng-template #filterTemplate let-data>
+                    <select class="form-select">
+                        <option value="">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </ng-template>
+            </e-column>
+            <e-column field='tracking_number' headerText='Tracking Number' width='130' ></e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>

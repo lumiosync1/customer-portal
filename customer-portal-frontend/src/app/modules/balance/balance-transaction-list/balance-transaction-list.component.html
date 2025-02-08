@@ -1,0 +1,22 @@
+<div class="card mt-4">
+    
+    <div class="card-body">
+      <ejs-grid #grid [dataSource]='data' 
+        allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
+        [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'created_at', direction: 'Descending' }] }"
+        [allowFiltering]='true' [filterSettings]='{type: "Menu"}'
+        allowTextWrap='true'
+       >
+        <e-columns>
+            <e-column field='tx_id' headerText='ID' textAlign='Right' width='70' ></e-column>
+            <e-column field='created_at' headerText='Date Time' width='150' format="MM/dd/yyyy HH:mm" ></e-column>
+            <e-column field='amount' headerText='Amount' textAlign='Right' width='70' ></e-column>
+            <e-column field='description' headerText='Description' width='130' [filter]="{ params: { autofill: false } }"></e-column>
+            <e-column field='category' headerText='Category' width='100' [filter]="{ params: { autofill: false } }"></e-column>
+            <e-column field='order_id' headerText='Order ID' textAlign='Right' width='70' ></e-column>
+            <e-column field='ref_id' headerText='Ref. No.' width='100' [filter]="{ params: { autofill: false } }"></e-column>
+            <e-column field='note' headerText='Note' width='130' [filter]="{ params: { autofill: false } }"></e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>

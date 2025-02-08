@@ -26,6 +26,11 @@ const Routing: Routes = [
     loadChildren: () => import('../modules/order/order.module').then((m) => m.OrderModule),
   },
   {
+    path: 'balance-transactions',
+    loadComponent: () =>
+      import('../modules/balance/balance-transaction-list/balance-transaction-list.component').then((m) => m.BalanceTransactionListComponent),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',

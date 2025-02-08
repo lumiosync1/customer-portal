@@ -1,4 +1,5 @@
 using Amazon.S3;
+using Lumio.Balance;
 using Lumio.CustomerPortal.Services.Auth;
 using Lumio.CustomerPortal.Services.Balance;
 using Lumio.CustomerPortal.Services.Seller;
@@ -97,6 +98,8 @@ namespace Lumio.CustomerPortal.Api
             {
                 services.AddScoped(type.GetInterfaces()[0], type);
             }
+
+            services.AddScoped<BalanceManager>();
         }
 
         private static ODataConventionModelBuilder SetupOdata(IServiceCollection services, Assembly assembly)

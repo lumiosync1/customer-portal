@@ -3,11 +3,8 @@ import { Routes } from '@angular/router';
 const Routing: Routes = [
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-  },
-  {
-    path: 'builder',
-    loadChildren: () => import('./builder/builder.module').then((m) => m.BuilderModule),
+    loadComponent: () =>
+      import('../modules/dashboard/dashboard/dashboard.component').then((m) => m.DashboardComponent),
   },
   {
     path: 'apps/users',

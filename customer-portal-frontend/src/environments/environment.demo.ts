@@ -7,7 +7,7 @@ export const environment = {
   appVersion: 'v8.2.4',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: false,
-  backendUrl: 'http://demo-portal-api.lumiosync.com',
+  backendUrl: 'https://demo-portal-api.lumiosync.com',
   appThemeName: 'Metronic',
   
 };

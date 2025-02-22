@@ -47,12 +47,19 @@ namespace Lumio.CustomerPortal.Services.Auth
                 throw new Exception("Invalid password.");
             }
 
+            var seller = await mainDbContext.sellers.FindAsync(user.seller_id);
+            if (seller == null)
+            {
+                throw new Exception("Seller not found.");
+            }
+
             CurrentUser = new CurrentUserDto()
             {
                 UserId = user.user_id,
                 SellerId = user.seller_id,
                 UserName = user.user_name,
                 Role = user.role,
+                Site = seller.site,
             };
 
             // Generate authentication token

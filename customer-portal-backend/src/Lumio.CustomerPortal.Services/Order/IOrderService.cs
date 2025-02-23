@@ -6,6 +6,7 @@ namespace Lumio.CustomerPortal.Services.Order
     {
         public IQueryable<portal_order_import> GetOrderImportsQueryable();
         public Task<portal_order_import> CreateOrderImportAsync(string fileName);
+        public Task<OrderDetailDto> GetOrderDetailAsync(int orderId);
 
         public IQueryable<om_order> GetOrdersQueryable();
     }

@@ -4,12 +4,14 @@ import { DataManager, ODataV4Adaptor } from '@syncfusion/ej2-data';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth';
 import { OrderService } from '../order.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-order-list',
   standalone: true,
   imports: [
     GridModule,
+    RouterLink,
   ],
   providers: [SortService, FilterService, PageService],
   templateUrl: './order-list.component.html',

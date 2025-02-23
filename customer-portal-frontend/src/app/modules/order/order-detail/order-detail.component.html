@@ -1,0 +1,207 @@
+<h1>{{orderDetail.ItemTitle}}</h1>
+<span class="badge fs-1" [ngClass]="
+    {'badge-primary': orderDetail.OrderStatus == 'purchased', 
+    'badge-success': orderDetail.OrderStatus == 'delivered', 
+    'badge-warning': 'pending,inprogress'.includes(orderDetail.OrderStatus),
+    'badge-danger': 'removed,cancelled,refunded'.includes(orderDetail.OrderStatus)}">
+    {{orderDetail.OrderStatus}}
+</span>
+
+<div class="row mt-4">
+    <div class="col-6">
+        <div class="card ">
+            <!--begin::Card header-->
+            <div class="card-header card-header-small bg-primary">
+                <div class="card-title">
+                    <h3 class="text-white">Order Information</h3>
+                </div>
+            </div>
+            <!--end::Card header-->
+        
+            <!--begin::Card body-->
+            <div class="card-body position-relative">
+                <table class="table table-sm table-condensed table-row-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Sale Date</th>
+                            <td>{{orderDetail.SaleDate | date:'dd/MM/yyyy'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Created Date</th>
+                            <td>{{orderDetail.CreatedDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                        </tr>
+                        <tr>
+                            <th>SKU</th>
+                            <td>{{orderDetail.Sku}}</td>
+                        </tr>
+                        <tr>
+                            <th>Quantity</th>
+                            <td>{{orderDetail.Quantity}}</td>
+                        </tr>
+                        <tr>
+                            <th>Unit Price</th>
+                            <td>{{orderDetail.UnitPrice | number:'1.2-2'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Shipping Fee</th>
+                            <td>{{orderDetail.ShippingFee | number:'1.2-2'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Sale Tax</th>
+                            <td>{{orderDetail.SaleTax | number:'1.2-2'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Total Price</th>
+                            <td>{{orderDetail.TotalPrice | number:'1.2-2'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--begin::Background-->
+            <div class="position-absolute top-0 end-0 bottom-0 opacity-10 d-flex align-items-center me-5">
+                <i class="bi bi-cart" style="font-size: 10em">
+                </i>
+            </div>
+            <!--end::Background-->
+            </div>
+            <!--end::Card body-->
+        </div>
+
+        <div class="card mt-4 ">
+            <!--begin::Card header-->
+            <div class="card-header card-header-small bg-primary">
+                <div class="card-title">
+                    <h3 class="text-white">Shipping Address</h3>
+                </div>
+            </div>
+            <!--end::Card header-->
+        
+            <!--begin::Card body-->
+            <div class="card-body position-relative">
+                {{orderDetail.ShipToName}}<br>
+                {{orderDetail.ShipToAddress1}}<br>
+                @if(orderDetail.ShipToAddress2)
+                {
+                    {{orderDetail.ShipToAddress2}}<br>
+                }
+                {{orderDetail.ShipToCity}}, {{orderDetail.ShipToState}} {{orderDetail.ShipToZip}}<br>
+                {{orderDetail.ShipToCountry}}.<br>
+                Phone: {{orderDetail.ShipToPhone}}
+                <!--begin::Background-->
+            <div class="position-absolute top-0 end-0 bottom-0 opacity-10 d-flex align-items-center me-5">
+                <i class="bi bi-house" style="font-size: 10em">
+                </i>
+            </div>
+            <!--end::Background-->
+            </div>
+            <!--end::Card body-->
+        </div>
+
+        <div class="card mt-4 ">
+            <!--begin::Card header-->
+            <div class="card-header card-header-small bg-primary">
+                <div class="card-title">
+                    <h3 class="text-white">Tracking</h3>
+                </div>
+            </div>
+            <!--end::Card header-->
+        
+            <!--begin::Card body-->
+            <div class="card-body position-relative">
+                <table class="table table-sm table-condensed table-row-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Original Tracking Number</th>
+                            <td>{{orderDetail.Tracking?.OriginalTrackingNumber}}</td>
+                        </tr>
+                        <tr>
+                            <th>Original Carrier</th>
+                            <td>{{orderDetail.Tracking?.OriginalCarrier}}</td>
+                        </tr>
+                        <tr>
+                            <th>Converted Tracking Number</th>
+                            <td>{{orderDetail.Tracking?.TrackingNumber}}</td>
+                        </tr>
+                        <tr>
+                            <th>Converted Carrier</th>
+                            <td>{{orderDetail.Tracking?.Carrier}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--begin::Background-->
+            <div class="position-absolute top-0 end-0 bottom-0 opacity-10 d-flex align-items-center me-5">
+                <i class="bi bi-truck" style="font-size: 10em">
+                </i>
+            </div>
+            <!--end::Background-->
+            </div>
+            <!--end::Card body-->
+        </div>
+    </div>
+    
+
+    <div class="col-6">
+        <div class="card mb-3">
+            <div class="card-header card-header-small text-white bg-primary">
+                <div class="card-title">
+                    <h3 class="text-white">Purchase</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-condensed table-row-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Start Time</th>
+                            <td>{{orderDetail.Purchase?.StartTime | date:'MM/dd/yyyy HH:mm'}}</td>
+                        </tr>
+                        <tr>
+                            <th>End Time</th>
+                            <td>{{orderDetail.Purchase?.EndTime | date:'MM/dd/yyyy HH:mm'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Supplier Order Number</th>
+                            <td>{{orderDetail.Purchase?.SupplierOrderNumber}}</td>
+                        </tr>
+                        <tr>
+                            <th>Total Price</th>
+                            <td>{{orderDetail.Purchase?.SupplierTotalPrice | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Estimated Arrival Time</th>
+                            <td>{{orderDetail.Purchase?.EstimatedArrivalTime }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-header card-header-small text-white bg-primary">
+                <div class="card-title">
+                    <h3 class="text-white">Purchase Attempts</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-condensed table-row-bordered">
+                    <thead>
+                        <tr class="fw-bold">
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Status</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (attempt of orderDetail.PurchaseAttempts; track $index) {
+                        <tr>
+                            <td>{{attempt.StartTime| date:'MM/dd/yyyy HH:mm'}}</td>
+                            <td>{{attempt.EndTime| date:'MM/dd/yyyy HH:mm'}}</td>
+                            <td>{{attempt.Status}}</td>
+                            <td>{{attempt.Reason}}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

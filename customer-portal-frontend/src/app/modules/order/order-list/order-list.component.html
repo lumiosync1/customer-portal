@@ -10,7 +10,11 @@
         <e-columns>
             <e-column field='order_id' headerText='Order ID' textAlign='Right' width='70' ></e-column>
             <e-column field='market_order_number' headerText='Ref. No.' width='100' ></e-column>
-            <e-column field='item_title' headerText='Item' width='130' [filter]="{ params: { autofill: false } }"></e-column>
+            <e-column field='item_title' headerText='Item' width='130' [filter]="{ params: { autofill: false } }">
+                <ng-template #template let-data>
+                    <a [routerLink]="['/orders', data.order_id]">{{data.item_title}}</a>
+                </ng-template>
+            </e-column>
             <e-column field='sale_date' headerText='Sale Date' width='150' format="MM/dd/yyyy HH:mm" ></e-column>
             <e-column field='quantity' headerText='Quantity' textAlign='Right' width='70' ></e-column>
             <e-column field='market_total_price' headerText='Total Price' textAlign='Right' width='130' ></e-column>

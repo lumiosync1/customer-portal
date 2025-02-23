@@ -47,6 +47,32 @@ namespace Lumio.CustomerPortal.Services.Order
             return import;
         }
 
-        
+        public async Task<OrderDetailDto> GetOrderDetailAsync(int orderId)
+        {
+            var order = await dbContext.om_orders
+                .Where(e => e.order_id == orderId && e.seller_id == authService.CurrentUser.SellerId)
+                .Include(e => e.purchase)
+                .Include(e => e.tracking)
+                .Include(e => e.buyer_address)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+
+            var attempts = await dbContext.om_purchase_attempts
+                .Where(o => o.order_id == orderId)
+                .AsNoTracking()
+                .ToListAsync();
+            
+            var dto = order.ToOrderDetailDto();
+
+            foreach (var attempt in attempts)
+            {
+                dto.PurchaseAttempts.Add(attempt.ToPurchaseAttemptDto());
+            }
+            return dto;
+        }
     }
 }

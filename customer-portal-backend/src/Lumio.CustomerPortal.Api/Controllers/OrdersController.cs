@@ -37,5 +37,26 @@ namespace Lumio.CustomerPortal.Api.Controllers
             request.Metadata.Add("import_id", import.import_id.ToString());
             var s3Response = await s3Client.PutObjectAsync(request);
         }
+
+        [Route("{orderId}")]
+        [HttpGet]
+        public async Task<BaseResponse<OrderDetailDto>> GetOrderAsync(int orderId)
+        {
+            BaseResponse<OrderDetailDto> response = new BaseResponse<OrderDetailDto>();
+            try
+            {
+                response.Data = await orderService.GetOrderDetailAsync(orderId);
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
     }
 }

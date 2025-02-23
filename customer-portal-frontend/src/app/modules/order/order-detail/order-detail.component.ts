@@ -7,6 +7,7 @@ import { LoadingService } from '../../shared/services/loading.service';
 import { ToastService } from '../../shared/services/toast.service';
 import { ResponseStatus } from '../../shared/models/base-response.model';
 import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { PageInfoService } from 'src/app/_metronic/layout';
 
 @Component({
   selector: 'app-order-detail',
@@ -20,6 +21,7 @@ export class OrderDetailComponent {
   private route = inject(ActivatedRoute);
   private spinner = inject(LoadingService);
   private toast = inject(ToastService);
+  private page = inject(PageInfoService);
 
   subscriptions: Subscription[] = [];
   orderId: number;
@@ -28,6 +30,7 @@ export class OrderDetailComponent {
   ngOnInit(): void {
     const sub = this.route.params.subscribe(params => {
       this.orderId = params['id'];
+      this.page.updateTitle(`Order #${this.orderId}`);
       this.loadData();
     });
 

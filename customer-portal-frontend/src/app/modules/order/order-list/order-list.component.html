@@ -8,23 +8,26 @@
         allowTextWrap='true'
        >
         <e-columns>
-            <e-column field='order_id' headerText='Order ID' textAlign='Right' width='70' ></e-column>
-            <e-column field='market_order_number' headerText='Ref. No.' width='100' ></e-column>
-            <e-column field='item_title' headerText='Item' width='130' [filter]="{ params: { autofill: false } }">
+            <e-column field='order_id' headerText='ID' textAlign='Right' width="70"></e-column>
+            <e-column field='market_order_number' headerText='Ref. No.' ></e-column>
+            <e-column field='item_title' headerText='Item' width="300">
                 <ng-template #template let-data>
                     <a [routerLink]="['/orders', data.order_id]">{{data.item_title}}</a>
                 </ng-template>
             </e-column>
-            <e-column field='sale_date' headerText='Sale Date' width='150' format="MM/dd/yyyy HH:mm" ></e-column>
-            <e-column field='quantity' headerText='Quantity' textAlign='Right' width='70' ></e-column>
-            <e-column field='market_total_price' headerText='Total Price' textAlign='Right' width='130' ></e-column>
-            <e-column field='order_status' headerText='Status' width='130' [filter]="{operators: [{ value: 'equal', text: 'Equal' }]}">
+            <e-column field='sale_date' headerText='Sale Date' format="MM/dd/yyyy" ></e-column>
+            <e-column field='created_at' headerText='Created Date' format="MM/dd/yyyy HH:mm" ></e-column>
+            <e-column field='quantity' headerText='Quantity' textAlign='Right' ></e-column>
+            <e-column field='market_total_price' headerText='Total Price' textAlign='Right' ></e-column>
+            <e-column field='order_status' headerText='Status' [filter]="{operators: [{ value: 'equal', text: 'Equal' }]}">
                 <ng-template #template let-data>
-                    @if(data.order_status == 'pending') {
-                        <span class="badge badge-warning">{{data.order_status}}</span>
-                    } @else {
+                    <span class="badge" [ngClass]="
+                        {'badge-primary': 'purchased,shipped'.includes(data.order_status), 
+                        'badge-success': data.order_status == 'delivered', 
+                        'badge-warning': 'pending,inprogress'.includes(data.order_status),
+                        'badge-danger': 'removed,cancelled,refunded'.includes(data.order_status)}">
                         {{data.order_status}}
-                    }
+                    </span>
                 </ng-template>
                 <ng-template #filterTemplate let-data>
                     <select class="form-select">
@@ -36,7 +39,6 @@
                     </select>
                 </ng-template>
             </e-column>
-            <e-column field='tracking_number' headerText='Tracking Number' width='130' ></e-column>
         </e-columns>
       </ejs-grid>
     </div>

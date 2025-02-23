@@ -1,6 +1,7 @@
+@if(orderDetail) {
 <h1>{{orderDetail.ItemTitle}}</h1>
 <span class="badge fs-1" [ngClass]="
-    {'badge-primary': orderDetail.OrderStatus == 'purchased', 
+    {'badge-primary': 'purchased,shipped'.includes(orderDetail.OrderStatus), 
     'badge-success': orderDetail.OrderStatus == 'delivered', 
     'badge-warning': 'pending,inprogress'.includes(orderDetail.OrderStatus),
     'badge-danger': 'removed,cancelled,refunded'.includes(orderDetail.OrderStatus)}">
@@ -143,7 +144,7 @@
         <div class="card mb-3">
             <div class="card-header card-header-small text-white bg-primary">
                 <div class="card-title">
-                    <h3 class="text-white">Purchase</h3>
+                    <h3 class="text-white">Purchase Result</h3>
                 </div>
             </div>
             <div class="card-body">
@@ -205,3 +206,4 @@
         </div>
     </div>
 </div>
+}

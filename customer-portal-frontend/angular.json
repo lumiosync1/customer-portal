@@ -71,7 +71,8 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "outputPath": "D:/DEPLOY/Lumio/customer-portal-frontend/production"
             },
             "demo": {
               "budgets": [
@@ -92,7 +93,8 @@
                   "with": "src/environments/environment.demo.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "outputPath": "D:/DEPLOY/Lumio/customer-portal-frontend/demo"
             },
             "development": {
               "buildOptimizer": false,

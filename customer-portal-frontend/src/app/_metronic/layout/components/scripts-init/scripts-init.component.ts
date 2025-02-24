@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ResolveEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
@@ -25,6 +25,7 @@ export class ScriptsInitComponent implements OnInit, OnDestroy {
     private pageInfo: PageInfoService,
     private router: Router,
     private titleService: Title,
+    private ref: ChangeDetectorRef,
   ) {
     const initPageInfo = () => {
       setTimeout(() => {
@@ -33,6 +34,7 @@ export class ScriptsInitComponent implements OnInit, OnDestroy {
 
         this.pageInfo.title.asObservable().subscribe((title) => {
           this.titleService.setTitle(title + ' - LumioSync');
+          this.ref.detectChanges();
         });
       }, 10);
     };

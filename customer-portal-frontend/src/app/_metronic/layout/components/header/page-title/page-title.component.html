@@ -1,10 +1,10 @@
-<ng-container *ngIf="title$ | async as title">
+<ng-container *ngIf="title">
   <!-- begin::Title -->
   <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 my-0"
     [ngClass]="{'flex-column justify-content-center': appPageTitleDirection, 'align-items-center': !appPageTitleDirection}">
     {{ title }}
     <ng-container *ngIf="appPageTitleDescription">
-      <ng-container *ngIf="description$ | async as description">
+      <ng-container *ngIf="description">
 
 
         <!--begin::Description-->
@@ -26,7 +26,7 @@
   <!-- end::Title -->
 
   <ng-container *ngIf="appPageTitleBreadcrumb">
-    <ng-container *ngIf="bc$ | async as _bc">
+    <ng-container *ngIf="_bc">
       <ng-container *ngIf="_bc.length > 0">
         <ng-container *ngIf="appPageTitleDirection === 'row'">
           <span class="h-20px border-gray-300 border-start mx-4"></span>

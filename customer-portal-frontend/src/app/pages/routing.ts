@@ -20,7 +20,18 @@ const Routing: Routes = [
   },
   {
     path: 'orders',
-    loadChildren: () => import('../modules/order/order.module').then((m) => m.OrderModule),
+    loadComponent: () =>
+      import('../modules/order/order-list/order-list.component').then((m) => m.OrderListComponent),
+  },
+  {
+    path: 'orders/:id',
+    loadComponent: () =>
+      import('../modules/order/order-detail/order-detail.component').then((m) => m.OrderDetailComponent),
+  },
+  {
+    path: 'orders-import',
+    loadComponent: () =>
+      import('../modules/order/order-import/order-import.component').then((m) => m.OrderImportComponent),
   },
   {
     path: 'balance-transactions',

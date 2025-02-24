@@ -15,8 +15,8 @@ import { CurrentUserDto } from '../../models/current-user-dto';
 export class LoginComponent implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:
   defaultAuth: any = {
-    email: 'bachvi98@gmail.com',
-    password: 'abcde12345-',
+    email: '',
+    password: '',
   };
   loginForm: FormGroup;
   hasError: boolean;

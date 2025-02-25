@@ -50,7 +50,7 @@ namespace Lumio.CustomerPortal.Api.Controllers
             catch (Exception ex)
             {
                 response.Status = ResponseStatus.Error;
-                response.Message = ex.Message;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 response.Data = null;
                 response.AdditionalInfo = ex.StackTrace;
                 return response;

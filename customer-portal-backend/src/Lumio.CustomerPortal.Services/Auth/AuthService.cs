@@ -106,6 +106,7 @@ namespace Lumio.CustomerPortal.Services.Auth
             seller seller = new seller()
             {
                 seller_name = dto.Email.ToLower(),
+                site = "US",
                 active = true,
                 created_at = DateTime.UtcNow,
                 created_by = "portal",

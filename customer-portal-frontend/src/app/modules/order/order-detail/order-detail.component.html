@@ -1,5 +1,6 @@
 @if(orderDetail) {
-<h1>{{orderDetail.ItemTitle}}</h1>
+<h1>Order #{{orderDetail.OrderId}}</h1>
+<h2>{{orderDetail.ItemTitle}}</h2>
 <span class="badge fs-1" [ngClass]="
     {'badge-primary': 'purchased,shipped'.includes(orderDetail.OrderStatus), 
     'badge-success': orderDetail.OrderStatus == 'delivered', 

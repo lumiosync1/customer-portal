@@ -91,7 +91,7 @@ export const DarkSidebarConfig: ILayout = {
     },
     pageTitle: {
       componentName: 'page-title',
-      display: true,
+      display: false,
       breadCrumb: true,
       description: false,
       direction: 'column',

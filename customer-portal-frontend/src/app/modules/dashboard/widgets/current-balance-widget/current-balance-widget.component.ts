@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
 import { BalanceService } from 'src/app/modules/balance/balance.service';
@@ -5,7 +6,7 @@ import { BalanceService } from 'src/app/modules/balance/balance.service';
 @Component({
   selector: 'app-current-balance-widget',
   standalone: true,
-  imports: [],
+  imports: [DecimalPipe],
   templateUrl: './current-balance-widget.component.html',
   styleUrl: './current-balance-widget.component.scss'
 })

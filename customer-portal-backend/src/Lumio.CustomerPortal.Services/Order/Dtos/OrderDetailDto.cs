@@ -7,7 +7,7 @@
         /// Unique order number from your market (can be eBay order number, Shopify order number, etc.)
         /// </summary>
         public string OrderNumber { get; set; }
-        public DateTime SaleDate { get; set; }
+        public string SaleDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public string OrderStatus { get; set; }
         public string ItemNumber { get; set; }

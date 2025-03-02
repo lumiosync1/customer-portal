@@ -80,6 +80,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe((user: CurrentUserDto | undefined) => {
         if (user) {
+          // setting for Freshchat
+          // (<any>window).fcWidget.setExternalId(user.UserId);
+          // (<any>window).fcWidget.user.setFirstName(user.UserName);
+          // (<any>window).fcWidget.user.setEmail(user.UserName);
+          // (<any>window).fcWidget.user.setProperties({
+          //   SellerId: user.SellerId,
+          //   Site: user.Site,
+          //   Role: user.Role
+          // });
+
           this.router.navigate([this.returnUrl]);
         } else {
           this.hasError = true;

@@ -8,3 +8,54 @@
 .card-header-small {
     min-height: 40px !important;
 }
+
+.status-pending {
+    background-color: #F6C000;
+    color: white;
+}
+
+.status-processing {
+    background-color: #61c9ff;
+    color: white;
+}
+
+.status-inprogress {
+    background-color: #61c9ff;
+    color: white;
+}
+
+.status-purchased {
+    background-color: #56fdff;
+    color: white;
+}
+
+.status-shipped {
+    background-color: #2a53ff;
+    color: white;
+}
+
+.status-delivered {
+    background-color: #00ff11;
+    color: white;
+}
+
+.status-cancelled {
+    background-color: #7d7272;
+    color: white;
+}
+
+.status-error {
+    background-color: #ff2323;
+    color: white;
+}
+
+.status-refunded {
+    background-color: #e654ff;
+    color: white;
+}
+
+.status-removed {
+    background-color: #0f0f0f;
+    color: white;
+}
+

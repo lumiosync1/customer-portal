@@ -44,10 +44,30 @@
     <span>Loading ...</span>
   </div>
 
+  <!-- Freshchat widget -->
+  <!-- <script>
+    window.fcSettings = {
+      onInit: function() {
+      var storage = window.localStorage.getItem("v8.2.4-authf649fc9a5f55");
+      if(storage) {
+        var authData = JSON.parse(storage);
+        window.fcWidget.setExternalId(authData.User.UserId);
+        window.fcWidget.user.setFirstName(authData.User.UserName);
+        window.fcWidget.user.setEmail(authData.User.UserName);
+        window.fcWidget.user.setProperties({
+        SellerId: authData.User.SellerId,
+        Site: authData.User.Site,
+        Role: authData.User.Role
+        });
+      }
+      }
+    }
+  </script> -->
   <script
   src='//uae.fw-cdn.com/40179687/110489.js'
   chat='true'>
   </script>
+  <!-- Freshchat widget end -->
 </body>
 
 </html>

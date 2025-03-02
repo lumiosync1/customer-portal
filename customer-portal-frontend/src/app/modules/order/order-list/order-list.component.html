@@ -23,21 +23,21 @@
             <e-column field='market_total_price' headerText='Total Price' textAlign='Right' ></e-column>
             <e-column field='order_status' headerText='Status' [filter]="{operators: [{ value: 'equal', text: 'Equal' }]}">
                 <ng-template #template let-data>
-                    <span class="badge" [ngClass]="
-                        {'badge-primary': 'purchased,shipped'.includes(data.order_status), 
-                        'badge-success': data.order_status == 'delivered', 
-                        'badge-warning': 'pending,inprogress'.includes(data.order_status),
-                        'badge-danger': 'removed,cancelled,refunded'.includes(data.order_status)}">
+                    <span class="badge" [class]="'status-' + data.order_status">
                         {{data.order_status}}
                     </span>
                 </ng-template>
                 <ng-template #filterTemplate let-data>
                     <select class="form-select">
                         <option value="">All</option>
-                        <option value="pending">Pending</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
+                        <option value="pending">pending</option>
+                        <option value="purchased">purchased</option>
+                        <option value="shipped">shipped</option>
+                        <option value="delivered">delivered</option>
+                        <option value="error">error</option>
+                        <option value="removed">removed</option>
+                        <option value="cancelled">cancelled</option>
+                        <option value="refunded">refunded</option>
                     </select>
                 </ng-template>
             </e-column>

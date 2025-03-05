@@ -1,11 +1,7 @@
 @if(orderDetail) {
 <h1>Order #{{orderDetail.OrderId}}</h1>
 <h2>{{orderDetail.ItemTitle}}</h2>
-<span class="badge fs-1" [ngClass]="
-    {'badge-primary': 'purchased,shipped'.includes(orderDetail.OrderStatus), 
-    'badge-success': orderDetail.OrderStatus == 'delivered', 
-    'badge-warning': 'pending,inprogress'.includes(orderDetail.OrderStatus),
-    'badge-danger': 'removed,cancelled,refunded'.includes(orderDetail.OrderStatus)}">
+<span class="badge" [class]="'status-' + orderDetail.OrderStatus">
     {{orderDetail.OrderStatus}}
 </span>
 
@@ -35,6 +31,10 @@
                         <tr>
                             <th>SKU</th>
                             <td>{{orderDetail.Sku}}</td>
+                        </tr>
+                        <tr>
+                            <th>Item Condition</th>
+                            <td>{{orderDetail.ItemCondition}}</td>
                         </tr>
                         <tr>
                             <th>Quantity</th>

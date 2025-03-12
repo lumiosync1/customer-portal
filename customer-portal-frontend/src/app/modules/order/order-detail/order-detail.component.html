@@ -1,5 +1,31 @@
 @if(orderDetail) {
-<h1>Order #{{orderDetail.OrderId}}</h1>
+<div class="row">
+    <h1 class="col-8">Order #{{orderDetail.OrderId}}</h1>
+    <div class="col-4 text-end">
+        <a class="btn btn-secondary me-2" [routerLink]="['/orders']">
+            <i class="bi bi-arrow-left "></i> Back
+        </a>
+        <div ngbDropdown class="d-inline-block">
+            <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
+                Action
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                @if (orderDetail.OrderStatus == OrderStatus.Pending || orderDetail.OrderStatus == OrderStatus.Error) {
+                    <button ngbDropdownItem (click)="confirmRemove()">
+                        <i class="bi bi-trash text-danger fs-3"></i> Remove Order
+                    </button>
+                }
+                @if (orderDetail.OrderStatus == OrderStatus.Error || orderDetail.OrderStatus == OrderStatus.Removed) {
+                    <button ngbDropdownItem (click)="confirmPushToQueue()">
+                        <i class="bi bi-cart2 text-primary fs-3"></i> Push to Queue
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <h2>{{orderDetail.ItemTitle}}</h2>
 <span class="badge" [class]="'status-' + orderDetail.OrderStatus">
     {{orderDetail.OrderStatus}}

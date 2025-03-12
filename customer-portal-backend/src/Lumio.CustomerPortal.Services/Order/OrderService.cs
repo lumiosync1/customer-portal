@@ -1,6 +1,8 @@
 ﻿using Lumio.CustomerPortal.Services.Auth;
 using Lumio.DataAccess;
 using Lumio.Domain.Entities;
+using Lumio.Domain.Order;
+using Lumio.DomainServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lumio.CustomerPortal.Services.Order
@@ -9,11 +11,13 @@ namespace Lumio.CustomerPortal.Services.Order
     {
         MainDbContext dbContext;
         IAuthService authService;
+        OrderManager orderManager;
 
-        public OrderService(MainDbContext dbContext, IAuthService authService)
+        public OrderService(MainDbContext dbContext, IAuthService authService, OrderManager orderManager)
         {
             this.dbContext = dbContext;
             this.authService = authService;
+            this.orderManager = orderManager;
         }
 
         public IQueryable<om_order> GetOrdersQueryable()
@@ -73,6 +77,45 @@ namespace Lumio.CustomerPortal.Services.Order
                 dto.PurchaseAttempts.Add(attempt.ToPurchaseAttemptDto());
             }
             return dto;
+        }
+
+        public async Task RemoveOrderAsync(int orderId)
+        {
+            var order = await dbContext.om_orders
+                .Where(o => o.order_id == orderId && o.seller_id == authService.CurrentUser.SellerId)
+                .Include(o => o.purchase)
+                .FirstOrDefaultAsync();
+
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+
+            if (order.order_status != OrderStatus.Pending && order.order_status != OrderStatus.Error)
+            {
+                throw new Exception("Order can only be removed if it is pending or error");
+            }
+
+            await orderManager.UpdateStatusAsync(order, OrderStatus.Removed, "Remove", authService.CurrentUser.UserName);
+        }
+
+        public async Task PushOrderToQueueAsync(int orderId)
+        {
+            var order = await dbContext.om_orders
+                .Where(o => o.order_id == orderId && o.seller_id == authService.CurrentUser.SellerId)
+                .FirstOrDefaultAsync();
+
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+
+            if (order.order_status != OrderStatus.Error && order.order_status != OrderStatus.Removed)
+            {
+                throw new Exception("Order can only be pushed to queue if it is error or removed");
+            }
+
+            await orderManager.UpdateStatusAsync(order, OrderStatus.Pending, "Push to queue", authService.CurrentUser.UserName);
         }
     }
 }

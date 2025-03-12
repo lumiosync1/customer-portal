@@ -20,4 +20,12 @@ export class OrderService {
   getOrderDetail(orderId: number): Observable<BaseResponse<OrderDetailDto>> {
     return this.http.get<BaseResponse<OrderDetailDto>>(`${environment.backendUrl}/api/orders/${orderId}`);
   }
+
+  removeOrder(orderId: number): Observable<BaseResponse<string>> {
+    return this.http.delete<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}`);
+  }
+
+  pushOrderToQueue(orderId: number): Observable<BaseResponse<string>> {
+    return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/queue`, {});
+  }
 }

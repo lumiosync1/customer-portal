@@ -5,6 +5,7 @@ using Lumio.CustomerPortal.Services.Balance;
 using Lumio.CustomerPortal.Services.Seller;
 using Lumio.DataAccess;
 using Lumio.Domain.Entities;
+using Lumio.DomainServices;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -100,6 +101,7 @@ namespace Lumio.CustomerPortal.Api
             }
 
             services.AddScoped<BalanceManager>();
+            services.AddScoped<OrderManager>();
         }
 
         private static ODataConventionModelBuilder SetupOdata(IServiceCollection services, Assembly assembly)

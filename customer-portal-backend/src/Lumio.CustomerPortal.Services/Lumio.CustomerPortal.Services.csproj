@@ -18,6 +18,9 @@
     <Reference Include="Lumio.Domain">
       <HintPath>..\..\..\..\lumio-common\src\Lumio.Domain\bin\Debug\net9.0\Lumio.Domain.dll</HintPath>
     </Reference>
+    <Reference Include="Lumio.DomainServices">
+      <HintPath>..\..\..\..\lumio-common\src\Lumio.DomainServices\bin\Debug\net9.0\Lumio.DomainServices.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

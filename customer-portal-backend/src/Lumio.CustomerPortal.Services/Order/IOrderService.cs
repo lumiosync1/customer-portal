@@ -1,4 +1,5 @@
-﻿using Lumio.Domain.Entities;
+﻿using Lumio.CustomerPortal.Services.Order.Dtos;
+using Lumio.Domain.Entities;
 
 namespace Lumio.CustomerPortal.Services.Order
 {
@@ -12,6 +13,6 @@ namespace Lumio.CustomerPortal.Services.Order
 
         public Task RemoveOrderAsync(int orderId);
 
-        public Task PushOrderToQueueAsync(int orderId);
+        public Task PushOrderToQueueAsync(PushOrderToQueueDto dto);
     }
 }

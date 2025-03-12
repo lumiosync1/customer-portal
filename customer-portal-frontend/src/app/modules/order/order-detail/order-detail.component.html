@@ -16,7 +16,7 @@
                     </button>
                 }
                 @if (orderDetail.OrderStatus == OrderStatus.Error || orderDetail.OrderStatus == OrderStatus.Removed) {
-                    <button ngbDropdownItem (click)="confirmPushToQueue()">
+                    <button ngbDropdownItem (click)="openPushToQueueModal()">
                         <i class="bi bi-cart2 text-primary fs-3"></i> Push to Queue
                     </button>
                 }

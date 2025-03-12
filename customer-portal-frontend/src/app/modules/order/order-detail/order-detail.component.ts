@@ -10,7 +10,8 @@ import { ToastService } from '../../shared/services/toast.service';
 import { ResponseStatus } from '../../shared/models/base-response.model';
 import { PageInfoService } from 'src/app/_metronic/layout';
 import { OrderStatus } from '../_others/order-statuses';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PushOrderToQueueModalComponent } from '../_components/push-order-to-queue-modal/push-order-to-queue-modal.component';
 
 @Component({
   selector: 'app-order-detail',
@@ -25,6 +26,7 @@ export class OrderDetailComponent {
   private spinner = inject(LoadingService);
   private toast = inject(ToastService);
   private page = inject(PageInfoService);
+  private modalService = inject(NgbModal);
 
   subscriptions: Subscription[] = [];
   orderId: number;
@@ -99,34 +101,16 @@ export class OrderDetailComponent {
     this.subscriptions.push(sub);
   }
 
-  confirmPushToQueue() {
-    this.pushToQueueConfirmDialog = DialogUtility.confirm({
-      title: 'Confirm',
-      content: `Are you sure you want to push order #${this.orderId} to queue?`,
-      okButton: {
-        text: 'Confirm',
-        click: this.pushOrderToQueue.bind(this)
-      }
-    });
-  }
-
-  pushOrderToQueue() {
-    this.pushToQueueConfirmDialog.hide();
-    this.spinner.showLoading();
-    const sub = this.orderService.pushOrderToQueue(this.orderId)
-    .pipe(
-      finalize(() => this.spinner.hideLoading())
-    )
-    .subscribe(response => {
-      if(response.Status !== ResponseStatus.Success) {
-        this.toast.showError(response.Message);
-        return;
-      }
-
-      this.toast.showSuccess('Order pushed to queue successfully');
-      this.loadData();
-    });
-
-    this.subscriptions.push(sub);
+  openPushToQueueModal() {
+    const modalRef = this.modalService.open(PushOrderToQueueModalComponent, { backdrop: true });
+    modalRef.componentInstance.orderId = this.orderId;
+    modalRef.result.then(
+      (result: boolean) => {
+        if(result) {
+          this.loadData();
+        }
+      },
+      () => {}
+    );
   }
 }

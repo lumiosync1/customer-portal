@@ -1,5 +1,4 @@
-﻿using Lumio.CustomerPortal.Services.Order.Dtos;
-using Lumio.Domain.Entities;
+﻿using Lumio.Domain.Entities;
 
 namespace Lumio.CustomerPortal.Services.Order
 {

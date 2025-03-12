@@ -1,4 +1,4 @@
-﻿namespace Lumio.CustomerPortal.Services.Order.Dtos
+﻿namespace Lumio.CustomerPortal.Services.Order
 {
     public class PushOrderToQueueDto
     {

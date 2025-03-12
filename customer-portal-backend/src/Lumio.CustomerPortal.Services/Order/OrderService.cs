@@ -1,5 +1,4 @@
 ﻿using Lumio.CustomerPortal.Services.Auth;
-using Lumio.CustomerPortal.Services.Order.Dtos;
 using Lumio.DataAccess;
 using Lumio.Domain.Entities;
 using Lumio.Domain.Order;

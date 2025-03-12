@@ -1,7 +1,5 @@
 ﻿using Amazon.S3;
 using Lumio.CustomerPortal.Services.Order;
-using Lumio.CustomerPortal.Services.Order.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lumio.CustomerPortal.Api.Controllers

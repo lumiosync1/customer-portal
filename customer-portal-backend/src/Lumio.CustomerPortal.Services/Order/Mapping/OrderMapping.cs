@@ -44,9 +44,19 @@ namespace Lumio.CustomerPortal.Services.Order
                 {
                     StartTime = order.purchase.start_time,
                     EndTime = order.purchase.end_time,
+                    MarketSaleFee = order.purchase.market_sale_fee,
+                    MarketAdditionalFeeFixed = order.purchase.market_additional_fee_fixed,
+                    MarketAdditionalFeePercentage = order.purchase.market_additional_fee_percentage,
                     SupplierOrderNumber = order.purchase.supplier_order_number,
+                    EstimatedArrivalTime = order.purchase.estimated_arrival_time,
+                    SupplierSubTotal = order.purchase.supplier_sub_total,
+                    SupplierShippingFee = order.purchase.supplier_shipping_fee,
+                    SupplierDiscount = order.purchase.supplier_discount,
+                    SupplierTax = order.purchase.supplier_tax,
                     SupplierTotalPrice = order.purchase.supplier_total_price,
-                    EstimatedArrivalTime = order.purchase.estimated_arrival_time
+                    OrderFee = order.purchase.order_fee,
+                    ProcessingFee = order.purchase.processing_fee,
+                    Profit = order.purchase.profit,
                 };
             }
 

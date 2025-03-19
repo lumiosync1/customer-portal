@@ -35,6 +35,24 @@ export class AuthService implements OnDestroy {
     this.currentUserSubject.next(user);
   }
 
+  get currency(): string {
+    if (!this.currentUserValue) {
+      return 'USD';
+    }
+    switch (this.currentUserValue.Site) {
+      case 'US':
+        return 'USD';
+      case 'United States':
+        return 'USD';
+      case 'UK':
+        return 'GBP';
+      case 'United Kingdom':
+        return 'GBP';
+      default:
+        return 'USD';
+    }
+  }
+
   constructor(
     private authHttpService: AuthHTTPService,
     private http: HttpClient,

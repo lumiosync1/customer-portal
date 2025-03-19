@@ -39,8 +39,18 @@
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string SupplierOrderNumber { get; set; }
-        public decimal SupplierTotalPrice { get; set; }
         public string EstimatedArrivalTime { get; set; }
+        public decimal SupplierSubTotal { get; set; }
+        public decimal SupplierShippingFee { get; set; }
+        public decimal SupplierDiscount { get; set; }
+        public decimal SupplierTax { get; set; }
+        public decimal SupplierTotalPrice { get; set; }
+        public decimal MarketSaleFee { get; set; }
+        public decimal MarketAdditionalFeePercentage { get; set; }
+        public decimal MarketAdditionalFeeFixed { get; set; }
+        public decimal OrderFee { get; set; }
+        public decimal ProcessingFee { get; set; }
+        public decimal Profit { get; set; }
     }
 
     public class TrackingDto

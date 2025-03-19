@@ -68,6 +68,7 @@ namespace Lumio.CustomerPortal.Services.Order
 
             var attempts = await dbContext.om_purchase_attempts
                 .Where(o => o.order_id == orderId)
+                .OrderByDescending(a => a.end_at)
                 .AsNoTracking()
                 .ToListAsync();
             

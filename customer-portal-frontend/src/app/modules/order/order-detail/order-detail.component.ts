@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
-import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe, NgClass } from '@angular/common';
 import { DialogUtility} from '@syncfusion/ej2-angular-popups';
 import { OrderService } from '../order.service';
 import { OrderDetailDto } from '../_models/OrderDetailDto';
@@ -12,11 +12,12 @@ import { PageInfoService } from 'src/app/_metronic/layout';
 import { OrderStatus } from '../_others/order-statuses';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PushOrderToQueueModalComponent } from '../_components/push-order-to-queue-modal/push-order-to-queue-modal.component';
+import { AuthService } from '../../auth';
 
 @Component({
   selector: 'app-order-detail',
   standalone: true,
-  imports: [DatePipe, DecimalPipe, NgClass, NgbDropdownModule, RouterLink],
+  imports: [DatePipe, DecimalPipe, CurrencyPipe, NgClass, NgbDropdownModule, RouterLink],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss'
 })
@@ -27,11 +28,13 @@ export class OrderDetailComponent {
   private toast = inject(ToastService);
   private page = inject(PageInfoService);
   private modalService = inject(NgbModal);
+  private authService = inject(AuthService);
 
   subscriptions: Subscription[] = [];
   orderId: number;
   orderDetail: OrderDetailDto;
   OrderStatus = OrderStatus;
+  currency: string = this.authService.currency;
 
   private removeConfirmDialog: any;
   private pushToQueueConfirmDialog: any;

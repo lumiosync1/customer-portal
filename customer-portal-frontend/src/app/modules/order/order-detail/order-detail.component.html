@@ -68,19 +68,19 @@
                         </tr>
                         <tr>
                             <th>Unit Price</th>
-                            <td>{{orderDetail.UnitPrice | number:'1.2-2'}}</td>
+                            <td>{{orderDetail.UnitPrice | currency:currency}}</td>
                         </tr>
                         <tr>
                             <th>Shipping Fee</th>
-                            <td>{{orderDetail.ShippingFee | number:'1.2-2'}}</td>
+                            <td>{{orderDetail.ShippingFee | currency:currency}}</td>
                         </tr>
                         <tr>
                             <th>Sale Tax</th>
-                            <td>{{orderDetail.SaleTax | number:'1.2-2'}}</td>
+                            <td>{{orderDetail.SaleTax | currency:currency}}</td>
                         </tr>
                         <tr>
                             <th>Total Price</th>
-                            <td>{{orderDetail.TotalPrice | number:'1.2-2'}}</td>
+                            <td>{{orderDetail.TotalPrice | currency:currency}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -178,11 +178,7 @@
                 <table class="table table-sm table-condensed table-row-bordered">
                     <tbody>
                         <tr>
-                            <th>Start Time</th>
-                            <td>{{orderDetail.Purchase?.StartTime | date:'MM/dd/yyyy HH:mm'}}</td>
-                        </tr>
-                        <tr>
-                            <th>End Time</th>
+                            <th>Purchase Time</th>
                             <td>{{orderDetail.Purchase?.EndTime | date:'MM/dd/yyyy HH:mm'}}</td>
                         </tr>
                         <tr>
@@ -190,12 +186,74 @@
                             <td>{{orderDetail.Purchase?.SupplierOrderNumber}}</td>
                         </tr>
                         <tr>
-                            <th>Total Price</th>
-                            <td>{{orderDetail.Purchase?.SupplierTotalPrice | number:'1.2-2' }}</td>
-                        </tr>
-                        <tr>
                             <th>Estimated Arrival Time</th>
                             <td>{{orderDetail.Purchase?.EstimatedArrivalTime }}</td>
+                        </tr>
+                        <tr>
+                            <th>Sub Total</th>
+                            <td>{{orderDetail.Purchase?.SupplierSubTotal | currency:currency }}</td>
+                        </tr>
+                        <tr>
+                            <th>Shipping Fee</th>
+                            <td>{{orderDetail.Purchase?.SupplierShippingFee | currency:currency }}</td>
+                        </tr>
+                        <tr>
+                            <th>Discount</th>
+                            <td>{{orderDetail.Purchase?.SupplierDiscount | currency:currency }}</td>
+                        </tr>
+                        <tr>
+                            <th>Tax</th>
+                            <td>{{orderDetail.Purchase?.SupplierTax | currency:currency }}</td>
+                        </tr>
+                        <tr>
+                            <th>Total Price</th>
+                            <td>{{orderDetail.Purchase?.SupplierTotalPrice | currency:currency }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header card-header-small text-white bg-primary">
+                <div class="card-title">
+                    <h3 class="text-white">Profit Calculation</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-condensed table-row-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Market Total Price</th>
+                            <td class="text-end">+{{orderDetail.TotalPrice | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Market Sale Fee</th>
+                            <td class="text-end">-{{orderDetail.Purchase?.MarketSaleFee | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Market Additional Fee %</th>
+                            <td class="text-end">-{{orderDetail.Purchase?.MarketAdditionalFeePercentage | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Market Additional Fee $</th>
+                            <td class="text-end">-{{orderDetail.Purchase?.MarketAdditionalFeeFixed | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Supplier Total Price</th>
+                            <td class="text-end">-{{orderDetail.Purchase?.SupplierTotalPrice | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Order Fee</th>
+                            <td class="text-end">-{{orderDetail.Purchase?.OrderFee | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Processing Fee</th>
+                            <td class="text-end">-{{orderDetail.Purchase?.ProcessingFee | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <th><b>Profit</b></th>
+                            <td class="text-end"><b>{{orderDetail.Purchase?.Profit | currency:currency }}</b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -212,8 +270,7 @@
                 <table class="table table-sm table-condensed table-row-bordered">
                     <thead>
                         <tr class="fw-bold">
-                            <th>Start Time</th>
-                            <th>End Time</th>
+                            <th>Date Time</th>
                             <th>Status</th>
                             <th>Reason</th>
                         </tr>
@@ -221,7 +278,6 @@
                     <tbody>
                         @for (attempt of orderDetail.PurchaseAttempts; track $index) {
                         <tr>
-                            <td>{{attempt.StartTime| date:'MM/dd/yyyy HH:mm'}}</td>
                             <td>{{attempt.EndTime| date:'MM/dd/yyyy HH:mm'}}</td>
                             <td>{{attempt.Status}}</td>
                             <td>{{attempt.Reason}}</td>

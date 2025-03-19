@@ -31,8 +31,18 @@ export interface PurchaseDto {
     StartTime: string;
     EndTime: string;
     SupplierOrderNumber: string;
-    SupplierTotalPrice: number;
     EstimatedArrivalTime: string;
+    SupplierSubTotal: number;
+    SupplierShippingFee: number;
+    SupplierDiscount: number;
+    SupplierTax: number;
+    SupplierTotalPrice: number;
+    MarketSaleFee: number;
+    MarketAdditionalFeePercentage: number;
+    MarketAdditionalFeeFixed: number;
+    OrderFee: number;
+    ProcessingFee: number;
+    Profit: number;
 }
 
 export interface TrackingDto {

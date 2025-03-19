@@ -6,7 +6,7 @@ import { AuthService } from '../../auth';
 import { OrderService } from '../order.service';
 import { RouterLink } from '@angular/router';
 import { PageInfoService } from 'src/app/_metronic/layout';
-import { NgClass } from '@angular/common';
+import { CurrencyPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-order-list',
@@ -14,7 +14,7 @@ import { NgClass } from '@angular/common';
   imports: [
     GridModule,
     RouterLink,
-    NgClass,
+    CurrencyPipe,
   ],
   providers: [SortService, FilterService, PageService],
   templateUrl: './order-list.component.html',
@@ -25,6 +25,8 @@ export class OrderListComponent {
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   @ViewChild('grid') grid: GridComponent;
+
+  currency: string = this.authService.currency;
   
   data = new DataManager({
     url: `${environment.backendUrl}/odata/ordersodata`,

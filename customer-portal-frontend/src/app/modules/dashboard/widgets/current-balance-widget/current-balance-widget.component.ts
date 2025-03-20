@@ -30,11 +30,13 @@ export class CurrentBalanceWidgetComponent {
     this.isLoading = true;
     this.balanceService.getBalance()
     .pipe(
-      finalize(() => this.isLoading = false)
+      finalize(() => {
+        this.isLoading = false;
+        this.ref.detectChanges();
+      })
     )
     .subscribe(balance => {
       this.balance = balance;
-      this.ref.detectChanges();
     })
   }
 }

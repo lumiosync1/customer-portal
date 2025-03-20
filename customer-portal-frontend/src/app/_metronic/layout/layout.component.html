@@ -27,7 +27,7 @@
         <!--begin::Content wrapper-->
         <div class="d-flex flex-column flex-column-fluid blockui">
           <!-- spinner - blockui -->
-          <div *ngIf="isLoading" class="blockui-overlay " style="z-index: 1;"><span class="spinner-border text-primary"></span></div>
+          <div *ngIf="isLoading" class="blockui-overlay " style="z-index: 999999;"><span class="spinner-border text-primary"></span></div>
           
           <ng-container *ngIf="appToolbarDisplay">
             <app-toolbar class="app-toolbar" [ngClass]="appToolbarCSSClass" id="kt_app_toolbar"

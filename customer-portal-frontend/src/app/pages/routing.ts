@@ -39,6 +39,11 @@ const Routing: Routes = [
       import('../modules/balance/balance-transaction-list/balance-transaction-list.component').then((m) => m.BalanceTransactionListComponent),
   },
   {
+    path: 'settings',
+    loadComponent: () =>
+      import('../modules/setting/settings/settings.component').then((c) => c.SettingsComponent),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',

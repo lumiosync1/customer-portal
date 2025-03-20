@@ -17,7 +17,7 @@ import { AuthService } from '../../auth';
 @Component({
   selector: 'app-order-detail',
   standalone: true,
-  imports: [DatePipe, DecimalPipe, CurrencyPipe, NgClass, NgbDropdownModule, RouterLink],
+  imports: [DatePipe, DecimalPipe, CurrencyPipe, NgbDropdownModule, RouterLink],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss'
 })
@@ -37,7 +37,6 @@ export class OrderDetailComponent {
   currency: string = this.authService.currency;
 
   private removeConfirmDialog: any;
-  private pushToQueueConfirmDialog: any;
 
   ngOnInit(): void {
     const sub = this.route.params.subscribe(params => {

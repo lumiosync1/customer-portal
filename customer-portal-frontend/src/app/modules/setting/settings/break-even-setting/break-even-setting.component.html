@@ -1,0 +1,94 @@
+<div class="modal-header">
+    <h4 class="modal-title" >Break Even Setting</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <form class="form" [formGroup]="formGroup" *ngIf="formGroup">
+        <h4>Your Costs</h4>
+        <div class="row mb-4">
+            <div class="col-12">
+                <label for="txtMarketSaleFeePercentage" class="form-label required">Market Sale Fee (Percentage)</label>
+                <input type="number" id="txtMarketSaleFeePercentage" name="MarketSaleFeePercentage" class="form-control"
+                    [class.is-valid]="formGroup.controls['MarketSaleFeePercentage'].valid && (formGroup.controls['MarketSaleFeePercentage'].dirty || formGroup.controls['MarketSaleFeePercentage'].touched)"
+                    [class.is-invalid]="formGroup.controls['MarketSaleFeePercentage'].invalid && (formGroup.controls['MarketSaleFeePercentage'].dirty || formGroup.controls['MarketSaleFeePercentage'].touched)"
+                    formControlName="MarketSaleFeePercentage"/>
+                <div class="text-muted fs-7">Min: 0, Max: 100</div>
+                <div *ngIf="formGroup.controls['MarketSaleFeePercentage'].hasError('required')" class="invalid-feedback">Please enter value</div>
+                <div *ngIf="formGroup.controls['MarketSaleFeePercentage'].hasError('min')" class="invalid-feedback">Minimum value is 0</div>
+                <div *ngIf="formGroup.controls['MarketSaleFeePercentage'].hasError('max')" class="invalid-feedback">Maximum value is 100</div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-12">
+                <label for="txtAdditionalFeeFixed" class="form-label required">Additional Fee (Fixed Value)</label>
+                <input type="number" id="txtAdditionalFeeFixed" name="AdditionalFeeFixed" class="form-control"
+                    [class.is-valid]="formGroup.controls['AdditionalFeeFixed'].valid && (formGroup.controls['AdditionalFeeFixed'].dirty || formGroup.controls['AdditionalFeeFixed'].touched)"
+                    [class.is-invalid]="formGroup.controls['AdditionalFeeFixed'].invalid && (formGroup.controls['AdditionalFeeFixed'].dirty || formGroup.controls['AdditionalFeeFixed'].touched)"
+                    formControlName="AdditionalFeeFixed"/>
+                <div *ngIf="formGroup.controls['AdditionalFeeFixed'].hasError('required')" class="invalid-feedback">Please enter value</div>
+                <div *ngIf="formGroup.controls['AdditionalFeeFixed'].hasError('min')" class="invalid-feedback">Minimum value is 0</div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-12">
+                <label for="txtAdditionalFeePercentage" class="form-label required">Additional Fee (Percentage)</label>
+                <input type="number" id="txtAdditionalFeePercentage" name="AdditionalFeePercentage" class="form-control"
+                    [class.is-valid]="formGroup.controls['AdditionalFeePercentage'].valid && (formGroup.controls['AdditionalFeePercentage'].dirty || formGroup.controls['AdditionalFeePercentage'].touched)"
+                    [class.is-invalid]="formGroup.controls['AdditionalFeePercentage'].invalid && (formGroup.controls['AdditionalFeePercentage'].dirty || formGroup.controls['AdditionalFeePercentage'].touched)"
+                    formControlName="AdditionalFeePercentage"/>
+                <div class="text-muted fs-7">Min: 0, Max: 100</div>
+                <div *ngIf="formGroup.controls['AdditionalFeePercentage'].hasError('required')" class="invalid-feedback">Please enter value</div>
+                <div *ngIf="formGroup.controls['AdditionalFeePercentage'].hasError('min')" class="invalid-feedback">Minimum value is 0</div>
+                <div *ngIf="formGroup.controls['AdditionalFeePercentage'].hasError('max')" class="invalid-feedback">Maximum value is 100</div>
+            </div>
+        </div>
+
+        <div class="separator mb-4"></div>
+
+        <h4>Expected Minimum Profit</h4>
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="form-check form-check-custom ">
+                    <input class="form-check-input" type="radio" value="fixed" 
+                        id="radioMinimalProfitFixed" 
+                        formControlName="MinimalProfitType"/>
+                    <label class="form-check-label" for="radioMinimalProfitFixed">
+                        By Fixed Value
+                    </label>
+                </div>
+                <input type="number" id="txtMinimalProfitFixed" name="MinimalProfitFixed" class="form-control mt-2"
+                    [class.is-valid]="formGroup.controls['MinimalProfitFixed'].valid && (formGroup.controls['MinimalProfitFixed'].dirty || formGroup.controls['MinimalProfitFixed'].touched)"
+                    [class.is-invalid]="formGroup.controls['MinimalProfitFixed'].invalid && (formGroup.controls['MinimalProfitFixed'].dirty || formGroup.controls['MinimalProfitFixed'].touched)"
+                    formControlName="MinimalProfitFixed"/>
+                <div *ngIf="formGroup.controls['MinimalProfitFixed'].hasError('required')" class="invalid-feedback">Please enter value</div>
+                <div *ngIf="formGroup.controls['MinimalProfitFixed'].hasError('min')" class="invalid-feedback">Minimum value is 0</div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="form-check form-check-custom ">
+                    <input class="form-check-input" type="radio" value="percentage" 
+                        id="radioMinimalProfitPercentage" 
+                        formControlName="MinimalProfitType" />
+                    <label class="form-check-label" for="radioMinimalProfitPercentage">
+                        By Percentage
+                    </label>
+                </div>
+                <input type="number" id="txtMinimalProfitPercentage" name="MinimalProfitPercentage" class="form-control mt-2"
+                    [class.is-valid]="formGroup.controls['MinimalProfitPercentage'].valid && (formGroup.controls['MinimalProfitPercentage'].dirty || formGroup.controls['MinimalProfitPercentage'].touched)"
+                    [class.is-invalid]="formGroup.controls['MinimalProfitPercentage'].invalid && (formGroup.controls['MinimalProfitPercentage'].dirty || formGroup.controls['MinimalProfitPercentage'].touched)"
+                    formControlName="MinimalProfitPercentage"/>
+                <div class="text-muted fs-7">Min: 0, Max: 100</div>
+                <div *ngIf="formGroup.controls['MinimalProfitPercentage'].hasError('required')" class="invalid-feedback">Please enter value</div>
+                <div *ngIf="formGroup.controls['MinimalProfitPercentage'].hasError('min')" class="invalid-feedback">Minimum value is 0</div>
+                <div *ngIf="formGroup.controls['MinimalProfitPercentage'].hasError('max')" class="invalid-feedback">Maximum value is 100</div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Close</button>
+    <button class="btn btn-primary" [disabled]="!formGroup || !formGroup.valid" (click)="onSubmit()">
+        <i class="bi bi-floppy fs-3"></i> Save
+    </button>
+</div>

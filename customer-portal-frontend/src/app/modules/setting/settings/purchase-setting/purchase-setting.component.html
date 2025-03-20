@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <h4 class="modal-title" >Break Even Setting</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <form class="form" [formGroup]="formGroup" *ngIf="formGroup">
+        <div class="row mb-4">
+            <div class="col-12">
+                <label for="txtOfferSelection" class="form-label required">Offer Selection</label>
+                <select class="form-select" formControlName="OfferSelection"
+                [class.is-valid]="formGroup.controls['OfferSelection'].valid && (formGroup.controls['OfferSelection'].dirty || formGroup.controls['OfferSelection'].touched)"
+                [class.is-invalid]="formGroup.controls['OfferSelection'].invalid && (formGroup.controls['OfferSelection'].dirty || formGroup.controls['OfferSelection'].touched)">
+                    <option value="">-- Please select --</option>
+                    <option>Prime Only</option>
+                    <option>Prime And FBA</option>
+                    <option>Prime Priority</option>
+                    <option>Cheapest Priority</option>
+                </select>
+                <div *ngIf="formGroup.controls['OfferSelection'].hasError('required')" class="invalid-feedback">Please enter value</div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-12">
+                <label for="txtMaxShippingDays" class="form-label required">Maximum Shipping Days</label>
+                <input type="number" id="txtMaxShippingDays" name="MaxShippingDays" class="form-control"
+                    [class.is-valid]="formGroup.controls['MaxShippingDays'].valid && (formGroup.controls['MaxShippingDays'].dirty || formGroup.controls['MaxShippingDays'].touched)"
+                    [class.is-invalid]="formGroup.controls['MaxShippingDays'].invalid && (formGroup.controls['MaxShippingDays'].dirty || formGroup.controls['MaxShippingDays'].touched)"
+                    formControlName="MaxShippingDays"/>
+                <div *ngIf="formGroup.controls['MaxShippingDays'].hasError('required')" class="invalid-feedback">Please enter value</div>
+                <div *ngIf="formGroup.controls['MaxShippingDays'].hasError('min')" class="invalid-feedback">Minimum value is 0</div>
+                <div *ngIf="formGroup.controls['MaxShippingDays'].hasError('max')" class="invalid-feedback">Maximum value is 100</div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Close</button>
+    <button class="btn btn-primary" [disabled]="!formGroup || !formGroup.valid" (click)="onSubmit()">
+        <i class="bi bi-floppy fs-3"></i> Save
+    </button>
+</div>

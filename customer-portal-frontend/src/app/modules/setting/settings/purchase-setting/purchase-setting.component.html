@@ -17,6 +17,24 @@
                     <option>Cheapest Priority</option>
                 </select>
                 <div *ngIf="formGroup.controls['OfferSelection'].hasError('required')" class="invalid-feedback">Please enter value</div>
+
+                <div class="alert alert-info d-flex align-items-center p-5 mt-2">
+                    <i class="bi bi-info-circle text-info me-4"></i> 
+                    <div class="d-flex flex-column">
+                        <!--begin::Title-->
+                        <!-- <h4 class="mb-1 text-dark">This is an alert</h4> -->
+                        <!--end::Title-->
+        
+                        <!--begin::Content-->
+                        <ul>
+                            <li><strong>Prime Only</strong>: Only select Prime offer</li>
+                            <li><strong>Prime And FBA</strong>: Only select Prime or FBA (Sold by Amazon or Ships from Amazon) offer</li>
+                            <li><strong>Prime Priority</strong>: Try to find a profitable Prime offer first, if not found, select the cheapest profitable offer</li>
+                            <li><strong>Cheapest Priority</strong>: Always select the cheapest profitable offer</li>
+                        </ul>
+                        <!--end::Content-->
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row mb-4">

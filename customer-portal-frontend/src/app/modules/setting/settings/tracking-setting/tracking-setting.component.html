@@ -12,10 +12,27 @@
                 [class.is-invalid]="formGroup.controls['ConversionMethod'].invalid && (formGroup.controls['ConversionMethod'].dirty || formGroup.controls['ConversionMethod'].touched)">
                     <option value="">-- Please select --</option>
                     <option>Disabled</option>
-                    <option value="AllToLumio">All To Lumio</option>
-                    <option value="AmazonToLumio">Amazon To Lumio</option>
+                    <option value="AllToLumio">All To Lumios</option>
+                    <option value="AmazonToLumio">Amazon To Lumios</option>
                 </select>
                 <div *ngIf="formGroup.controls['ConversionMethod'].hasError('required')" class="invalid-feedback">Please enter value</div>
+                
+                <div class="alert alert-info d-flex align-items-center p-5 mt-2">
+                    <i class="bi bi-info-circle text-info me-4"></i> 
+                    <div class="d-flex flex-column">
+                        <!--begin::Title-->
+                        <!-- <h4 class="mb-1 text-dark">This is an alert</h4> -->
+                        <!--end::Title-->
+        
+                        <!--begin::Content-->
+                        <ul>
+                            <li><strong>Disabled</strong>: No tracking conversion</li>
+                            <li><strong>All To Lumios</strong>: All orders are converted to LumiosTrack</li>
+                            <li><strong>Amazon To Lumios</strong>: Only Amazon (FBA) orders are converted to LumiosTrack</li>
+                        </ul>
+                        <!--end::Content-->
+                    </div>
+                </div>
             </div>
         </div>
     </form>

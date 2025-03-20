@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BreakEvenSettingComponent } from './break-even-setting/break-even-setting.component';
 import { PurchaseSettingComponent } from './purchase-setting/purchase-setting.component';
 import { TrackingSettingComponent } from './tracking-setting/tracking-setting.component';
+import { PageInfoService } from 'src/app/_metronic/layout';
 
 @Component({
   selector: 'app-settings',
@@ -13,6 +14,11 @@ import { TrackingSettingComponent } from './tracking-setting/tracking-setting.co
 })
 export class SettingsComponent {
   private modalService = inject(NgbModal);
+  private pageInfo = inject(PageInfoService);
+
+  ngOnInit() {
+    this.pageInfo.updateTitle('Settings');
+  }
   
   openBreakEvenSetting() {
     const modalRef = this.modalService.open(BreakEvenSettingComponent, { backdrop: 'static', scrollable: true });

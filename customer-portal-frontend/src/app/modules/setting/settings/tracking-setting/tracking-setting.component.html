@@ -1,1 +1,28 @@
-<p>tracking-setting works!</p>
+<div class="modal-header">
+    <h4 class="modal-title" >Tracking Setting</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <form class="form" [formGroup]="formGroup" *ngIf="formGroup">
+        <div class="row mb-4">
+            <div class="col-12">
+                <label for="txtConversionMethod" class="form-label required">Conversion Method</label>
+                <select class="form-select" formControlName="ConversionMethod"
+                [class.is-valid]="formGroup.controls['ConversionMethod'].valid && (formGroup.controls['ConversionMethod'].dirty || formGroup.controls['ConversionMethod'].touched)"
+                [class.is-invalid]="formGroup.controls['ConversionMethod'].invalid && (formGroup.controls['ConversionMethod'].dirty || formGroup.controls['ConversionMethod'].touched)">
+                    <option value="">-- Please select --</option>
+                    <option>Disabled</option>
+                    <option value="AllToLumio">All To Lumio</option>
+                    <option value="AmazonToLumio">Amazon To Lumio</option>
+                </select>
+                <div *ngIf="formGroup.controls['ConversionMethod'].hasError('required')" class="invalid-feedback">Please enter value</div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Close</button>
+    <button class="btn btn-primary" [disabled]="!formGroup || !formGroup.valid" (click)="onSubmit()">
+        <i class="bi bi-floppy fs-3"></i> Save
+    </button>
+</div>

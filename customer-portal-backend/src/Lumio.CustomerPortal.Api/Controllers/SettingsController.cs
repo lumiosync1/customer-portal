@@ -124,7 +124,7 @@ namespace Lumio.CustomerPortal.Api.Controllers
 
         [Route("tracking")]
         [HttpPost]
-        public async Task<BaseResponse<string>> UpdatePurchaseSettingAsync(TrackingSetting dto)
+        public async Task<BaseResponse<string>> UpdateTrackingSettingAsync(TrackingSetting dto)
         {
             BaseResponse<string> response = new BaseResponse<string>();
             try

@@ -8,6 +8,7 @@ import { ResponseStatus } from '../../shared/models/base-response.model';
 import { ConfirmPasswordValidator } from '../../auth';
 import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { PageInfoService } from 'src/app/_metronic/layout';
 
 @Component({
   selector: 'app-change-password',
@@ -21,11 +22,13 @@ export class ChangePasswordComponent {
   private profileService = inject(ProfileService);
   private toast = inject(ToastService);
   private spinner = inject(LoadingService);
+  private pageInfo = inject(PageInfoService)
 
   private subscriptions: Subscription[] = [];
   formGroup: FormGroup;
 
   ngOnInit() {
+    this.pageInfo.updateTitle('Change Password');
     this.createForm();
   }
 

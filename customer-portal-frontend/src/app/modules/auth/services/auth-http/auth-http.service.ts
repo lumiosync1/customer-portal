@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserModel } from '../../models/user.model';
 import { environment } from '../../../../../environments/environment';
 import { AuthModel } from '../../models/auth.model';
+import { BaseResponse } from 'src/app/modules/shared/models/base-response.model';
 
 const API_USERS_URL = `${environment.backendUrl}/auth`;
 
@@ -27,10 +28,10 @@ export class AuthHTTPService {
   }
 
   // Your server should check email => If email exists send link to the user and return true | If email doesn't exist return false
-  forgotPassword(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${API_USERS_URL}/forgot-password`, {
-      email,
-    });
+  forgotPassword(email: string): Observable<BaseResponse<string>> {
+    const formData = new FormData();
+    formData.append('email', email);
+    return this.http.post<BaseResponse<string>>(`${API_USERS_URL}/forgot-password`, formData);
   }
 
   getUserByToken(token: string): Observable<UserModel> {

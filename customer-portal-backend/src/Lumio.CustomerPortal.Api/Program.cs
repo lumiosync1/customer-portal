@@ -126,6 +126,10 @@ namespace Lumio.CustomerPortal.Api
                 secretAccessKey, 
                 new AmazonS3Config { RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region) }
                 ));
+
+            // SMTP
+            SmtpConfiguration smtpConfiguration = builder.Configuration.GetSection("SmtpConfiguration").Get<SmtpConfiguration>();
+            builder.Services.AddTransient<SmtpConfiguration>(s => smtpConfiguration);
         }
     }
 }

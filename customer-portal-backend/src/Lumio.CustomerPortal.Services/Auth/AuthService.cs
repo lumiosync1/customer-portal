@@ -129,5 +129,20 @@ namespace Lumio.CustomerPortal.Services.Auth
             mainDbContext.portal_users.Add(user);
             await mainDbContext.SaveChangesAsync();
         }
+
+        public async Task<string> ForgotPasswordAsync(string email)
+        {
+            var user = await mainDbContext.portal_users.FirstOrDefaultAsync(u => u.user_name.ToLower() == email.ToLower());
+            if (user == null)
+            {
+                throw new Exception("Email not found.");
+            }
+
+            string randomPassword = Guid.NewGuid().ToString("N").Substring(0, 10);
+            user.password = Domain.Utils.PasswordHasher.HashPasswordV3(randomPassword);
+            await mainDbContext.SaveChangesAsync();
+
+            return randomPassword;
+        }
     }
 }

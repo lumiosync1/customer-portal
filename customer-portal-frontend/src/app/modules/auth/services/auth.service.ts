@@ -112,11 +112,12 @@ export class AuthService implements OnDestroy {
     );
   }
 
-  forgotPassword(email: string): Observable<boolean> {
+  forgotPassword(email: string): Observable<BaseResponse<string>> {
     this.isLoadingSubject.next(true);
-    return this.authHttpService
-      .forgotPassword(email)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)));
+    const formData = new FormData();
+    formData.append('email', email);
+    return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/auth/forgot-password`, formData).pipe(
+      finalize(() => this.isLoadingSubject.next(false)));
   }
 
   // private methods

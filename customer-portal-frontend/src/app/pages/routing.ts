@@ -44,6 +44,11 @@ const Routing: Routes = [
       import('../modules/setting/settings/settings.component').then((c) => c.SettingsComponent),
   },
   {
+    path: 'profile/change-password',
+    loadComponent: () =>
+      import('../modules/profile/change-password/change-password.component').then((c) => c.ChangePasswordComponent),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',

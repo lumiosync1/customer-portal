@@ -2,6 +2,26 @@
 
 <div class="card">
   <div class="card-body">
+    <!--begin::Alert-->
+    <div class="alert alert-info d-flex align-items-center p-5">
+      <!--begin::Icon-->
+      <i class="bi bi-info-circle fs-2hx text-info me-4"></i>
+      <!--end::Icon-->
+
+      <!--begin::Wrapper-->
+      <div class="d-flex flex-column">
+          <!--begin::Title-->
+          <h4 class="mb-1 text-info">Import template</h4>
+          <!--end::Title-->
+
+          <!--begin::Content-->
+          <span>Please download the import template <a href="/assets/templates/Lumios-Import-Order-Template.csv">here</a> and fill in the necessary information.</span> <br>
+          <span>For eBay sellers, you can use eBay exported order CSV to import directly here.</span>
+          <!--end::Content-->
+      </div>
+      <!--end::Wrapper-->
+    </div>
+    <!--end::Alert-->
     <ejs-uploader #defaultupload id='defaultfileupload' 
         [asyncSettings]='path' 
         [autoUpload]='false' 
@@ -17,6 +37,12 @@
 <div class="card mt-4">
   <div class="card-header">
     <h3 class="card-title">Import History</h3>
+    <div class="card-toolbar">
+      <button class="btn btn-sm btn-primary" 
+      (click)="grid.refresh()" title="Refresh">
+        <i class="bi bi-arrow-clockwise fs-3"></i>
+      </button>
+    </div>
   </div>
   <div class="card-body">
     <ejs-grid #grid [dataSource]='data' 
@@ -25,12 +51,36 @@
       [allowFiltering]='true' [filterSettings]='{type: "Menu"}'
      >
       <e-columns>
-          <e-column field='file_name' headerText='File Name' width='120' ></e-column>
-          <e-column field='created_at' headerText='Imported At' width='150' format="MM/dd/yyyy HH:mm" ></e-column>
-          <e-column field='created_by' headerText='Imported By' width='130' ></e-column>
-          <e-column field='count_success' headerText='Count Success' width='130' ></e-column>
-          <e-column field='count_error' headerText='Count Failed' width='130' ></e-column>
+          <e-column field='file_name' headerText='File Name' ></e-column>
+          <e-column field='created_at' headerText='Imported At' format="MM/dd/yyyy HH:mm" ></e-column>
+          <e-column field='created_by' headerText='Imported By' ></e-column>
+          <e-column field='count_success' headerText='Count Success' ></e-column>
+          <e-column field='count_error' headerText='Count Failed' ></e-column>
+          <e-column field='import_result' headerText='Note' textAlign="Center" >
+            <ng-template #template let-data>
+              @if(data.import_result) {
+                <button class="btn btn-sm btn-icon btn-primary" 
+                (click)="selectedRow = data; modalService.open(content)">
+                  <i class="bi bi-card-checklist fs-3"></i>
+                </button>
+              }
+            </ng-template>
+          </e-column>
       </e-columns>
     </ejs-grid>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Import Result</h4>
+  </div>
+  <div class="modal-body">
+    <ul>
+      <li *ngFor="let item of selectedRow.import_result.split('\n')">{{ item }}</li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+  </div>
+</ng-template>

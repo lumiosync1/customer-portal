@@ -102,12 +102,18 @@ namespace Lumio.CustomerPortal.Services.Auth
 
         public async Task RegisterAsync(RegistrationDto dto)
         {
+            var settings = new
+            {
+                PlanCode = dto.PlanCode,
+            };
+            string settingStr = System.Text.Json.JsonSerializer.Serialize(settings);
             // create new seller
             seller seller = new seller()
             {
                 seller_name = dto.Email.ToLower(),
-                site = "US",
+                site = dto.Site,
                 active = true,
+                settings = settingStr,
                 created_at = DateTime.UtcNow,
                 created_by = "portal",
             };

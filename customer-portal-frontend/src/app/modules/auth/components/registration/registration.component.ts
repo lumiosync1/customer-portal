@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
 import { UserModel } from '../../models/user.model';
@@ -19,6 +19,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   hasError: boolean;
   isLoading$: Observable<boolean>;
   success: boolean = false;
+  planCode: string;
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -26,7 +27,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.isLoading$ = this.authService.isLoading$;
     // redirect to home if already logged in
@@ -36,6 +38,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const sub = this.route.queryParams.subscribe(p => {
+      this.planCode = p.planCode;
+    });
     this.initForm();
   }
 
@@ -80,6 +85,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.maxLength(100),
           ]),
         ],
+        site: ['', Validators.required],
         agree: [false, Validators.compose([Validators.required])],
       },
       {
@@ -98,6 +104,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       FullName: this.f.fullname.value,
       Email: this.f.email.value,
       Password: this.f.password.value,
+      Site: this.f.site.value,
+      PlanCode: this.planCode,
     };
     const registrationSubscr = this.authService
       .registration(newUser)

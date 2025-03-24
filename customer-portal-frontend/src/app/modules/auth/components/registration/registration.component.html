@@ -29,7 +29,7 @@
 
   <!--begin::Form group-->
   <div class="fv-row mb-8">
-    <label class="form-label fw-bolder text-gray-900 fs-6">Fullname</label>
+    <label class="form-label fw-bolder text-gray-900 fs-6">Full Name</label>
     <input class="form-control bg-transparent" type="text" name="fullname" formControlName="fullname"
       placeholder="Fullname" autocomplete="off" [ngClass]="{
         'is-invalid': registrationForm.controls['fullname'].invalid,
@@ -145,6 +145,23 @@
     </ng-container>
   </div>
   <!--end::Form group-->
+
+  <div class="fv-row mb-8">
+    <label class="form-label fw-bolder text-gray-900 fs-6">Selling Country</label>
+    <select class="form-select" formControlName="site" [ngClass]="{
+      'is-invalid': registrationForm.controls['site'].invalid,
+      'is-valid': registrationForm.controls['site'].valid
+    }">
+      <option value="">-- Please select --</option>
+      <option value="US">United States</option>
+      <option value="UK">United Kingdom</option>
+    </select>
+    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+      validation: 'required',
+      message: 'Selling Country is required',
+      control: registrationForm.controls['site']
+    }"></ng-container>
+  </div>
 
   <!--begin::Form group-->
   <div class="fv-row mb-8">

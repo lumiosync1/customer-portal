@@ -1,7 +1,133 @@
-<h1>Dashboard</h1>
+<div class="d-flex justify-content-between mb-6">
+    <h1>Dashboard</h1>
+    <div class="d-flex">
+        <ejs-daterangepicker id="dateRangePicker"
+            [startDate]="from"
+            [endDate]="to"
+            (change)="onDateRangeChange()"
+            ></ejs-daterangepicker>
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-3">
-        <app-current-balance-widget></app-current-balance-widget>
+    <div class="col-md-7 col-sm-12">
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <app-stats-widget
+                    [value]="data.PendingCount"
+                    description="Pending"
+                    icon="bi-clock-fill"
+                    textColor="pending"
+                    format="1.0-0"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <app-stats-widget
+                    [value]="data.PurchasedCount"
+                    description="Purchased"
+                    icon="bi-cart-check-fill"
+                    textColor="purchased"
+                    format="1.0-0"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <app-stats-widget
+                    [value]="data.FailedCount"
+                    description="Failed"
+                    icon="bi-x-circle-fill"
+                    textColor="error"
+                    format="1.0-0"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <app-stats-widget
+                    [value]="data.RemovedCount"
+                    description="Removed"
+                    icon="bi-trash-fill"
+                    textColor="removed"
+                    format="1.0-0"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <app-stats-widget
+                    [value]="data.CancelledCount"
+                    description="Cancelled"
+                    icon="bi-window-x"
+                    textColor="cancelled"
+                    format="1.0-0"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <app-stats-widget
+                    [value]="data.ReturnedCount"
+                    description="Returned"
+                    icon="bi-arrow-return-left"
+                    textColor="returned"
+                    format="1.0-0"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-1"></div>
+
+    <div class="col-md-4 col-sm-12">
+        <div class="row">
+            <div class="col-12">
+                <app-stats-widget
+                    [value]="data.AvailableBalance"
+                    description="Available Balance"
+                    icon="bi-currency-dollar"
+                    backgroundColor="success"
+                    textColor="white"
+                    format="1.2-2"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <app-stats-widget
+                    [value]="data.Profit"
+                    description="Profit"
+                    icon="bi-bank"
+                    backgroundColor="info"
+                    textColor="white"
+                    format="1.2-2"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <app-stats-widget
+                    [value]="data.AverageProfit"
+                    description="Average Profit"
+                    icon="bi-graph-up"
+                    backgroundColor="primary"
+                    textColor="white"
+                    format="1.2-2"
+                    [isLoading]="isLoadingData">
+                </app-stats-widget>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <app-best-seller-items-widget
+            [from]="from"
+            [to]="to">
+        </app-best-seller-items-widget>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        
     </div>
 </div>

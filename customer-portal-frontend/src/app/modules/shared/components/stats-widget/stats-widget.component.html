@@ -1,0 +1,21 @@
+<div class="card card-xl-stretch mb-xl-8" [ngClass]="'bg-' + backgroundColor + ' ' + cssClass">
+    <div class="card-body">
+        @if(icon) {
+            <i class="bi fs-2x ms-n1" [ngClass]="icon + ' text-' + textColor"></i>
+        }        
+        
+        <div class="fw-bold fs-1 mb-2 mt-5" [ngClass]="'text-' + textColor">           
+            {{ value | number:format }}               
+        </div>
+
+        <div class="fw-semibold" [ngClass]="'text-' + textColor">{{description}}</div>
+
+        @if(isLoading) {
+            <div class="widget-loader">
+                <span class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </span>
+            </div>
+        }
+    </div>
+</div>

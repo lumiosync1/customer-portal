@@ -14,9 +14,25 @@
     color: white;
 }
 
+.bg-pending {
+    background-color: #F6C000 !important;
+}
+
+.text-pending {
+    color: #F6C000 !important;
+}
+
 .status-processing {
     background-color: #61c9ff;
     color: white;
+}
+
+.bg-processing {
+    background-color: #61c9ff !important;
+}
+
+.text-processing {
+    color: #61c9ff !important;
 }
 
 .status-inprogress {
@@ -24,9 +40,25 @@
     color: white;
 }
 
+.bg-inprogress {
+    background-color: #61c9ff !important;
+}
+
+.text-inprogress {
+    color: #61c9ff !important;
+}
+
 .status-purchased {
     background-color: #56fdff;
     color: white;
+}
+
+.bg-purchased {
+    background-color: #56fdff !important;
+}
+
+.text-purchased {
+    color: #56fdff !important;
 }
 
 .status-shipped {
@@ -34,9 +66,25 @@
     color: white;
 }
 
+.bg-shipped {
+    background-color: #2a53ff !important;
+}
+
+.text-shipped {
+    color: #2a53ff !important;
+}
+
 .status-delivered {
     background-color: #00ff11;
     color: white;
+}
+
+.bg-delivered {
+    background-color: #00ff11 !important;
+}
+
+.text-delivered {
+    color: #00ff11 !important;
 }
 
 .status-cancelled {
@@ -44,19 +92,51 @@
     color: white;
 }
 
+.bg-cancelled {
+    background-color: #7d7272 !important;
+}
+
+.text-cancelled {
+    color: #7d7272 !important;
+}
+
 .status-error {
     background-color: #ff2323;
     color: white;
 }
 
-.status-refunded {
+.bg-error {
+    background-color: #ff2323 !important;
+}
+
+.text-error {
+    color: #ff2323 !important;
+}
+
+.status-returned {
     background-color: #e654ff;
     color: white;
+}
+
+.bg-returned {
+    background-color: #e654ff !important;
+}
+
+.text-returned {
+    color: #e654ff !important;
 }
 
 .status-removed {
     background-color: #0f0f0f;
     color: white;
+}
+
+.bg-removed {
+    background-color: #0f0f0f !important;
+}
+
+.text-removed {
+    color: #0f0f0f !important;
 }
 
 .widget-loader {

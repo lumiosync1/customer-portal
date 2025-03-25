@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Lumio.Balance">
+      <HintPath>..\..\..\..\lumio-balance-system\src\Lumio.Balance\bin\Debug\net9.0\Lumio.Balance.dll</HintPath>
+    </Reference>
     <Reference Include="Lumio.DataAccess">
       <HintPath>..\..\..\..\lumio-common\src\Lumio.DataAccess\bin\Debug\net9.0\Lumio.DataAccess.dll</HintPath>
     </Reference>

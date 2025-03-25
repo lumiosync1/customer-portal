@@ -54,5 +54,26 @@ namespace Lumio.CustomerPortal.Api.Controllers
                 return response;
             }
         }
+
+        [Route("daily-purchases")]
+        [HttpGet]
+        public async Task<BaseResponse<List<DailyPurchaseCount>>> GetDailyPurchasesAsync(DateTime from, DateTime to)
+        {
+            BaseResponse<List<DailyPurchaseCount>> response = new BaseResponse<List<DailyPurchaseCount>>();
+            try
+            {
+                response.Data = await dashboardService.GetDailyPurchaseCountAsync(from, to);
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
     }
 }

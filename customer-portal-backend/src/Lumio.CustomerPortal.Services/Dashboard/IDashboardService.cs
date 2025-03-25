@@ -5,5 +5,7 @@
         public Task<DashboardData> GetDashboardDataAsync(DateTime from, DateTime to);
 
         public Task<List<BestSellerItem>> GetBestSellerItemsAsync(DateTime from, DateTime to);
+
+        public Task<List<DailyPurchaseCount>> GetDailyPurchaseCountAsync(DateTime from, DateTime to);
     }
 }

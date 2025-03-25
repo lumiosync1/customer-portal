@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-header border-0 pt-0">
+        <h3 class="card-title">Daily Purchases</h3>
+    </div>
+    <div class="card-body pt-0">
+        <ejs-chart id="chart" 
+        [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis"
+        [tooltip]="tooltip" [palettes]="palette"
+        >
+            <e-series-collection>
+                <e-series [dataSource]="chartData" 
+                    xName="Day" yName="Count" type="Line"
+                    [marker]="marker" width="3"
+                ></e-series>
+            </e-series-collection>
+        </ejs-chart>
+        
+        @if(isLoading) {
+            <div class="widget-loader">
+                <span class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </span>
+            </div>
+        }
+    </div>
+</div>

@@ -9,11 +9,16 @@ import { StatsWidgetComponent } from "../../shared/components/stats-widget/stats
 import { BestSellerItem } from '../_models/BestSellerItem';
 import { BestSellerItemsWidgetComponent } from '../widgets/best-seller-items-widget/best-seller-items-widget.component';
 import { DateRangePickerComponent, DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { DailyPurchasesWidgetComponent } from "../widgets/daily-purchases-widget/daily-purchases-widget.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [StatsWidgetComponent, BestSellerItemsWidgetComponent, DateRangePickerModule],
+  imports: [StatsWidgetComponent, 
+    BestSellerItemsWidgetComponent, 
+    DateRangePickerModule, 
+    DailyPurchasesWidgetComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

@@ -232,5 +232,46 @@ namespace Lumio.CustomerPortal.Services.Dashboard
 
             return items;
         }
+
+        public async Task<List<DailyPurchaseCount>> GetDailyPurchaseCountAsync(DateTime from, DateTime to)
+        {
+            var days = new List<DailyPurchaseCount>();
+
+            NpgsqlConnection connection = dbContext.Database.GetDbConnection() as NpgsqlConnection;
+            await connection.OpenAsync();
+
+            string sql = $@"SELECT
+                                DATE(end_time) AS order_date,
+                                COUNT(*) AS total_orders
+                            FROM
+                                om_order_purchases
+                            WHERE TRUE 
+                                AND seller_id = $1
+	                            AND end_time BETWEEN $2 AND $3
+                            GROUP BY
+                                DATE(end_time)
+                            ORDER BY
+                                order_date;";
+            await using var cmd4 = new NpgsqlCommand(sql, connection)
+            {
+                Parameters =
+                {
+                    new NpgsqlParameter() { Value = authService.CurrentUser.SellerId },
+                    new NpgsqlParameter() { Value = from },
+                    new NpgsqlParameter() { Value = to.AddDays(1) },
+                }
+            };
+            var result4 = await cmd4.ExecuteReaderAsync();
+            while (await result4.ReadAsync())
+            {
+                DailyPurchaseCount day = new DailyPurchaseCount();
+                day.Day = result4.GetDateTime(0);
+                day.Count = result4.GetInt32(1);
+                days.Add(day);
+            }
+            await result4.CloseAsync();
+
+            return days;
+        }
     }
 }

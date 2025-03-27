@@ -10,133 +10,146 @@
 }
 
 .status-pending {
-    background-color: #F6C000;
+    background-color: #F4C542;
     color: white;
 }
 
 .bg-pending {
-    background-color: #F6C000 !important;
+    background-color: #F4C542 !important;
 }
 
 .text-pending {
-    color: #F6C000 !important;
+    color: #F4C542 !important;
 }
 
 .status-processing {
-    background-color: #61c9ff;
+    background-color: #d07fef;
     color: white;
 }
 
 .bg-processing {
-    background-color: #61c9ff !important;
+    background-color: #d07fef !important;
 }
 
 .text-processing {
-    color: #61c9ff !important;
+    color: #d07fef !important;
 }
 
 .status-inprogress {
-    background-color: #61c9ff;
+    background-color: #d07fef;
     color: white;
 }
 
 .bg-inprogress {
-    background-color: #61c9ff !important;
+    background-color: #d07fef !important;
 }
 
 .text-inprogress {
-    color: #61c9ff !important;
+    color: #d07fef !important;
 }
 
 .status-purchased {
-    background-color: #56fdff;
+    background-color: #06B6D4;
     color: white;
 }
 
 .bg-purchased {
-    background-color: #56fdff !important;
+    background-color: #06B6D4 !important;
 }
 
 .text-purchased {
-    color: #56fdff !important;
+    color: #06B6D4 !important;
 }
 
 .status-shipped {
-    background-color: #2a53ff;
+    background-color: #3172ff;
     color: white;
 }
 
 .bg-shipped {
-    background-color: #2a53ff !important;
+    background-color: #3172ff !important;
 }
 
 .text-shipped {
-    color: #2a53ff !important;
+    color: #3172ff !important;
 }
 
 .status-delivered {
-    background-color: #00ff11;
+    background-color: #0bb74a;
     color: white;
 }
 
 .bg-delivered {
-    background-color: #00ff11 !important;
+    background-color: #0bb74a !important;
 }
 
 .text-delivered {
-    color: #00ff11 !important;
+    color: #0bb74a !important;
 }
 
 .status-cancelled {
-    background-color: #7d7272;
+    background-color: #6B7280;
     color: white;
 }
 
 .bg-cancelled {
-    background-color: #7d7272 !important;
+    background-color: #6B7280 !important;
 }
 
 .text-cancelled {
-    color: #7d7272 !important;
+    color: #6B7280 !important;
 }
 
 .status-error {
-    background-color: #ff2323;
+    background-color: #EF4444;
     color: white;
 }
 
 .bg-error {
-    background-color: #ff2323 !important;
+    background-color: #EF4444 !important;
 }
 
 .text-error {
-    color: #ff2323 !important;
+    color: #EF4444 !important;
 }
 
 .status-returned {
-    background-color: #e654ff;
+    background-color: #A78BFA;
     color: white;
 }
 
 .bg-returned {
-    background-color: #e654ff !important;
+    background-color: #A78BFA !important;
 }
 
 .text-returned {
-    color: #e654ff !important;
+    color: #A78BFA !important;
 }
 
 .status-removed {
-    background-color: #0f0f0f;
+    background-color: #9CA3AF;
     color: white;
 }
 
 .bg-removed {
-    background-color: #0f0f0f !important;
+    background-color: #9CA3AF !important;
 }
 
 .text-removed {
-    color: #0f0f0f !important;
+    color: #9CA3AF !important;
+}
+
+.status-lost {
+    background-color: #ea580c;
+    color: white;
+}
+
+.bg-lost {
+    background-color: #ea580c !important;
+}
+
+.text-lost {
+    color: #ea580c !important;
 }
 
 .widget-loader {

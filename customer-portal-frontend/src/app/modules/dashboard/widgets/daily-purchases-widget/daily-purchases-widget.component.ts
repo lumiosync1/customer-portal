@@ -66,7 +66,7 @@ export class DailyPurchasesWidgetComponent {
   public tooltip: Object = {
     enable: true
   };
-  public palette: string[] = ['#56fdff'];
+  public palette: string[] = ['#06B6D4'];
 
   ngOnInit() {
     

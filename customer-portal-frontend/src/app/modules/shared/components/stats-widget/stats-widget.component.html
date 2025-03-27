@@ -1,7 +1,11 @@
 <div class="card card-xl-stretch mb-xl-8" [ngClass]="'bg-' + backgroundColor + ' ' + cssClass">
     <div class="card-body">
         @if(icon) {
-            <i class="bi fs-2x ms-n1" [ngClass]="icon + ' text-' + textColor"></i>
+            @if(iconCustomColor) {
+                <i class="bi fs-2x ms-n1" [ngClass]="icon" [ngStyle]="{color: iconCustomColor}"></i>
+            } @else {
+                <i class="bi fs-2x ms-n1" [ngClass]="icon + ' text-' + iconColor"></i>
+            }
         }        
         
         <div class="fw-bold fs-1 mb-2 mt-5" [ngClass]="'text-' + textColor">           

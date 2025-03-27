@@ -17,7 +17,7 @@
                     [value]="data.PendingCount"
                     description="Pending"
                     icon="bi-clock-fill"
-                    textColor="pending"
+                    iconColor="pending"
                     format="1.0-0"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>
@@ -27,7 +27,7 @@
                     [value]="data.PurchasedCount"
                     description="Purchased"
                     icon="bi-cart-check-fill"
-                    textColor="purchased"
+                    iconColor="purchased"
                     format="1.0-0"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>
@@ -37,7 +37,7 @@
                     [value]="data.FailedCount"
                     description="Failed"
                     icon="bi-x-circle-fill"
-                    textColor="error"
+                    iconColor="error"
                     format="1.0-0"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>
@@ -49,7 +49,7 @@
                     [value]="data.RemovedCount"
                     description="Removed"
                     icon="bi-trash-fill"
-                    textColor="removed"
+                    iconColor="removed"
                     format="1.0-0"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>
@@ -59,7 +59,7 @@
                     [value]="data.CancelledCount"
                     description="Cancelled"
                     icon="bi-window-x"
-                    textColor="cancelled"
+                    iconColor="cancelled"
                     format="1.0-0"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>
@@ -69,7 +69,7 @@
                     [value]="data.ReturnedCount"
                     description="Returned"
                     icon="bi-arrow-return-left"
-                    textColor="returned"
+                    iconColor="returned"
                     format="1.0-0"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>
@@ -85,9 +85,9 @@
                 <app-stats-widget
                     [value]="data.AvailableBalance"
                     description="Available Balance"
-                    icon="bi-currency-dollar"
-                    backgroundColor="success"
-                    textColor="white"
+                    icon="bi-bank"
+                    iconColor="dark"
+                    iconCustomColor="#60A5FA"
                     format="1.2-2"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>
@@ -98,9 +98,8 @@
                 <app-stats-widget
                     [value]="data.Profit"
                     description="Profit"
-                    icon="bi-bank"
-                    backgroundColor="info"
-                    textColor="white"
+                    icon="bi-currency-dollar"
+                    iconCustomColor="#22C55E"
                     format="1.2-2"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>
@@ -109,9 +108,8 @@
                 <app-stats-widget
                     [value]="data.AverageProfit"
                     description="Average Profit"
-                    icon="bi-graph-up"
-                    backgroundColor="primary"
-                    textColor="white"
+                    icon="bi-currency-dollar"
+                    iconCustomColor="#86EFAC"
                     format="1.2-2"
                     [isLoading]="isLoadingData">
                 </app-stats-widget>

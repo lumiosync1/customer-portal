@@ -19,7 +19,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   hasError: boolean;
   isLoading$: Observable<boolean>;
   success: boolean = false;
+  controls: any;
   planCode: string;
+  platforms: string[] = ['Amazon', 'eBay', 'Shopify', 'Etsy', 'Wish', 'WooCommerce', 'Wix', 'Tiktok', 'Facebook', 'Others'];
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
@@ -60,6 +62,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.maxLength(100),
           ]),
         ],
+        userName: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(100),
+          ]),
+        ],
         email: [
           '',
           Validators.compose([
@@ -86,12 +96,21 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           ]),
         ],
         site: ['', Validators.required],
+        planCode: [this.planCode, Validators.required],
+        billingAddress: ['', Validators.required],
+        sellingPlatforms: [''],
+        phoneNumber: ['', Validators.compose([
+          Validators.required,
+          Validators.maxLength(20),
+        ]),],
         agree: [false, Validators.compose([Validators.required])],
       },
       {
         validator: ConfirmPasswordValidator.MatchPassword,
       }
     );
+
+    this.controls = this.registrationForm.controls;
   }
 
   submit() {
@@ -101,12 +120,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       return;
     }
     const newUser: RegistrationDto = {
+      UserName: this.f.userName.value,
       FullName: this.f.fullname.value,
       Email: this.f.email.value,
       Password: this.f.password.value,
       Site: this.f.site.value,
-      PlanCode: this.planCode,
+      PlanCode: this.f.planCode.value,
+      BillingAddress: this.f.billingAddress.value,
+      SellingPlatforms: '',
+      PhoneNumber: this.f.phoneNumber.value,
     };
+    if(this.f.sellingPlatforms.value) {
+      newUser.SellingPlatforms = this.f.sellingPlatforms.value.join(',');
+    }
     const registrationSubscr = this.authService
       .registration(newUser)
       .subscribe((res: BaseResponse<string>) => {

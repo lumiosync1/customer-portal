@@ -15,7 +15,7 @@ import { CurrentUserDto } from '../../models/current-user-dto';
 export class LoginComponent implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:
   defaultAuth: any = {
-    email: '',
+    username: '',
     password: '',
   };
   loginForm: FormGroup;
@@ -53,13 +53,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.loginForm = this.fb.group({
-      email: [
-        this.defaultAuth.email,
+      username: [
+        this.defaultAuth.username,
         Validators.compose([
           Validators.required,
-          Validators.email,
           Validators.minLength(3),
-          Validators.maxLength(320), // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+          Validators.maxLength(100),
         ]),
       ],
       password: [
@@ -75,8 +74,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   submit() {
     this.hasError = false;
+    this.loginForm.markAllAsTouched();
+    if (this.loginForm.invalid) {
+      return;
+    }
     const loginSubscr = this.authService
-      .login(this.f.email.value, this.f.password.value)
+      .login(this.f.username.value, this.f.password.value)
       .pipe(first())
       .subscribe((user: CurrentUserDto | undefined) => {
         if (user) {

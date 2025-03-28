@@ -9,6 +9,7 @@
     min-height: 40px !important;
 }
 
+// ----- status colors ----- //
 .status-pending {
     background-color: #F4C542;
     color: white;
@@ -163,6 +164,8 @@
     color: #ea580c !important;
 }
 
+// ----- status colors - end ----- //
+
 .widget-loader {
     position: absolute;
     top: 0;
@@ -173,3 +176,10 @@
     justify-content: center;
     align-items: center;
 }
+
+// ----- Syncfusion customization ----- //
+.e-multi-select-wrapper {
+    height: 40px;
+}
+
+// ----- Syncfusion customization - end ----- //

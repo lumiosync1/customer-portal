@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthRoutingModule } from './auth-routing.module';
+import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
@@ -25,6 +26,7 @@ import { TranslationModule } from '../i18n/translation.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MultiSelectModule,
   ],
 })
 export class AuthModule {}

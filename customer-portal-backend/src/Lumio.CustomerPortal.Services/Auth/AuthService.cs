@@ -1,5 +1,6 @@
 ﻿using Lumio.DataAccess;
 using Lumio.Domain.Entities;
+using Lumio.Domain.Seller;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -111,9 +112,11 @@ namespace Lumio.CustomerPortal.Services.Auth
             seller seller = new seller()
             {
                 seller_name = dto.Email.ToLower(),
+                billing_address = dto.BillingAddress,
                 site = dto.Site,
                 active = true,
                 settings = settingStr,
+                selling_platforms = dto.SellingPlatforms,
                 created_at = DateTime.UtcNow,
                 created_by = "portal",
             };
@@ -124,15 +127,60 @@ namespace Lumio.CustomerPortal.Services.Auth
             portal_user user = new portal_user()
             {
                 seller_id = seller.seller_id,
-                user_name = dto.Email.ToLower(),
+                user_name = dto.UserName.ToLower(),
+                email = dto.Email.ToLower(),
                 password = Domain.Utils.PasswordHasher.HashPasswordV3(dto.Password),
                 full_name = dto.FullName,
+                phone_number = dto.PhoneNumber,
                 active = true,
                 role = PortalUserRoles.admin,
                 created_at = DateTime.UtcNow,
                 created_by = "portal",
             };
             mainDbContext.portal_users.Add(user);
+
+            // default Managed Account settings
+            ManagedAccountSetting maSettings = new ManagedAccountSetting()
+            {
+                BalanceLoadingFeePercentage = 1,
+                OrderFeeFixed = 0.3M,
+                ProcessingFeePercentage = 8,
+            };
+            seller_setting maSettingRecord = new seller_setting()
+            {
+                seller_id = seller.seller_id,
+                feature = SettingFeatures.ManagedAccount,
+                settings = System.Text.Json.JsonSerializer.Serialize(maSettings),
+            };
+            mainDbContext.seller_settings.Add(maSettingRecord);
+
+            // default Purchase settings
+            PurchaseSetting purchaseSettings = new PurchaseSetting()
+            {
+                MaxShippingDays = 10,
+                OfferSelection = OfferSelection.PrimeAndFBA,
+            };
+            seller_setting purchaseSettingRecord = new seller_setting()
+            {
+                seller_id = seller.seller_id,
+                feature = SettingFeatures.PurchaseSetting,
+                settings = System.Text.Json.JsonSerializer.Serialize(purchaseSettings),
+            };
+            mainDbContext.seller_settings.Add(purchaseSettingRecord);
+
+            // default Tracking settings
+            TrackingSetting trackingSettings = new TrackingSetting()
+            {
+                ConversionMethod = TrackingConversionMethods.AllToLumio,
+            };
+            seller_setting trackingSettingRecord = new seller_setting()
+            {
+                seller_id = seller.seller_id,
+                feature = SettingFeatures.TrackingSetting,
+                settings = System.Text.Json.JsonSerializer.Serialize(trackingSettings),
+            };
+            mainDbContext.seller_settings.Add(trackingSettingRecord);
+
             await mainDbContext.SaveChangesAsync();
         }
 

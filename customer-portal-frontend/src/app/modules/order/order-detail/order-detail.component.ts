@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
-import { CurrencyPipe, DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { DialogUtility} from '@syncfusion/ej2-angular-popups';
 import { OrderService } from '../order.service';
 import { OrderDetailDto } from '../_models/OrderDetailDto';
@@ -35,6 +35,9 @@ export class OrderDetailComponent {
   orderDetail: OrderDetailDto;
   OrderStatus = OrderStatus;
   currency: string = this.authService.currency;
+  soldBy: string = '';
+  shipsFrom: string = '';
+  isPrime: boolean = false;
 
   private removeConfirmDialog: any;
 
@@ -65,6 +68,12 @@ export class OrderDetailComponent {
       }
 
       this.orderDetail = response.Data;
+      if(this.orderDetail && this.orderDetail.Purchase && this.orderDetail.Purchase.SupplierOffer) {
+        const offer = JSON.parse(this.orderDetail.Purchase.SupplierOffer);
+        this.soldBy = offer.SoldBy;
+        this.shipsFrom = offer.ShipsFrom;
+        this.isPrime = offer.IsPrime;
+      }
     });
 
     this.subscriptions.push(sub);

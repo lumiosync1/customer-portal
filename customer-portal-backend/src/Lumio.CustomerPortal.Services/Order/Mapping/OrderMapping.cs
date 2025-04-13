@@ -54,6 +54,7 @@ namespace Lumio.CustomerPortal.Services.Order
                     SupplierDiscount = order.purchase.supplier_discount,
                     SupplierTax = order.purchase.supplier_tax,
                     SupplierTotalPrice = order.purchase.supplier_total_price,
+                    SupplierOffer = order.purchase.supplier_offer,
                     OrderFee = order.purchase.order_fee,
                     ProcessingFee = order.purchase.processing_fee,
                     Profit = order.purchase.profit,

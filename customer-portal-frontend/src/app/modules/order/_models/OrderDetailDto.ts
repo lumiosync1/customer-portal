@@ -37,6 +37,7 @@ export interface PurchaseDto {
     SupplierDiscount: number;
     SupplierTax: number;
     SupplierTotalPrice: number;
+    SupplierOffer: string | null;
     MarketSaleFee: number;
     MarketAdditionalFeePercentage: number;
     MarketAdditionalFeeFixed: number;

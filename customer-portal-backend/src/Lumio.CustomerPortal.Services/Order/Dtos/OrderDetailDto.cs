@@ -45,6 +45,7 @@
         public decimal SupplierDiscount { get; set; }
         public decimal SupplierTax { get; set; }
         public decimal SupplierTotalPrice { get; set; }
+        public string? SupplierOffer { get; set; }
         public decimal MarketSaleFee { get; set; }
         public decimal MarketAdditionalFeePercentage { get; set; }
         public decimal MarketAdditionalFeeFixed { get; set; }

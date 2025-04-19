@@ -14,6 +14,7 @@
                     <option>Disabled</option>
                     <option value="AllToLumio">All To Lumios</option>
                     <option value="AmazonToLumio">Amazon To Lumios</option>
+                    <option value="ShipperStore">Shipper Store</option>
                 </select>
                 <div *ngIf="formGroup.controls['ConversionMethod'].hasError('required')" class="invalid-feedback">Please enter value</div>
                 
@@ -29,6 +30,7 @@
                             <li><strong>Disabled</strong>: No tracking conversion</li>
                             <li><strong>All To Lumios</strong>: All orders are converted to LumiosTrack</li>
                             <li><strong>Amazon To Lumios</strong>: Only Amazon (FBA) orders are converted to LumiosTrack</li>
+                            <li><strong>Shipper Store</strong>: All orders will be provided with real tracking numbers</li>
                         </ul>
                         <!--end::Content-->
                     </div>

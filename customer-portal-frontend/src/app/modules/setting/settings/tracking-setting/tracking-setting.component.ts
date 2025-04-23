@@ -6,9 +6,9 @@ import { LoadingService } from 'src/app/modules/shared/services/loading.service'
 import { ToastService } from 'src/app/modules/shared/services/toast.service';
 import { SettingService } from '../../setting.service';
 import { ResponseStatus } from 'src/app/modules/shared/models/base-response.model';
-import { PurchaseSetting } from '../../_models/PurchaseSetting';
 import { NgIf } from '@angular/common';
 import { TrackingSetting } from '../../_models/TrackingSetting';
+import { UsStates } from 'src/app/modules/shared/constants/us-states';
 
 @Component({
   selector: 'app-tracking-setting',
@@ -27,6 +27,7 @@ export class TrackingSettingComponent {
   private subscriptions: Subscription[] = [];
   formGroup: FormGroup;
   setting: TrackingSetting;
+  usStates = UsStates;
   
   ngOnInit() {
     this.loadData();
@@ -56,6 +57,7 @@ export class TrackingSettingComponent {
   createForm() {
     this.formGroup = this.fb.group({
       ConversionMethod: [this.setting.ConversionMethod, [Validators.required]],
+      ShipFromState: [this.setting.ShipFromState]
     });
   }
 

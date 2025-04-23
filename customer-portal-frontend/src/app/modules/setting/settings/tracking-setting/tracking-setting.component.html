@@ -12,9 +12,9 @@
                 [class.is-invalid]="formGroup.controls['ConversionMethod'].invalid && (formGroup.controls['ConversionMethod'].dirty || formGroup.controls['ConversionMethod'].touched)">
                     <option value="">-- Please select --</option>
                     <option>Disabled</option>
-                    <option value="AllToLumio">All To Lumios</option>
-                    <option value="AmazonToLumio">Amazon To Lumios</option>
-                    <option value="ShipperStore">Shipper Store</option>
+                    <option value="AllToLumio">All To LumiosTrack (Basic - free)</option>
+                    <option value="AmazonToLumio">Amazon To LumiosTrack (Basic - free)</option>
+                    <option value="ShipperStore">LumiosTrack Pro (paid)</option>
                 </select>
                 <div *ngIf="formGroup.controls['ConversionMethod'].hasError('required')" class="invalid-feedback">Please enter value</div>
                 
@@ -28,15 +28,38 @@
                         <!--begin::Content-->
                         <ul>
                             <li><strong>Disabled</strong>: No tracking conversion</li>
-                            <li><strong>All To Lumios</strong>: All orders are converted to LumiosTrack</li>
-                            <li><strong>Amazon To Lumios</strong>: Only Amazon (FBA) orders are converted to LumiosTrack</li>
-                            <li><strong>Shipper Store</strong>: All orders will be provided with real tracking numbers</li>
+                            <li><strong>All To LumiosTrack (Basic - free)</strong>: All orders are converted to LumiosTrack</li>
+                            <li><strong>Amazon To LumiosTrack (Basic - free)</strong>: Only Amazon (FBA) orders are converted to LumiosTrack</li>
+                            <li><strong>LumiosTrack Pro (paid)</strong>: Depends on availability - all tracking numbers will be converted to valid USPS/UPS/FedEx tracking numbers</li>
                         </ul>
                         <!--end::Content-->
                     </div>
                 </div>
             </div>
         </div>
+
+        @if(formGroup.controls['ConversionMethod'].value === 'ShipperStore') {
+            <div class="row mb-4">
+                <div class="col-12">
+                    <label for="txtShipFromState" class="form-label">Ship From State (optional)</label>
+                    <select class="form-select" formControlName="ShipFromState"
+                    [class.is-valid]="formGroup.controls['ShipFromState'].valid && (formGroup.controls['ShipFromState'].dirty || formGroup.controls['ShipFromState'].touched)"
+                    [class.is-invalid]="formGroup.controls['ShipFromState'].invalid && (formGroup.controls['ShipFromState'].dirty || formGroup.controls['ShipFromState'].touched)">
+                        <option [value]="null">-- Please select --</option>
+                        @for(state of usStates; track $index) {
+                            <option [value]="state.Key">{{state.Value}}</option>
+                        }
+                    </select>
+    
+                    <div class="alert alert-info d-flex align-items-center p-5 mt-2">
+                        <i class="bi bi-info-circle text-info me-4"></i> 
+                        <div class="d-flex flex-column">
+                            If selected, our system will try to match the tracking number’s origin to your selected location. This may reduce the success rate of an exact match. If no match is found, the best alternative will be used.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </form>
 </div>
 <div class="modal-footer">

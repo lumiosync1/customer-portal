@@ -36,7 +36,7 @@ namespace Lumio.CustomerPortal.Services.Auth
 
             // Find user in database
             var user = await mainDbContext.portal_users
-                .FirstOrDefaultAsync(u => u.user_name == loginDto.UserName);
+                .FirstOrDefaultAsync(u => u.user_name.ToLower() == loginDto.UserName.ToLower());
             if (user == null)
             {
                 throw new Exception("User not found.");

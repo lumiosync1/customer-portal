@@ -8,6 +8,7 @@ import { UserModel } from '../../models/user.model';
 import { first } from 'rxjs/operators';
 import { RegistrationDto } from '../../models/registration.model';
 import { BaseResponse, ResponseStatus } from 'src/app/modules/shared/models/base-response.model';
+import { ValidUsernameValidator } from './valid-username.validator';
 
 @Component({
   selector: 'app-registration',
@@ -17,6 +18,7 @@ import { BaseResponse, ResponseStatus } from 'src/app/modules/shared/models/base
 export class RegistrationComponent implements OnInit, OnDestroy {
   registrationForm: FormGroup;
   hasError: boolean;
+  errorMessage: string;
   isLoading$: Observable<boolean>;
   success: boolean = false;
   controls: any;
@@ -68,6 +70,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
             Validators.required,
             Validators.minLength(3),
             Validators.maxLength(100),
+            ValidUsernameValidator()
           ]),
         ],
         email: [
@@ -115,6 +118,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   submit() {
     this.hasError = false;
+    this.errorMessage = '';
     this.registrationForm.markAllAsTouched();
     if (this.registrationForm.invalid) {
       return;
@@ -140,6 +144,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           this.success = true;
         } else {
           this.hasError = true;
+          this.errorMessage = res.Message;
         }
       });
     this.unsubscribe.push(registrationSubscr);

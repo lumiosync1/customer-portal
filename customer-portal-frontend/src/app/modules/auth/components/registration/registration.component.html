@@ -21,7 +21,7 @@
   <ng-container *ngIf="hasError">
     <div class="mb-lg-15 alert alert-danger">
       <div class="alert-text font-weight-bold">
-        The registration details are incorrect
+        {{ errorMessage }}
       </div>
     </div>
   </ng-container>
@@ -48,6 +48,11 @@
       <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
           validation: 'maxLength',
           message: 'UserName should have maximum 100 symbols',
+          control: f['userName']
+        }"></ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'invalidUsername',
+          message: 'UserName should not contain spaces or special characters',
           control: f['userName']
         }"></ng-container>
     </div>

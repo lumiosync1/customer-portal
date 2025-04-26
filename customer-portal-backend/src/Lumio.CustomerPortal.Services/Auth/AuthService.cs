@@ -111,7 +111,7 @@ namespace Lumio.CustomerPortal.Services.Auth
             // create new seller
             seller seller = new seller()
             {
-                seller_name = dto.Email.ToLower(),
+                seller_name = dto.UserName.ToLower(),
                 billing_address = dto.BillingAddress,
                 site = dto.Site,
                 active = true,

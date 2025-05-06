@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Update Store (eBay NonAPI)</h3>
+      <div class="card-toolbar">
+        <a routerLink="/stores" class="btn btn-sm btn-light">Cancel</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" *ngIf="formGroup">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-6">
+              <label class="form-label required">eBay User ID</label>
+              <input type="text" class="form-control" formControlName="store_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-6">
+              <label class="form-label">Supplier</label>
+              <select class="form-select" formControlName="supplier">
+                <option value="amazon">Amazon</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-6">
+              <label class="form-label required">MIP Token</label>
+              <input type="text" class="form-control" formControlName="api_key"
+                  [class.is-valid]="formGroup.controls['api_key'].valid && (formGroup.controls['api_key'].dirty || formGroup.controls['api_key'].touched)"
+                  [class.is-invalid]="formGroup.controls['api_key'].invalid && (formGroup.controls['api_key'].dirty || formGroup.controls['api_key'].touched)">
+              <div *ngIf="formGroup.controls['api_key'].hasError('required')" class="invalid-feedback">This field is required</div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Submit</button>
+      </form>
+    </div>
+  </div>

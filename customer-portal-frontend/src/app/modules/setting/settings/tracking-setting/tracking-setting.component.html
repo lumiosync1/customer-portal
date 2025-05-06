@@ -45,7 +45,7 @@
                     <select class="form-select" formControlName="ShipFromState"
                     [class.is-valid]="formGroup.controls['ShipFromState'].valid && (formGroup.controls['ShipFromState'].dirty || formGroup.controls['ShipFromState'].touched)"
                     [class.is-invalid]="formGroup.controls['ShipFromState'].invalid && (formGroup.controls['ShipFromState'].dirty || formGroup.controls['ShipFromState'].touched)">
-                        <option [value]="null">-- Please select --</option>
+                        <option value="">-- Please select --</option>
                         @for(state of usStates; track $index) {
                             <option [value]="state.Key">{{state.Value}}</option>
                         }

@@ -111,6 +111,7 @@ namespace Lumio.CustomerPortal.Api
             modelBuilder.EntitySet<portal_order_import>("OrderImportsOdata").EntityType.HasKey(e => e.import_id);
             modelBuilder.EntitySet<om_order>("OrdersOdata").EntityType.HasKey(e => e.order_id);
             modelBuilder.EntitySet<BalanceTransactionListDto>("BalanceOdata").EntityType.HasKey(e => e.tx_id);
+            modelBuilder.EntitySet<store>("StoresOdata").EntityType.HasKey(e => e.store_id);
 
             return modelBuilder;
         }

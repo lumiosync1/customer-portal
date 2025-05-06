@@ -34,6 +34,7 @@
     "@syncfusion/ej2-angular-grids": "^29.1.33",
     "@syncfusion/ej2-angular-inputs": "^29.1.33",
     "@syncfusion/ej2-angular-popups": "^29.1.33",
+    "@syncfusion/ej2-angular-splitbuttons": "^29.1.33",
     "angular-datatables": "^18.0.0",
     "angular-in-memory-web-api": "^0.18.0",
     "animate.css": "4.1.1",

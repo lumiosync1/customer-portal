@@ -49,6 +49,21 @@ const Routing: Routes = [
       import('../modules/profile/change-password/change-password.component').then((c) => c.ChangePasswordComponent),
   },
   {
+    path: 'stores',
+    loadComponent: () =>
+      import('../modules/store/store-list/store-list.component').then((c) => c.StoreListComponent),
+  },
+  {
+    path: 'stores/add-ebay-nonapi',
+    loadComponent: () =>
+      import('../modules/store/store-add-ebaymip/store-add-ebaymip.component').then((c) => c.StoreAddEbaymipComponent),
+  },
+  {
+    path: 'stores/update-ebay-nonapi/:id',
+    loadComponent: () =>
+      import('../modules/store/store-update-ebaymip/store-update-ebaymip.component').then((c) => c.StoreUpdateEbaymipComponent),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',

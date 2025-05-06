@@ -1,0 +1,62 @@
+
+<div class="card mt-4">
+    <div class="card-header">
+      <h3 class="card-title">Stores</h3>
+      <div class="card-toolbar">
+        <button ejs-dropdownbutton [items]='markets' content="Add Store" 
+          cssClass="e-primary" iconCss="bi bi-plus fs-1">
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      
+      <ejs-grid #grid [dataSource]='data' id="_store-list"
+        allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
+        [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'created_at', direction: 'Descending' }] }"
+        [allowFiltering]='true' [filterSettings]='{type: "Menu"}'
+        allowTextWrap='true'
+       >
+        <e-columns>
+          <e-column field='store_id' headerText='ID' [visible]="false" textAlign='Right'></e-column>
+          <e-column field='store_name' headerText='Store Name' ></e-column>
+          <e-column field='market' headerText='Marketplace'
+          [filter]="{operators: [{ value: 'equal', text: 'Equal' }]}" >
+            <ng-template #template let-data>
+              <img [src]="getMarketLogo(data.market)" alt="Market Logo" class="market-logo">
+            </ng-template>
+            <ng-template #filterTemplate let-data>
+              <select class="form-select">
+                  <option value="">All</option>
+                  <option value="EbayMip">eBay NonAPI</option>
+                  <option value="Ebay">eBay API</option>
+                  <option value="Shopify">Shopify</option>
+              </select>
+          </ng-template>
+          </e-column>
+          <e-column field='supplier' headerText='Supplier' 
+          [filter]="{operators: [{ value: 'equal', text: 'Equal' }]}">
+            <ng-template #template let-data>
+              <img [src]="getSupplierLogo(data.supplier)" alt="Supplier Logo" class="supplier-logo">
+            </ng-template>
+            <ng-template #filterTemplate let-data>
+              <select class="form-select">
+                  <option value="">All</option>
+                  <option value="amazon">Amazon</option>
+              </select>
+          </ng-template>
+          </e-column>
+          <e-column field='created_at' headerText='Created Date' format="MM/dd/yyyy HH:mm" ></e-column>
+          <e-column headerText='Action' width="150">
+            <ng-template #template let-data>
+              <button class="btn btn-icon btn-light-primary me-2" (click)="goToEditPage(data)" title="Edit">
+                <i class="bi bi-pencil fs-2 ps-2"></i>
+              </button>
+              <button class="btn btn-icon btn-light-danger me-2" (click)="confirmDelete(data)" title="Delete">
+                <i class="bi bi-trash fs-2 "></i>
+              </button>
+            </ng-template>
+          </e-column> 
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>

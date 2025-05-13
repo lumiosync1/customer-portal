@@ -181,6 +181,22 @@ namespace Lumio.CustomerPortal.Services.Auth
             };
             mainDbContext.seller_settings.Add(trackingSettingRecord);
 
+            // default Break Even settings
+            BreakEvenSetting breakEvenSettings = new BreakEvenSetting()
+            {
+                MarketSaleFeePercentage = 0,
+                AdditionalFeeFixed = 0,
+                AdditionalFeePercentage = 0,
+                MinimalProfitFixed = 0,
+                MinimalProfitPercentage = null,
+            };
+            seller_setting breakEvenSettingRecord = new seller_setting()
+            {
+                seller_id = seller.seller_id,
+                feature = SettingFeatures.BreakEven,
+                settings = System.Text.Json.JsonSerializer.Serialize(breakEvenSettings),
+            };
+
             await mainDbContext.SaveChangesAsync();
         }
 

@@ -6,6 +6,8 @@ namespace Lumio.CustomerPortal.Services.Store
     {
         public IQueryable<store> GetStoreQueryable();
 
+        public Task<StoreCreateInitDataDto> InitDataCreateAsync();
+
         public Task<StoreListDto> CreateAsync(StoreCreateDto dto);
 
         public Task<StoreUpdateInitDataDto> InitDataUpdateAsync(int id);

@@ -7,6 +7,7 @@ import { StoreListDto } from './_models/StoreListDto';
 import { StoreUpdateDto } from './_models/StoreUpdateDto';
 import { BaseResponse } from '../shared/models/base-response.model';
 import { StoreUpdateInitDataDto } from './_models/StoreUpdateInitDataDto';
+import { StoreCreateInitDataDto } from './_models/StoreCreateInitDataDto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class StoreService {
   constructor(
     private http: HttpClient
   ) { }
+
+  initAddStore(): Observable<BaseResponse<StoreCreateInitDataDto>> {
+    return this.http.get<BaseResponse<StoreCreateInitDataDto>>(`${environment.backendUrl}/api/stores/init-data-create`);
+  }
 
   addStore(store: StoreCreateDto): Observable<BaseResponse<StoreListDto>> {
     return this.http.post<BaseResponse<StoreListDto>>(`${environment.backendUrl}/api/stores`, store);

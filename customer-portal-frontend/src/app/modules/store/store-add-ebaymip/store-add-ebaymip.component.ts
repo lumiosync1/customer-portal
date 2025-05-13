@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { LoadingService } from '../../shared/services/loading.service';
 import { finalize } from 'rxjs';
 import { StoreListDto } from '../_models/StoreListDto';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-store-add-ebaymip',
@@ -17,6 +18,7 @@ import { StoreListDto } from '../_models/StoreListDto';
     FormsModule,
     ReactiveFormsModule,
     NgIf,
+    RouterLink,
   ],
   templateUrl: './store-add-ebaymip.component.html',
   styleUrl: './store-add-ebaymip.component.scss'

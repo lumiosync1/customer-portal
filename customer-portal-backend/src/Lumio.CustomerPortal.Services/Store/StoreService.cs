@@ -2,6 +2,8 @@
 using Lumio.DataAccess;
 using Lumio.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Lumio.CustomerPortal.Services.Store
 {
@@ -22,6 +24,42 @@ namespace Lumio.CustomerPortal.Services.Store
                 .Where(s => s.seller_id == authService.CurrentUser.SellerId
                     && s.active)
                 .AsNoTracking();
+        }
+
+        public async Task<StoreCreateInitDataDto> InitDataCreateAsync()
+        {
+            StoreCreateInitDataDto dto = new StoreCreateInitDataDto();
+
+            seller seller = await dbContext.sellers
+                .Where(s => s.seller_id == authService.CurrentUser.SellerId)
+                .FirstOrDefaultAsync();
+
+            if (string.IsNullOrEmpty(seller.settings))
+            {
+                throw new Exception("You need a subscription to create a store. Please contact support.");
+            }
+
+            // Check if the seller has a store limit
+            JsonElement jSettings = JsonDocument.Parse(seller.settings).RootElement;
+            if (jSettings.TryGetProperty("MaxStores", out JsonElement jStoreSettings)
+                && jStoreSettings.TryGetInt32(out int maxStores))
+            {
+                int count = await dbContext.stores
+                    .Where(s => s.seller_id == authService.CurrentUser.SellerId
+                        && s.active)
+                    .CountAsync();
+
+                if (count >= maxStores)
+                {
+                    throw new Exception($"You have reached the maximum number of stores ({maxStores}). Please contact support.");
+                }
+            }
+            else
+            {
+                throw new Exception("Store limit not found.");
+            }
+
+            return dto;
         }
 
         public Task<StoreListDto> CreateAsync(StoreCreateDto dto)

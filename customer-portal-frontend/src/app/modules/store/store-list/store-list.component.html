@@ -4,7 +4,8 @@
       <h3 class="card-title">Stores</h3>
       <div class="card-toolbar">
         <button ejs-dropdownbutton [items]='markets' content="Add Store" 
-          cssClass="e-primary" iconCss="bi bi-plus fs-1">
+          cssClass="e-primary" iconCss="bi bi-plus fs-1"
+          (select)="goToAddPage($event)">
         </button>
       </div>
     </div>

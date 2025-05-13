@@ -6,7 +6,7 @@ import { LoadingService } from '../../shared/services/loading.service';
 import { StoreUpdateInitDataDto } from '../_models/StoreUpdateInitDataDto';
 import { finalize } from 'rxjs';
 import { BaseResponse, ResponseStatus } from '../../shared/models/base-response.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StoreUpdateDto } from '../_models/StoreUpdateDto';
 import { NgIf } from '@angular/common';
@@ -18,6 +18,7 @@ import { NgIf } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     NgIf,
+    RouterLink,
   ],
   templateUrl: './store-update-ebaymip.component.html',
   styleUrl: './store-update-ebaymip.component.scss'

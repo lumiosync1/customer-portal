@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth';
 import { PageInfoService } from 'src/app/_metronic/layout';
 import { StoreService } from '../store.service';
-import { DropDownButtonModule, ItemModel } from '@syncfusion/ej2-angular-splitbuttons';
+import { DropDownButtonModule, ItemModel, MenuEventArgs } from '@syncfusion/ej2-angular-splitbuttons';
 import { StoreListDto } from '../_models/StoreListDto';
 import { Router } from '@angular/router';
 import { Dialog, DialogUtility } from '@syncfusion/ej2-angular-popups';
@@ -13,6 +13,7 @@ import { finalize } from 'rxjs';
 import { BaseResponse, ResponseStatus } from '../../shared/models/base-response.model';
 import { ToastService } from '../../shared/services/toast.service';
 import { LoadingService } from '../../shared/services/loading.service';
+import { StoreCreateInitDataDto } from '../_models/StoreCreateInitDataDto';
 
 @Component({
   selector: 'app-store-list',
@@ -45,15 +46,39 @@ export class StoreListComponent {
   });
 
   markets: ItemModel[] = [
-    { text: 'eBay NonAPI', url: '/stores/add-ebay-nonapi' },
-    { text: 'eBay API', url: '/stores/add-ebay-api', disabled: true },
-    { text: 'Shopify', url: '/stores/add-shopify', disabled: true },
+    { text: 'eBay NonAPI' },
+    { text: 'eBay API', disabled: true },
+    { text: 'Shopify', disabled: true },
   ];
 
   private confirmDialog: Dialog;
 
   ngOnInit(): void {
     this.page.updateTitle('Stores');
+  }
+
+  goToAddPage(args: MenuEventArgs) {
+    this.loadingService.showLoading();
+    this.storeService.initAddStore()
+    .pipe(finalize(() => this.loadingService.hideLoading()))
+    .subscribe((response: BaseResponse<StoreCreateInitDataDto>) => {
+      if(response.Status !== ResponseStatus.Success) {
+        this.toast.showError(response.Message);
+        return;
+      }
+
+      switch (args.item.text) {
+        case 'eBay NonAPI':
+          this.router.navigate(['/stores/add-ebay-nonapi']);
+          break;
+        case 'eBay API':
+          this.router.navigate(['/stores/add-ebay-api']);
+          break;
+        case 'Shopify':
+          this.router.navigate(['/stores/add-shopify']);
+          break;
+      }
+    });
   }
 
   goToEditPage(store: StoreListDto) {

@@ -15,6 +15,27 @@ namespace Lumio.CustomerPortal.Api.Controllers
             this.storeService = storeService;
         }
 
+        [Route("init-data-create")]
+        [HttpGet]
+        public async Task<BaseResponse<StoreCreateInitDataDto>> InitDataCreateAsync(int id)
+        {
+            BaseResponse<StoreCreateInitDataDto> response = new BaseResponse<StoreCreateInitDataDto>();
+            try
+            {
+                response.Data = await storeService.InitDataCreateAsync();
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
+
         [HttpPost]
         public async Task<BaseResponse<StoreListDto>> CreateStoreAsync(StoreCreateDto dto)
         {

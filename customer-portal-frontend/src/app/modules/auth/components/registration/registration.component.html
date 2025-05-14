@@ -201,9 +201,10 @@
         'is-valid': f['planCode'].valid && f['planCode'].touched
       }">
         <option value="">-- Please select --</option>
+        <option>Starter</option>
         <option>Basic</option>
-        <option>Profressional</option>
-        <option>Elite</option>
+        <option>Advanced</option>
+        <option>Professional</option>
       </select>
       <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
         validation: 'required',

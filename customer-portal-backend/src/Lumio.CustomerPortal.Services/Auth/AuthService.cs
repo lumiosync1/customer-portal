@@ -7,6 +7,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Lumio.CustomerPortal.Services.Auth
 {
@@ -103,11 +105,14 @@ namespace Lumio.CustomerPortal.Services.Auth
 
         public async Task RegisterAsync(RegistrationDto dto)
         {
-            var settings = new
+            var plan = await mainDbContext.subscription_plans
+                .Where(p => p.plan_code == dto.PlanCode)
+                .FirstOrDefaultAsync();
+            if (plan == null)
             {
-                PlanCode = dto.PlanCode,
-            };
-            string settingStr = System.Text.Json.JsonSerializer.Serialize(settings);
+                throw new Exception("Plan not found.");
+            }
+
             // create new seller
             seller seller = new seller()
             {
@@ -115,7 +120,7 @@ namespace Lumio.CustomerPortal.Services.Auth
                 billing_address = dto.BillingAddress,
                 site = dto.Site,
                 active = true,
-                settings = settingStr,
+                settings = plan.settings,
                 selling_platforms = dto.SellingPlatforms,
                 created_at = DateTime.UtcNow,
                 created_by = "portal",

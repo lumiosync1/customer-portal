@@ -46,6 +46,7 @@ namespace Lumio.CustomerPortal.Api.Controllers
             BaseResponse<string> response = new BaseResponse<string>();
             try
             {
+                dto.UserName = dto.UserName.Trim().ToLower();
                 await authService.RegisterAsync(dto);
                 response.Data = "Success";
                 response.Status = ResponseStatus.Success;

@@ -42,6 +42,7 @@ namespace Lumio.CustomerPortal.Api.Controllers
             BaseResponse<StoreListDto> response = new BaseResponse<StoreListDto>();
             try
             {
+                dto.store_name = dto.store_name.Trim().ToLower();
                 response.Data = await storeService.CreateAsync(dto);
                 response.Status = ResponseStatus.Success;
                 return response;

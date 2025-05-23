@@ -15,6 +15,8 @@
                     <option value="AllToLumio">All To LumiosTrack (Basic - free)</option>
                     <option value="AmazonToLumio">Amazon To LumiosTrack (Basic - free)</option>
                     <option value="ShipperStore">LumiosTrack Pro (paid)</option>
+                    <option value="AllToAquiline">All To Aquiline (paid)</option>
+                    <option value="AmazonToAquiline">Amazon To Aquiline (paid)</option>
                 </select>
                 <div *ngIf="formGroup.controls['ConversionMethod'].hasError('required')" class="invalid-feedback">Please enter value</div>
                 
@@ -31,6 +33,8 @@
                             <li><strong>All To LumiosTrack (Basic - free)</strong>: All orders are converted to LumiosTrack</li>
                             <li><strong>Amazon To LumiosTrack (Basic - free)</strong>: Only Amazon (FBA) orders are converted to LumiosTrack</li>
                             <li><strong>LumiosTrack Pro (paid)</strong>: Depends on availability - all tracking numbers will be converted to valid USPS/UPS/FedEx tracking numbers</li>
+                            <li><strong>All To Aquiline (paid)</strong>: Amazon, USPS, UPS, FedEx orders are converted to Aquiline</li>
+                            <li><strong>Amazon To Aquiline (paid)</strong>: Only Amazon (FBA) orders are converted to Aquiline</li>
                         </ul>
                         <!--end::Content-->
                     </div>

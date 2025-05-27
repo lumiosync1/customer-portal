@@ -201,6 +201,7 @@ namespace Lumio.CustomerPortal.Services.Auth
                 feature = SettingFeatures.BreakEven,
                 settings = System.Text.Json.JsonSerializer.Serialize(breakEvenSettings),
             };
+            mainDbContext.seller_settings.Add(breakEvenSettingRecord);
 
             await mainDbContext.SaveChangesAsync();
         }

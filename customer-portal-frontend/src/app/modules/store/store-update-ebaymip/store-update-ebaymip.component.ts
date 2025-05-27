@@ -1,12 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { PageInfoService } from 'src/app/_metronic/layout';
+import { Component, inject, Input } from '@angular/core';
 import { StoreService } from '../store.service';
 import { ToastService } from '../../shared/services/toast.service';
 import { LoadingService } from '../../shared/services/loading.service';
 import { StoreUpdateInitDataDto } from '../_models/StoreUpdateInitDataDto';
 import { finalize } from 'rxjs';
 import { BaseResponse, ResponseStatus } from '../../shared/models/base-response.model';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StoreUpdateDto } from '../_models/StoreUpdateDto';
 import { NgIf } from '@angular/common';
@@ -24,37 +23,15 @@ import { NgIf } from '@angular/common';
   styleUrl: './store-update-ebaymip.component.scss'
 })
 export class StoreUpdateEbaymipComponent {
-  private page = inject(PageInfoService);
+  @Input() initData: StoreUpdateInitDataDto;
   private storeService = inject(StoreService);
   private toast = inject(ToastService);
   private loadingService = inject(LoadingService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
 
-  private storeId: number;
-
-  initData: StoreUpdateInitDataDto;
   formGroup: FormGroup;
 
   ngOnInit(): void {
-    this.page.updateTitle('Update Store (eBay NonAPI)');
-    this.storeId = this.route.snapshot.params['id'];
-    this.loadData();
-  }
-
-  loadData() {
-    this.loadingService.showLoading();
-    this.storeService.initUpdateStore(this.storeId)
-    .pipe(finalize(() => this.loadingService.hideLoading()))
-    .subscribe((response: BaseResponse<StoreUpdateInitDataDto>) => {
-      if(response.Status !== ResponseStatus.Success) {
-        this.toast.showError(response.Message);
-        return;
-      }
-
-      this.initData = response.Data;
-      this.createForm();
-    });
+    this.createForm();
   }
 
   createForm(): void {
@@ -76,7 +53,7 @@ export class StoreUpdateEbaymipComponent {
 
     const formValue = this.formGroup.value;
     const dto: StoreUpdateDto = {
-      store_id: this.storeId,
+      store_id: this.initData.Store.store_id,
       store_name: this.initData.Store.store_name,
       market: this.initData.Store.market,
       supplier: formValue.supplier,
@@ -93,8 +70,7 @@ export class StoreUpdateEbaymipComponent {
         return;
       }
 
-      this.toast.showSuccess('Store updated successfully');
-      this.router.navigate(['/stores']);
+      this.toast.showSuccess('Updated successfully');
     });
   }
 }

@@ -1,8 +1,10 @@
 <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Update Store (eBay NonAPI)</h3>
+      <h3 class="card-title">General</h3>
       <div class="card-toolbar">
-        <a [routerLink]="['/stores']" class="btn btn-sm btn-light">Cancel</a>
+        <a [routerLink]="['/stores']" class="btn btn-sm btn-light">
+          <i class="bi bi-arrow-left fs-3"></i> Back
+        </a>
       </div>
     </div>
     <div class="card-body">
@@ -36,7 +38,9 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Submit</button>
+        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
+          <i class="bi bi-floppy fs-3"></i> Save
+        </button>
       </form>
     </div>
   </div>

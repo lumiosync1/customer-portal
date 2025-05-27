@@ -49,9 +49,9 @@
           <e-column field='created_at' headerText='Created Date' format="MM/dd/yyyy HH:mm" ></e-column>
           <e-column headerText='Action' width="150">
             <ng-template #template let-data>
-              <button class="btn btn-icon btn-light-primary me-2" (click)="goToEditPage(data)" title="Edit">
+              <a class="btn btn-icon btn-light-primary me-2" [routerLink]="['/stores', data.store_id]" title="Edit">
                 <i class="bi bi-pencil fs-2 ps-2"></i>
-              </button>
+              </a>
               <button class="btn btn-icon btn-light-danger me-2" (click)="confirmDelete(data)" title="Delete">
                 <i class="bi bi-trash fs-2 "></i>
               </button>

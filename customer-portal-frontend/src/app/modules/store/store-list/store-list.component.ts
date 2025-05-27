@@ -14,6 +14,7 @@ import { BaseResponse, ResponseStatus } from '../../shared/models/base-response.
 import { ToastService } from '../../shared/services/toast.service';
 import { LoadingService } from '../../shared/services/loading.service';
 import { StoreCreateInitDataDto } from '../_models/StoreCreateInitDataDto';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-store-list',
@@ -21,6 +22,7 @@ import { StoreCreateInitDataDto } from '../_models/StoreCreateInitDataDto';
   imports: [
     GridModule,
     DropDownButtonModule,
+    RouterLink,
   ],
   providers: [SortService, FilterService, PageService],
   templateUrl: './store-list.component.html',

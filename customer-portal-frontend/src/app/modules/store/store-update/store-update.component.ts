@@ -11,11 +11,12 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { StoreUpdateDto } from '../_models/StoreUpdateDto';
 import { NgIf } from '@angular/common';
 import { StoreUpdateEbaymipComponent } from "../store-update-ebaymip/store-update-ebaymip.component";
+import { StoreLocationComponent } from "../_components/store-location/store-location.component";
 
 @Component({
   selector: 'app-store-update',
   standalone: true,
-  imports: [StoreUpdateEbaymipComponent],
+  imports: [StoreUpdateEbaymipComponent, StoreLocationComponent],
   templateUrl: './store-update.component.html',
   styleUrl: './store-update.component.scss'
 })
@@ -26,7 +27,7 @@ export class StoreUpdateComponent {
   private loadingService = inject(LoadingService);
   private route = inject(ActivatedRoute);
 
-  private storeId: number;
+  storeId: number;
 
   initData: StoreUpdateInitDataDto;
   formGroup: FormGroup;

@@ -1,4 +1,5 @@
 ﻿using Lumio.CustomerPortal.Services.Store;
+using Lumio.Domain.Store;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -107,6 +108,49 @@ namespace Lumio.CustomerPortal.Api.Controllers
             try
             {
                 await storeService.DeleteAsync(id);
+                response.Data = "Success";
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
+
+        [Route("{id}/address")]
+        [HttpGet]
+        public async Task<BaseResponse<StoreAddress>> GetStoreAddressAsync(int id)
+        {
+            BaseResponse<StoreAddress> response = new BaseResponse<StoreAddress>();
+            try
+            {
+                response.Data = await storeService.GetStoreAddressAsync(id);
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
+
+        [Route("{id}/address")]
+        [HttpPut]
+        public async Task<BaseResponse<string>> UpdateStoreAddressAsync(int id, [FromBody]StoreAddress storeAddress)
+        {
+            BaseResponse<string> response = new BaseResponse<string>();
+            try
+            {
+                await storeService.UpdateStoreAddressAsync(id, storeAddress);
                 response.Data = "Success";
                 response.Status = ResponseStatus.Success;
                 return response;

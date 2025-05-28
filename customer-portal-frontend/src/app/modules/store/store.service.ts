@@ -8,6 +8,7 @@ import { StoreUpdateDto } from './_models/StoreUpdateDto';
 import { BaseResponse } from '../shared/models/base-response.model';
 import { StoreUpdateInitDataDto } from './_models/StoreUpdateInitDataDto';
 import { StoreCreateInitDataDto } from './_models/StoreCreateInitDataDto';
+import { StoreAddress } from './_models/StoreAddress';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,13 @@ export class StoreService {
 
   getSupplierLogo(supplier: string): string {
     return `assets/media/suppliers/${supplier}.png`;
+  }
+
+  getStoreAddress(storeId: number): Observable<BaseResponse<StoreAddress>> {
+    return this.http.get<BaseResponse<StoreAddress>>(`${environment.backendUrl}/api/stores/${storeId}/address`);
+  }
+
+  updateStoreAddress(storeId: number, address: StoreAddress): Observable<BaseResponse<string>> {
+    return this.http.put<BaseResponse<string>>(`${environment.backendUrl}/api/stores/${storeId}/address`, address);
   }
 }

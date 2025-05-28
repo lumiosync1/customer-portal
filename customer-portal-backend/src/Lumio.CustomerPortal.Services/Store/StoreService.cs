@@ -1,6 +1,7 @@
 ﻿using Lumio.CustomerPortal.Services.Auth;
 using Lumio.DataAccess;
 using Lumio.Domain.Entities;
+using Lumio.Domain.Store;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -77,7 +78,7 @@ namespace Lumio.CustomerPortal.Services.Store
                 api_key = dto.api_key,
                 settings = dto.settings,
             };
-            
+
             dbContext.stores.Add(store);
             dbContext.SaveChanges();
 
@@ -128,11 +129,48 @@ namespace Lumio.CustomerPortal.Services.Store
         {
             await dbContext.stores
                 .Where(s => s.store_id == id && s.seller_id == authService.CurrentUser.SellerId)
-                .ExecuteUpdateAsync(s => 
+                .ExecuteUpdateAsync(s =>
                     s.SetProperty(s => s.active, false)
                     .SetProperty(s => s.updated_by, authService.CurrentUser.UserName)
                     .SetProperty(s => s.updated_at, DateTime.UtcNow)
                 );
+        }
+
+        public async Task<StoreAddress> GetStoreAddressAsync(int id)
+        {
+            var setting = await dbContext.store_settings
+                .Where(s => s.store_id == id
+                    && s.feature == SettingFeatures.StoreAddress)
+                .FirstOrDefaultAsync();
+
+            if (setting == null)
+            {
+                return null;
+            }
+
+            StoreAddress storeAddress = JsonSerializer.Deserialize<StoreAddress>(setting.settings);
+
+            return storeAddress;
+        }
+
+        public async Task UpdateStoreAddressAsync(int id, StoreAddress storeAddress)
+        {
+            var setting = dbContext.store_settings
+                .Where(s => s.store_id == id
+                    && s.feature == SettingFeatures.StoreAddress)
+                .FirstOrDefault();
+            if (setting == null)
+            {
+                setting = new store_setting
+                {
+                    store_id = id,
+                    feature = SettingFeatures.StoreAddress,
+                };
+                dbContext.store_settings.Add(setting);
+            }
+            setting.settings = JsonSerializer.Serialize(storeAddress);
+
+            await dbContext.SaveChangesAsync();
         }
     }
 }

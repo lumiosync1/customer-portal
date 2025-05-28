@@ -1,1 +1,80 @@
-<p>store-location works!</p>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Store Address</h3>
+    </div>
+    <div class="card-body">
+        @if(formGroup) {
+            <form [formGroup]="formGroup" (ngSubmit)="submit()">
+                <div class="row mb-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label class="form-label required">First Name</label>
+                        <input type="text" class="form-control" formControlName="FirstName"
+                        [class.is-valid]="formGroup.controls['FirstName'].valid && (formGroup.controls['FirstName'].dirty || formGroup.controls['FirstName'].touched)"
+                        [class.is-invalid]="formGroup.controls['FirstName'].invalid && (formGroup.controls['FirstName'].dirty || formGroup.controls['FirstName'].touched)">
+                        <div *ngIf="formGroup.controls['FirstName'].hasError('required')" class="invalid-feedback">This field is required</div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label class="form-label required">Last Name</label>
+                        <input type="text" class="form-control" formControlName="LastName"
+                        [class.is-valid]="formGroup.controls['LastName'].valid && (formGroup.controls['LastName'].dirty || formGroup.controls['LastName'].touched)"
+                        [class.is-invalid]="formGroup.controls['LastName'].invalid && (formGroup.controls['LastName'].dirty || formGroup.controls['LastName'].touched)">
+                        <div *ngIf="formGroup.controls['LastName'].hasError('required')" class="invalid-feedback">This field is required</div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label class="form-label required">Address 1</label>
+                        <input type="text" class="form-control" formControlName="Address1"
+                        [class.is-valid]="formGroup.controls['Address1'].valid && (formGroup.controls['Address1'].dirty || formGroup.controls['Address1'].touched)"
+                        [class.is-invalid]="formGroup.controls['Address1'].invalid && (formGroup.controls['Address1'].dirty || formGroup.controls['Address1'].touched)">
+                        <div *ngIf="formGroup.controls['Address1'].hasError('required')" class="invalid-feedback">This field is required</div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label class="form-label">Address 2</label>
+                        <input type="text" class="form-control" formControlName="Address2">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label class="form-label required">City</label>
+                        <input type="text" class="form-control" formControlName="City"
+                        [class.is-valid]="formGroup.controls['City'].valid && (formGroup.controls['City'].dirty || formGroup.controls['City'].touched)"
+                        [class.is-invalid]="formGroup.controls['City'].invalid && (formGroup.controls['City'].dirty || formGroup.controls['City'].touched)">
+                        <div *ngIf="formGroup.controls['City'].hasError('required')" class="invalid-feedback">This field is required</div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label class="form-label required">State</label>
+                        <select class="form-select" formControlName="State"
+                        [class.is-valid]="formGroup.controls['State'].valid && (formGroup.controls['State'].dirty || formGroup.controls['State'].touched)"
+                        [class.is-invalid]="formGroup.controls['State'].invalid && (formGroup.controls['State'].dirty || formGroup.controls['State'].touched)">
+                            <option value="">-- Please select --</option>
+                            @for(state of states; track $index) {
+                                <option [value]="state.Key">{{state.Value}}</option>
+                            }
+                        </select>
+                        <div *ngIf="formGroup.controls['State'].hasError('required')" class="invalid-feedback">This field is required</div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label class="form-label required">Zip Code</label>
+                        <input type="text" class="form-control" formControlName="ZipCode"
+                        [class.is-valid]="formGroup.controls['ZipCode'].valid && (formGroup.controls['ZipCode'].dirty || formGroup.controls['ZipCode'].touched)"
+                        [class.is-invalid]="formGroup.controls['ZipCode'].invalid && (formGroup.controls['ZipCode'].dirty || formGroup.controls['ZipCode'].touched)">
+                        <div *ngIf="formGroup.controls['ZipCode'].hasError('required')" class="invalid-feedback">This field is required</div>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label class="form-label required">Phone Number</label>
+                        <input type="text" class="form-control" formControlName="PhoneNumber"
+                        [class.is-valid]="formGroup.controls['PhoneNumber'].valid && (formGroup.controls['PhoneNumber'].dirty || formGroup.controls['PhoneNumber'].touched)"
+                        [class.is-invalid]="formGroup.controls['PhoneNumber'].invalid && (formGroup.controls['PhoneNumber'].dirty || formGroup.controls['PhoneNumber'].touched)">
+                        <div *ngIf="formGroup.controls['PhoneNumber'].hasError('required')" class="invalid-feedback">This field is required</div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
+                    <i class="bi bi-floppy fs-3"></i> Save Address
+                </button>
+            </form>
+        }
+    </div>
+</div>

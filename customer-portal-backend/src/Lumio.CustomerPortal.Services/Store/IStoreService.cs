@@ -1,4 +1,5 @@
 ﻿using Lumio.Domain.Entities;
+using Lumio.Domain.Store;
 
 namespace Lumio.CustomerPortal.Services.Store
 {
@@ -15,5 +16,9 @@ namespace Lumio.CustomerPortal.Services.Store
         public Task UpdateAsync(StoreUpdateDto dto);
 
         public Task DeleteAsync(int id);
+
+        public Task<StoreAddress> GetStoreAddressAsync(int id);
+
+        public Task UpdateStoreAddressAsync(int id, StoreAddress storeAddress);
     }
 }

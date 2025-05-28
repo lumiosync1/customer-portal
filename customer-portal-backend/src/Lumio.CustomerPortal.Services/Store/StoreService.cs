@@ -155,6 +155,8 @@ namespace Lumio.CustomerPortal.Services.Store
 
         public async Task UpdateStoreAddressAsync(int id, StoreAddress storeAddress)
         {
+            storeAddress.Country = authService.CurrentUser.Site;
+
             var setting = dbContext.store_settings
                 .Where(s => s.store_id == id
                     && s.feature == SettingFeatures.StoreAddress)

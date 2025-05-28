@@ -54,14 +54,14 @@ const Routing: Routes = [
       import('../modules/store/store-list/store-list.component').then((c) => c.StoreListComponent),
   },
   {
-    path: 'stores/:id',
-    loadComponent: () =>
-      import('../modules/store/store-update/store-update.component').then((c) => c.StoreUpdateComponent),
-  },
-  {
     path: 'stores/add-ebay-nonapi',
     loadComponent: () =>
       import('../modules/store/store-add-ebaymip/store-add-ebaymip.component').then((c) => c.StoreAddEbaymipComponent),
+  },
+  {
+    path: 'stores/:id',
+    loadComponent: () =>
+      import('../modules/store/store-update/store-update.component').then((c) => c.StoreUpdateComponent),
   },
   {
     path: 'stores/update-ebay-nonapi/:id',

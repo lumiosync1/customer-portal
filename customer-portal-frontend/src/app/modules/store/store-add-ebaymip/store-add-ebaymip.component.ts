@@ -64,7 +64,7 @@ export class StoreAddEbaymipComponent {
       }
 
       this.toast.showSuccess('Store added successfully');
-      this.router.navigate(['/stores']);
+      this.router.navigate(['/stores', response.Data.store_id]);
     });
   }
 }

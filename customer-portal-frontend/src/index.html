@@ -14,6 +14,22 @@
 
   <!-- Syncfusion styles -->
   <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/27.1.48/bootstrap5.3.css?_gl=1*bnt725*_gcl_au*ODEyMDUxOTQ4LjE3MzQ3OTQ0MDI.*_ga*MTk5MDc4MjU0NS4xNzM0Nzk0Mjky*_ga_41J4HFMX1J*MTczNTAwNjUxOC4zLjEuMTczNTAxMTQwMC4wLjAuMA..">
+
+  <!-- Start of Crypto JS -->
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"
+  integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+  ></script>
+
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/hmac-sha256.min.js"
+  integrity="sha512-HMqYytekgCbPoNWBm9oazvuOJ8sFpw+FWBHRi2QM0f/bV5djDV1sRzWzu5Jq7MAUlm+zDAUCgi/vHBBlUGLroQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+  ></script>
+  <!-- End of Crypto JS -->
 </head>
 
 <body root id="kt_body" class="mat-typography">
@@ -46,14 +62,32 @@
 
   <!--Start of Tawk.to Script-->
 <script type="text/javascript">
+  function hashInBase64(userId){
+    var hash = CryptoJS.HmacSHA256(userId, '71d4909f7680f8fbd30295a47152262e2221af70');
+    return CryptoJS.enc.Hex.stringify(hash);
+  }
+
   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
   setTimeout(function() {
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[2];
     s1.async=true;
     s1.src='https://embed.tawk.to/68413df4ae7c77190c9a84e6/1isvdk15d';
     s1.charset='UTF-8';
     s1.setAttribute('crossorigin','*');
     document.body.insertBefore(s1,s0);
+
+    Tawk_API.onLoad = function(){
+      const authContent = localStorage.getItem('v8.2.4-authf649fc9a5f55');
+      if(authContent) {
+        const auth = JSON.parse(authContent);
+        const hash = hashInBase64(auth.User.UserName);
+        Tawk_API.setAttributes({
+          'name' : auth.User.UserName,
+          'email' : auth.User.Email || auth.User.UserName,
+          'hash' : hash
+        }, function (error) {console.error(error)});
+      }
+    };
   }, 3000);
 </script>
 <!--End of Tawk.to Script-->

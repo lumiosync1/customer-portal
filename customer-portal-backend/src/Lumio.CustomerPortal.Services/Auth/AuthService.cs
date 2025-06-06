@@ -61,6 +61,7 @@ namespace Lumio.CustomerPortal.Services.Auth
                 UserId = user.user_id,
                 SellerId = user.seller_id,
                 UserName = user.user_name,
+                Email = user.email,
                 Role = user.role,
                 Site = seller.site,
             };

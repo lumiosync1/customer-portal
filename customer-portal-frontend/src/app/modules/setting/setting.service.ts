@@ -37,4 +37,12 @@ export class SettingService {
   updateTrackingSetting(trackingSetting: TrackingSetting): Observable<BaseResponse<TrackingSetting>> {
     return this.http.post<BaseResponse<TrackingSetting>>(`${environment.backendUrl}/api/settings/tracking`, trackingSetting);
   }
+
+  getPayoneerSources(): Observable<BaseResponse<string[]>> {
+    return this.http.get<BaseResponse<string[]>>(`${environment.backendUrl}/api/settings/payoneer-sources`);
+  }
+
+  updatePayoneerSources(sources: string[]): Observable<BaseResponse<string>> {
+    return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/settings/payoneer-sources`, sources);
+  }
 }

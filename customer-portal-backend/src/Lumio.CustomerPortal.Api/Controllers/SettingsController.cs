@@ -143,5 +143,48 @@ namespace Lumio.CustomerPortal.Api.Controllers
                 return response;
             }
         }
+
+        [Route("payoneer-sources")]
+        [HttpGet]
+        public async Task<BaseResponse<List<string>>> GetPayoneerSourcesAsync()
+        {
+            BaseResponse<List<string>> response = new BaseResponse<List<string>>();
+            try
+            {
+                response.Data = await settingService.GetPayoneerSourcesAsync();
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
+
+        [Route("payoneer-sources")]
+        [HttpPost]
+        public async Task<BaseResponse<string>> UpdatePayoneerSourcesAsync(List<string> sources)
+        {
+            BaseResponse<string> response = new BaseResponse<string>();
+            try
+            {
+                await settingService.UpdatePayoneerSourcesAsync(sources);
+                response.Data = "Success";
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
     }
 }

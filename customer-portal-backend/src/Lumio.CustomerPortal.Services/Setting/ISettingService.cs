@@ -15,5 +15,9 @@ namespace Lumio.CustomerPortal.Services.Setting
         public Task<TrackingSetting?> GetTrackingSettingAsync();
 
         public Task UpdateTrackingSettingAsync(TrackingSetting setting);
+
+        public Task<List<string>> GetPayoneerSourcesAsync();
+
+        public Task UpdatePayoneerSourcesAsync(List<string> sources);
     }
 }

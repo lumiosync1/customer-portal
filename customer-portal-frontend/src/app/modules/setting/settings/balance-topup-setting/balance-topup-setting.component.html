@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <h4 class="modal-title" >Payoneer Sources</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <form class="form mb-4" (ngSubmit)="addSource()">
+        <div class="d-flex">
+            <input type="text" class="form-control form-control-sm me-2" 
+                name="source"
+                [(ngModel)]="newSource" placeholder="Payoneer name">
+            <button class="btn btn-primary btn-sm" type="submit">Add</button>
+        </div>
+        <div class="form-text">Please enter your Payoneer name (not email) for our system to detect your topup transactions. You can register multiple Payoneer names which you use to transfer funds to our account.</div>
+    </form>
+    @for(source of sources; track $index) {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ source }}
+            <button type="button" class="btn-close" (click)="removeSource($index)" aria-label="Close"></button>
+        </div>
+    }
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Close</button>
+    <button class="btn btn-primary" (click)="onSubmit()">
+        <i class="bi bi-floppy fs-3"></i> Save
+    </button>
+</div>

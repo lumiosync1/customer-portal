@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BreakEvenSettingComponent } from './break-even-setting/break-even-setting.component';
 import { PurchaseSettingComponent } from './purchase-setting/purchase-setting.component';
 import { TrackingSettingComponent } from './tracking-setting/tracking-setting.component';
+import { BalanceTopupSettingComponent } from './balance-topup-setting/balance-topup-setting.component';
 import { PageInfoService } from 'src/app/_metronic/layout';
 
 @Component({
@@ -30,5 +31,9 @@ export class SettingsComponent {
 
   openTrackingSetting() {
     const modalRef = this.modalService.open(TrackingSettingComponent, { backdrop: 'static', scrollable: true });
+  }
+
+  openBalanceTopupSetting() {
+    const modalRef = this.modalService.open(BalanceTopupSettingComponent, { backdrop: 'static', scrollable: true });
   }
 }

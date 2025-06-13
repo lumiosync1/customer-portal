@@ -125,5 +125,39 @@ namespace Lumio.CustomerPortal.Services.Setting
             record.settings = JsonSerializer.Serialize(setting);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task<List<string>> GetPayoneerSourcesAsync()
+        {
+            string? settingRaw = await dbContext.seller_settings
+                .Where(s => s.seller_id == authService.CurrentUser.SellerId
+                    && s.feature == SettingFeatures.PayoneerSources)
+                .Select(s => s.settings)
+                .FirstOrDefaultAsync();
+            if (string.IsNullOrEmpty(settingRaw))
+            {
+                return new List<string>();
+            }
+
+            return JsonSerializer.Deserialize<List<string>>(settingRaw);
+        }
+
+        public async Task UpdatePayoneerSourcesAsync(List<string> sources)
+        {
+            seller_setting? record = await dbContext.seller_settings
+                .Where(s => s.seller_id == authService.CurrentUser.SellerId
+                    && s.feature == SettingFeatures.PayoneerSources)
+                .FirstOrDefaultAsync();
+            if (record == null)
+            {
+                record = new seller_setting()
+                {
+                    seller_id = authService.CurrentUser.SellerId,
+                    feature = SettingFeatures.PayoneerSources,
+                };
+                dbContext.seller_settings.Add(record);
+            }
+            record.settings = JsonSerializer.Serialize(sources);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

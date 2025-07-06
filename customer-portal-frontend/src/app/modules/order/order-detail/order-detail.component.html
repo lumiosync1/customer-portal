@@ -46,6 +46,12 @@
             <div class="card-body position-relative">
                 <table class="table table-sm table-condensed table-row-bordered">
                     <tbody>
+                        @if (orderDetail.StoreName) {
+                            <tr>
+                                <th>Store Name</th>
+                                <td>{{orderDetail.StoreName}}</td>
+                            </tr>
+                        }
                         <tr>
                             <th>Sale Date</th>
                             <td>{{orderDetail.SaleDate | date:'dd/MM/yyyy'}}</td>

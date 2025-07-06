@@ -15,7 +15,7 @@ namespace Lumio.CustomerPortal.Api.Controllers
         }
 
         [EnableQuery]
-        public IQueryable<om_order> Get()
+        public IQueryable<OrderListDto> Get()
         {
             return orderService.GetOrdersQueryable();
         }

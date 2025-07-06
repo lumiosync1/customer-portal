@@ -1,5 +1,6 @@
 export interface OrderDetailDto {
     OrderId: number;
+    StoreName: string | null;
     OrderNumber: string;
     SaleDate: string;
     CreatedDate: string;

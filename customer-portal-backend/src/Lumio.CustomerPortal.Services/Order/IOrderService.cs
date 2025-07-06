@@ -8,7 +8,7 @@ namespace Lumio.CustomerPortal.Services.Order
         public Task<portal_order_import> CreateOrderImportAsync(string fileName);
         public Task<OrderDetailDto> GetOrderDetailAsync(int orderId);
 
-        public IQueryable<om_order> GetOrdersQueryable();
+        public IQueryable<OrderListDto> GetOrdersQueryable();
 
         public Task RemoveOrderAsync(int orderId);
 

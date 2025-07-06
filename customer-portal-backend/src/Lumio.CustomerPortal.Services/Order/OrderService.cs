@@ -21,11 +21,23 @@ namespace Lumio.CustomerPortal.Services.Order
             this.orderManager = orderManager;
         }
 
-        public IQueryable<om_order> GetOrdersQueryable()
+        public IQueryable<OrderListDto> GetOrdersQueryable()
         {
-            return dbContext.om_orders
-                .Where(e => e.seller_id == authService.CurrentUser.SellerId)
-                .AsNoTracking();
+            string sql = $@"SELECT o.order_id
+	,o.market_order_number
+	,o.created_at
+	,o.sale_date
+	,o.item_title
+	,o.quantity
+	,o.market_total_price
+	,o.order_status
+	,s.store_name
+FROM om_orders o
+LEFT OUTER JOIN stores s ON o.store_id = s.store_id
+WHERE TRUE
+AND o.seller_id = {authService.CurrentUser.SellerId}";
+
+            return dbContext.Database.SqlQueryRaw<OrderListDto>(sql);
         }
 
         public IQueryable<portal_order_import> GetOrderImportsQueryable()
@@ -73,6 +85,14 @@ namespace Lumio.CustomerPortal.Services.Order
                 .ToListAsync();
             
             var dto = order.ToOrderDetailDto();
+
+            if (order.store_id.HasValue)
+            {
+                dto.StoreName = await dbContext.stores
+                    .Where(s => s.store_id == order.store_id.Value)
+                    .Select(s => s.store_name)
+                    .FirstOrDefaultAsync();
+            }
 
             foreach (var attempt in attempts)
             {

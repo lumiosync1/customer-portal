@@ -2,6 +2,7 @@ using Amazon.S3;
 using Lumio.Balance;
 using Lumio.CustomerPortal.Services.Auth;
 using Lumio.CustomerPortal.Services.Balance;
+using Lumio.CustomerPortal.Services.Order;
 using Lumio.CustomerPortal.Services.Seller;
 using Lumio.DataAccess;
 using Lumio.Domain.Entities;
@@ -109,7 +110,7 @@ namespace Lumio.CustomerPortal.Api
             var modelBuilder = new ODataConventionModelBuilder();
             modelBuilder.EntitySet<seller>("SellersOdata").EntityType.HasKey(e => e.seller_id);
             modelBuilder.EntitySet<portal_order_import>("OrderImportsOdata").EntityType.HasKey(e => e.import_id);
-            modelBuilder.EntitySet<om_order>("OrdersOdata").EntityType.HasKey(e => e.order_id);
+            modelBuilder.EntitySet<OrderListDto>("OrdersOdata").EntityType.HasKey(e => e.order_id);
             modelBuilder.EntitySet<BalanceTransactionListDto>("BalanceOdata").EntityType.HasKey(e => e.tx_id);
             modelBuilder.EntitySet<store>("StoresOdata").EntityType.HasKey(e => e.store_id);
 

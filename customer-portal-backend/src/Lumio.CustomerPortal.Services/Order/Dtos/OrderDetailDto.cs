@@ -29,6 +29,8 @@
         public string ShipToZip { get; set; }
         public string ShipToCountry { get; set; }
 
+        public string? StoreName { get; set; }
+
         public PurchaseDto? Purchase { get; set; }
         public TrackingDto? Tracking { get; set; }
         public List<PurchaseAttemptDto>? PurchaseAttempts { get; set; } = new List<PurchaseAttemptDto>();

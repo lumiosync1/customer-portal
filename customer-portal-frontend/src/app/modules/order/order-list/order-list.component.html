@@ -3,7 +3,7 @@
 <div class="card mt-4">
     
     <div class="card-body">
-      <ejs-grid #grid [dataSource]='data' id="_order-list-001"
+      <ejs-grid #grid [dataSource]='data' id="_order-list-003"
         allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
         [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'order_id', direction: 'Descending' }] }"
         [allowFiltering]='true' [filterSettings]='{type: "Menu"}'
@@ -14,7 +14,7 @@
        >
         <e-columns>
             <e-column field='order_id' headerText='ID' textAlign='Right' width="100"></e-column>
-            <e-column field='store_name' headerText='Store' textAlign='Right' type="string" width="120"></e-column>
+            <e-column field='store_name' headerText='Store' type="String" width="120"></e-column>
             <e-column field='market_order_number' headerText='Ref. No.' width="150"></e-column>
             <e-column field='item_title' headerText='Item' width="300">
                 <ng-template #template let-data>
@@ -43,7 +43,7 @@
             </e-column>
             <e-column field='sale_date' headerText='Sale Date' format="MM/dd/yyyy" width="120" ></e-column>
             <e-column field='created_at' headerText='Created Date' format="MM/dd/yyyy HH:mm" width="120" ></e-column>
-            <e-column field='quantity' headerText='Quantity' textAlign="Right" width="150" ></e-column>
+            <e-column field='quantity' headerText='Quantity' textAlign='Right' width="150" ></e-column>
             <e-column field='market_total_price' headerText='Total Price' textAlign='Right' width="120">
                 <ng-template #template let-data>
                     {{data.market_total_price | currency:currency}}

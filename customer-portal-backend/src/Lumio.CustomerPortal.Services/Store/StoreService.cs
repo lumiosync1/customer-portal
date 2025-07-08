@@ -65,6 +65,17 @@ namespace Lumio.CustomerPortal.Services.Store
 
         public Task<StoreListDto> CreateAsync(StoreCreateDto dto)
         {
+            var existing = dbContext.stores
+                .Where(s => s.store_name == dto.store_name
+                    && s.seller_id == authService.CurrentUser.SellerId
+                    && s.market == dto.market
+                    && s.active)
+                .FirstOrDefault();
+            if (existing != null)
+            {
+                throw new Exception("Store with the same name and market already exists.");
+            }
+
             store store = new store()
             {
                 seller_id = authService.CurrentUser.SellerId,

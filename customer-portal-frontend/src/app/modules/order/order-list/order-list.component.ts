@@ -6,7 +6,8 @@ import { AuthService } from '../../auth';
 import { OrderService } from '../order.service';
 import { RouterLink } from '@angular/router';
 import { PageInfoService } from 'src/app/_metronic/layout';
-import { CurrencyPipe, NgClass } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
+import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-order-list',
@@ -15,6 +16,8 @@ import { CurrencyPipe, NgClass } from '@angular/common';
     GridModule,
     RouterLink,
     CurrencyPipe,
+    NgbPopoverModule,
+    NgbTooltipModule
   ],
   providers: [SortService, FilterService, PageService, FreezeService],
   templateUrl: './order-list.component.html',
@@ -27,6 +30,7 @@ export class OrderListComponent {
   @ViewChild('grid') grid: GridComponent;
 
   currency: string = this.authService.currency;
+  noteContent: string;
   
   data = new DataManager({
     url: `${environment.backendUrl}/odata/ordersodata`,
@@ -37,5 +41,9 @@ export class OrderListComponent {
 
   ngOnInit(): void {
     this.page.updateTitle('Orders');
+  }
+
+  showNote(note: string) {
+    this.noteContent = note;
   }
 }

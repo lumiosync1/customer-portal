@@ -13,5 +13,7 @@ namespace Lumio.CustomerPortal.Services.Order
         public Task RemoveOrderAsync(int orderId);
 
         public Task PushOrderToQueueAsync(PushOrderToQueueDto dto);
+
+        public Task UpdateNoteAsync(int orderId, string note);
     }
 }

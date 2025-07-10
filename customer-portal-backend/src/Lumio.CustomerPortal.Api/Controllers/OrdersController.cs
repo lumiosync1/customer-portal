@@ -101,5 +101,27 @@ namespace Lumio.CustomerPortal.Api.Controllers
                 return response;
             }
         }
+
+        [Route("{orderId}/note")]
+        [HttpPut]
+        public async Task<BaseResponse<string>> UpdateNoteAsync(int orderId, [FromForm] string note)
+        {
+            BaseResponse<string> response = new BaseResponse<string>();
+            try
+            {
+                await orderService.UpdateNoteAsync(orderId, note);
+                response.Data = "Success";
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
     }
 }

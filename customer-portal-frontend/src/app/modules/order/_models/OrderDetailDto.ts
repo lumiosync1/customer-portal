@@ -7,6 +7,7 @@ export interface OrderDetailDto {
     OrderStatus: string;
     ItemNumber: string;
     ItemTitle: string;
+    ItemSupplierUrl: string;
     Sku: string;
     ItemCondition: string | null;
     Supplier: string;
@@ -23,6 +24,7 @@ export interface OrderDetailDto {
     ShipToState: string;
     ShipToZip: string;
     ShipToCountry: string;
+    Note: string;
     Purchase: PurchaseDto | null;
     Tracking: TrackingDto | null;
     PurchaseAttempts: PurchaseAttemptDto[] | null;

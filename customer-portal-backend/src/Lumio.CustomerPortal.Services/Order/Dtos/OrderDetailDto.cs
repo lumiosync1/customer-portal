@@ -12,6 +12,7 @@
         public string OrderStatus { get; set; }
         public string ItemNumber { get; set; }
         public string ItemTitle { get; set; }
+        public string ItemSupplierUrl { get; set; }
         public string Sku { get; set; }
         public string? ItemCondition { get; set; }
         public string Supplier { get; set; }
@@ -30,6 +31,8 @@
         public string ShipToCountry { get; set; }
 
         public string? StoreName { get; set; }
+
+        public string? Note { get; set; }
 
         public PurchaseDto? Purchase { get; set; }
         public TrackingDto? Tracking { get; set; }

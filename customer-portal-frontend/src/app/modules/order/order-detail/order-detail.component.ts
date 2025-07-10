@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogUtility} from '@syncfusion/ej2-angular-popups';
 import { OrderService } from '../order.service';
 import { OrderDetailDto } from '../_models/OrderDetailDto';
@@ -17,7 +18,7 @@ import { AuthService } from '../../auth';
 @Component({
   selector: 'app-order-detail',
   standalone: true,
-  imports: [DatePipe, DecimalPipe, CurrencyPipe, NgbDropdownModule, RouterLink],
+  imports: [DatePipe, DecimalPipe, CurrencyPipe, NgbDropdownModule, RouterLink, ReactiveFormsModule],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss'
 })
@@ -29,6 +30,7 @@ export class OrderDetailComponent {
   private page = inject(PageInfoService);
   private modalService = inject(NgbModal);
   private authService = inject(AuthService);
+  private formBuilder = inject(FormBuilder);
 
   subscriptions: Subscription[] = [];
   orderId: number;
@@ -38,7 +40,7 @@ export class OrderDetailComponent {
   soldBy: string = '';
   shipsFrom: string = '';
   isPrime: boolean = false;
-
+  noteForm: FormGroup;
   private removeConfirmDialog: any;
 
   ngOnInit(): void {
@@ -74,6 +76,10 @@ export class OrderDetailComponent {
         this.shipsFrom = offer.ShipsFrom;
         this.isPrime = offer.IsPrime;
       }
+
+      this.noteForm = this.formBuilder.group({
+        note: [this.orderDetail.Note]
+      });
     });
 
     this.subscriptions.push(sub);
@@ -123,5 +129,24 @@ export class OrderDetailComponent {
       },
       () => {}
     );
+  }
+
+  updateNote() {
+    this.spinner.showLoading();
+    const sub = this.orderService.updateNote(this.orderId, this.noteForm.value.note)
+    .pipe(
+      finalize(() => this.spinner.hideLoading())
+    )
+    .subscribe(response => {
+      if(response.Status !== ResponseStatus.Success) {
+        this.toast.showError(response.Message);
+        return;
+      }
+
+      this.toast.showSuccess('Note updated successfully');
+      this.loadData();
+    });
+
+    this.subscriptions.push(sub);
   }
 }

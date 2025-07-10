@@ -20,5 +20,6 @@
 
         public string? store_name { get; set; }
 
+        public string? note { get; set; }
     }
 }

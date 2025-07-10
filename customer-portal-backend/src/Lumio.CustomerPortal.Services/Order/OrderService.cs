@@ -31,6 +31,7 @@ namespace Lumio.CustomerPortal.Services.Order
 	,o.quantity
 	,o.market_total_price
 	,o.order_status
+    ,o.note
 	,s.store_name
 FROM om_orders o
 LEFT OUTER JOIN stores s ON o.store_id = s.store_id
@@ -153,6 +154,20 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
             }
 
             await orderManager.UpdateStatusAsync(order, OrderStatus.Pending, "Push to queue by user via portal", authService.CurrentUser.UserName);
+        }
+
+        public async Task UpdateNoteAsync(int orderId, string note)
+        {
+            var order = await dbContext.om_orders
+                .Where(o => o.order_id == orderId && o.seller_id == authService.CurrentUser.SellerId)
+                .FirstOrDefaultAsync();
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+            order.note = note;
+            dbContext.om_orders.Update(order);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

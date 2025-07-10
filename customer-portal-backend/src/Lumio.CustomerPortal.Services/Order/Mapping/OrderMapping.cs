@@ -15,6 +15,7 @@ namespace Lumio.CustomerPortal.Services.Order
                 OrderStatus = order.order_status,
                 ItemNumber = order.item_market_id,
                 ItemTitle = order.item_title,
+                ItemSupplierUrl = order.item_supplier_url,
                 ItemCondition = order.item_condition,
                 Supplier = order.supplier,
                 Quantity = order.quantity,
@@ -30,6 +31,7 @@ namespace Lumio.CustomerPortal.Services.Order
                 ShipToZip = order.buyer_address.zip,
                 ShipToCountry = order.buyer_address.country,
                 ShipToPhone = order.buyer_address.phone,
+                Note = order.note,
             };
 
             if (order.supplier.ToLower() == "amazon")

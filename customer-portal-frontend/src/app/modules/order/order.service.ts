@@ -29,4 +29,10 @@ export class OrderService {
   pushOrderToQueue(dto: PushOrderToQueueDto): Observable<BaseResponse<string>> {
     return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/orders/queue`, dto);
   }
+
+  updateNote(orderId: number, note: string): Observable<BaseResponse<string>> {
+    const formData = new FormData();
+    formData.append('note', note);
+    return this.http.put<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/note`, formData);
+  }
 }

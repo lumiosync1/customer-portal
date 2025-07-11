@@ -84,7 +84,7 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
                 .OrderByDescending(a => a.end_at)
                 .AsNoTracking()
                 .ToListAsync();
-            
+
             var dto = order.ToOrderDetailDto();
 
             if (order.store_id.HasValue)
@@ -166,6 +166,34 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
                 throw new Exception("Order not found");
             }
             order.note = note;
+            dbContext.om_orders.Update(order);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateShipToAddressAsync(int orderId, ShipToAddressUpdateDto dto)
+        {
+            var order = await dbContext.om_orders
+                .Where(o => o.order_id == orderId && o.seller_id == authService.CurrentUser.SellerId)
+                .Include(o => o.buyer_address)
+                .FirstOrDefaultAsync();
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+            if (order.buyer_address == null)
+            {
+                order.buyer_address = new om_buyer_address();
+            }
+
+            order.buyer_address.full_name = dto.ShipToName;
+            order.buyer_address.phone = dto.ShipToPhone;
+            order.buyer_address.address1 = dto.ShipToAddress1;
+            order.buyer_address.address2 = dto.ShipToAddress2;
+            order.buyer_address.city = dto.ShipToCity;
+            order.buyer_address.state = dto.ShipToState;
+            order.buyer_address.zip = dto.ShipToZip;
+            order.buyer_address.country = dto.ShipToCountry;
+            
             dbContext.om_orders.Update(order);
             await dbContext.SaveChangesAsync();
         }

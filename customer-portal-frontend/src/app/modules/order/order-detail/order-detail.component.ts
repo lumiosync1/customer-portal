@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
-import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogUtility} from '@syncfusion/ej2-angular-popups';
 import { OrderService } from '../order.service';
@@ -18,7 +18,16 @@ import { AuthService } from '../../auth';
 @Component({
   selector: 'app-order-detail',
   standalone: true,
-  imports: [DatePipe, DecimalPipe, CurrencyPipe, NgbDropdownModule, RouterLink, ReactiveFormsModule],
+  imports: [
+    DatePipe, 
+    DecimalPipe, 
+    CurrencyPipe, 
+    NgbDropdownModule, 
+    RouterLink, 
+    ReactiveFormsModule,
+    NgClass,
+    NgIf,
+  ],
   templateUrl: './order-detail.component.html',
   styleUrl: './order-detail.component.scss'
 })
@@ -41,6 +50,7 @@ export class OrderDetailComponent {
   shipsFrom: string = '';
   isPrime: boolean = false;
   noteForm: FormGroup;
+  shipToAddressForm: FormGroup;
   private removeConfirmDialog: any;
 
   ngOnInit(): void {
@@ -80,6 +90,27 @@ export class OrderDetailComponent {
       this.noteForm = this.formBuilder.group({
         note: [this.orderDetail.Note]
       });
+
+      this.shipToAddressForm = this.formBuilder.group({
+        ShipToName: [this.orderDetail.ShipToName, Validators.required],
+        ShipToPhone: [this.orderDetail.ShipToPhone, Validators.required],
+        ShipToAddress1: [this.orderDetail.ShipToAddress1, Validators.required],
+        ShipToAddress2: [this.orderDetail.ShipToAddress2],
+        ShipToCity: [this.orderDetail.ShipToCity, Validators.required],
+        ShipToState: [this.orderDetail.ShipToState, Validators.required],
+        ShipToZip: [this.orderDetail.ShipToZip, Validators.required],
+        ShipToCountry: [this.orderDetail.ShipToCountry, Validators.required]
+      });
+      if(this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'us'
+        || this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'usa' 
+        || this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'united states') {
+        this.shipToAddressForm.get('ShipToState')?.setValidators([Validators.required, Validators.maxLength(2)]);
+      }
+      if(this.orderDetail.OrderStatus !== OrderStatus.Pending
+        && this.orderDetail.OrderStatus !== OrderStatus.Error
+      ) {
+        this.shipToAddressForm.disable();
+      }
     });
 
     this.subscriptions.push(sub);
@@ -144,6 +175,25 @@ export class OrderDetailComponent {
       }
 
       this.toast.showSuccess('Note updated successfully');
+      this.loadData();
+    });
+
+    this.subscriptions.push(sub);
+  }
+
+  updateShipToAddress() {
+    this.spinner.showLoading();
+    const sub = this.orderService.updateShipToAddress(this.orderId, this.shipToAddressForm.value)
+    .pipe(
+      finalize(() => this.spinner.hideLoading())
+    )
+    .subscribe(response => {
+      if(response.Status !== ResponseStatus.Success) {
+        this.toast.showError(response.Message);
+        return;
+      }
+
+      this.toast.showSuccess('Ship To Address updated successfully');
       this.loadData();
     });
 

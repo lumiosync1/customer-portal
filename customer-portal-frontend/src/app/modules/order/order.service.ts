@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { OrderDetailDto } from './_models/OrderDetailDto';
 import { BaseResponse } from '../shared/models/base-response.model';
 import { PushOrderToQueueDto } from './_models/PushOrderToQueueDto';
+import { ShipToAddressUpdateDto } from './_models/ShipToAddressUpdateDto';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,9 @@ export class OrderService {
     const formData = new FormData();
     formData.append('note', note);
     return this.http.put<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/note`, formData);
+  }
+
+  updateShipToAddress(orderId: number, dto: ShipToAddressUpdateDto): Observable<BaseResponse<string>> {
+    return this.http.put<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/ship-to-address`, dto);
   }
 }

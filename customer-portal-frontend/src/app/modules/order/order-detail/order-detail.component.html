@@ -111,21 +111,91 @@
         
             <!--begin::Card body-->
             <div class="card-body position-relative">
-                {{orderDetail.ShipToName}}<br>
-                {{orderDetail.ShipToAddress1}}<br>
-                @if(orderDetail.ShipToAddress2)
-                {
-                    {{orderDetail.ShipToAddress2}}<br>
-                }
-                {{orderDetail.ShipToCity}}, {{orderDetail.ShipToState}} {{orderDetail.ShipToZip}}<br>
-                {{orderDetail.ShipToCountry}}.<br>
-                Phone: {{orderDetail.ShipToPhone}}
-                <!--begin::Background-->
-            <div class="position-absolute top-0 end-0 bottom-0 opacity-10 d-flex align-items-center me-5">
-                <i class="bi bi-house" style="font-size: 10em">
-                </i>
-            </div>
-            <!--end::Background-->
+                <form [formGroup]="shipToAddressForm">
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShipToName" class="form-label required">Full Name</label>
+                            <input formControlName="ShipToName" class="form-control" placeholder="Full Name"
+                            [ngClass]="{
+                                'is-invalid': shipToAddressForm.controls['ShipToName'].invalid && shipToAddressForm.controls['ShipToName'].touched,
+                                'is-valid': shipToAddressForm.controls['ShipToName'].valid && shipToAddressForm.controls['ShipToName'].touched
+                            }">
+                            <div *ngIf="shipToAddressForm.controls['ShipToName'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShipToPhone" class="form-label required">Phone</label>
+                            <input formControlName="ShipToPhone" class="form-control" placeholder="Phone"
+                            [ngClass]="{
+                                'is-invalid': shipToAddressForm.controls['ShipToPhone'].invalid && shipToAddressForm.controls['ShipToPhone'].touched,
+                                'is-valid': shipToAddressForm.controls['ShipToPhone'].valid && shipToAddressForm.controls['ShipToPhone'].touched
+                            }">
+                            <div *ngIf="shipToAddressForm.controls['ShipToPhone'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShipToAddress1" class="form-label required">Address Line 1</label>
+                            <input formControlName="ShipToAddress1" class="form-control" placeholder="Ship To Address 1"
+                            [ngClass]="{
+                                'is-invalid': shipToAddressForm.controls['ShipToAddress1'].invalid && shipToAddressForm.controls['ShipToAddress1'].touched,
+                                'is-valid': shipToAddressForm.controls['ShipToAddress1'].valid && shipToAddressForm.controls['ShipToAddress1'].touched
+                            }">
+                            <div *ngIf="shipToAddressForm.controls['ShipToAddress1'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShipToAddress2" class="form-label">Address Line 2</label>
+                            <input formControlName="ShipToAddress2" class="form-control" placeholder="Ship To Address 2"
+                            [ngClass]="{
+                                'is-invalid': shipToAddressForm.controls['ShipToAddress2'].invalid && shipToAddressForm.controls['ShipToAddress2'].touched,
+                                'is-valid': shipToAddressForm.controls['ShipToAddress2'].valid && shipToAddressForm.controls['ShipToAddress2'].touched
+                            }">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShipToCity" class="form-label required">City</label>
+                            <input formControlName="ShipToCity" class="form-control" placeholder="Ship To City"
+                            [ngClass]="{
+                                'is-invalid': shipToAddressForm.controls['ShipToCity'].invalid && shipToAddressForm.controls['ShipToCity'].touched,
+                                'is-valid': shipToAddressForm.controls['ShipToCity'].valid && shipToAddressForm.controls['ShipToCity'].touched
+                            }">
+                            <div *ngIf="shipToAddressForm.controls['ShipToCity'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShipToState" class="form-label required">State</label>
+                            <input formControlName="ShipToState" class="form-control" placeholder="Ship To State"
+                            [ngClass]="{
+                                'is-invalid': shipToAddressForm.controls['ShipToState'].invalid && shipToAddressForm.controls['ShipToState'].touched,
+                                'is-valid': shipToAddressForm.controls['ShipToState'].valid && shipToAddressForm.controls['ShipToState'].touched
+                            }">
+                            <div *ngIf="shipToAddressForm.controls['ShipToState'].hasError('required')" class="invalid-feedback">This field is required</div>
+                            <div *ngIf="shipToAddressForm.controls['ShipToState'].hasError('maxlength')" class="invalid-feedback">Please enter valid state code</div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShipToZip" class="form-label required">Zip</label>
+                            <input formControlName="ShipToZip" class="form-control" placeholder="Ship To Zip"
+                            [ngClass]="{
+                                'is-invalid': shipToAddressForm.controls['ShipToZip'].invalid && shipToAddressForm.controls['ShipToZip'].touched,
+                                'is-valid': shipToAddressForm.controls['ShipToZip'].valid && shipToAddressForm.controls['ShipToZip'].touched
+                            }">
+                            <div *ngIf="shipToAddressForm.controls['ShipToZip'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShipToCountry" class="form-label required">Country</label>
+                            <input formControlName="ShipToCountry" class="form-control" placeholder="Ship To Country"
+                            [ngClass]="{
+                                'is-invalid': shipToAddressForm.controls['ShipToCountry'].invalid && shipToAddressForm.controls['ShipToCountry'].touched,
+                                'is-valid': shipToAddressForm.controls['ShipToCountry'].valid && shipToAddressForm.controls['ShipToCountry'].touched
+                            }">
+                            <div *ngIf="shipToAddressForm.controls['ShipToCountry'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                    </div>
+                    @if (orderDetail.OrderStatus === OrderStatus.Pending || orderDetail.OrderStatus === OrderStatus.Error) {
+                        <button class="btn btn-primary" (click)="updateShipToAddress()">Update</button>
+                    }
+                </form>
             </div>
             <!--end::Card body-->
         </div>

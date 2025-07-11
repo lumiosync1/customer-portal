@@ -20,6 +20,10 @@ namespace Lumio.CustomerPortal.Api
     {
         public static void Main(string[] args)
         {
+            // allow timestamptz in Postgresql to be map to DateTime (instead of DateTimeOffset)
+            // this help OData queries on DateTime fields work
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -54,7 +58,13 @@ namespace Lumio.CustomerPortal.Api
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 })
-                .AddOData(options => options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(null)
+                .AddOData(options => options
+                    .Select()
+                    .Filter()
+                    .OrderBy()
+                    .Expand()
+                    .Count()
+                    .SetMaxTop(null)
                     .AddRouteComponents("odata", modelBuilder.GetEdmModel())
                 );
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -109,8 +119,13 @@ namespace Lumio.CustomerPortal.Api
         {
             var modelBuilder = new ODataConventionModelBuilder();
             modelBuilder.EntitySet<seller>("SellersOdata").EntityType.HasKey(e => e.seller_id);
-            modelBuilder.EntitySet<portal_order_import>("OrderImportsOdata").EntityType.HasKey(e => e.import_id);
-            modelBuilder.EntitySet<OrderListDto>("OrdersOdata").EntityType.HasKey(e => e.order_id);
+
+            modelBuilder.EntitySet<portal_order_import>("OrderImportsOdata")
+                .EntityType.HasKey(e => e.import_id);
+
+            modelBuilder.EntitySet<OrderListDto>("OrdersOdata")
+                .EntityType.HasKey(e => e.order_id);
+
             modelBuilder.EntitySet<BalanceTransactionListDto>("BalanceOdata").EntityType.HasKey(e => e.tx_id);
             modelBuilder.EntitySet<store>("StoresOdata").EntityType.HasKey(e => e.store_id);
 

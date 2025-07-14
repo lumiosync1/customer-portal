@@ -6,7 +6,7 @@
         <div ngbAccordion>
             <div ngbAccordionItem>
               <h2 ngbAccordionHeader>
-                <button class="fs-4 fw-semibold" ngbAccordionButton>Filter</button>
+                <button class="fs-4 fw-semibold text-white" style="background-color: #06B6D4;" ngbAccordionButton>Filter</button>
               </h2>
               <div ngbAccordionCollapse>
                 <div ngbAccordionBody>
@@ -19,7 +19,7 @@
                     </ejs-querybuilder>
                     
                     <div class="d-flex gap-2 ms-2 mb-2">
-                        <button class="btn btn-primary" (click)="applyFilter()">
+                        <button class="btn btn-info" (click)="applyFilter()">
                             <i class="bi bi-search fs-3"></i> Filter
                         </button>
                         <button class="btn btn-secondary" (click)="clearFilter()">
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-12">
             <ejs-grid #grid [dataSource]="data" [query]="query" id="_order-list-004"
                 allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
                 [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'order_id', direction: 'Descending' }] }"

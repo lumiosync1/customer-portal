@@ -6,7 +6,7 @@
             <i class="bi bi-arrow-left "></i> Back
         </a>
         <div ngbDropdown class="d-inline-block">
-            <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
+            <button type="button" class="btn btn-info" id="dropdownBasic1" ngbDropdownToggle>
                 Action
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -193,7 +193,7 @@
                         </div>
                     </div>
                     @if (orderDetail.OrderStatus === OrderStatus.Pending || orderDetail.OrderStatus === OrderStatus.Error) {
-                        <button class="btn btn-primary" (click)="updateShipToAddress()">Update</button>
+                        <button class="btn btn-info" (click)="updateShipToAddress()">Update Address</button>
                     }
                 </form>
             </div>
@@ -257,7 +257,7 @@
                         <textarea formControlName="note" class="form-control" rows="3"></textarea>
                     </div>
                 </form>
-                <button class="btn btn-primary" (click)="updateNote()">Update Note</button>
+                <button class="btn btn-info" (click)="updateNote()">Update Note</button>
             </div>
         </div>
 

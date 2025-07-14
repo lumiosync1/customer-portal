@@ -12,9 +12,12 @@
                 <div ngbAccordionBody>
                   <ng-template>
                     <ejs-querybuilder #querybuilder  
-                    [rule]="initRule"
-                    [columns]="filterColumns">
+                        [columns]="filterColumns"
+                        [rule]="initRule"
+                        style="border: none;"
+                    >
                     </ejs-querybuilder>
+                    
                     <div class="d-flex gap-2 ms-2 mb-2">
                         <button class="btn btn-primary" (click)="applyFilter()">
                             <i class="bi bi-search fs-3"></i> Filter
@@ -30,7 +33,7 @@
         </div>
 
         <div class="mt-4">
-            <ejs-grid #grid [dataSource]='data' [query]="query" id="_order-list-004"
+            <ejs-grid #grid [dataSource]="data" [query]="query" id="_order-list-004"
                 allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
                 [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'order_id', direction: 'Descending' }] }"
                 [allowFiltering]='false' 

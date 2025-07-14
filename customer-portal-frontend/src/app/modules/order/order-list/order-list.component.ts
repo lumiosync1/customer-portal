@@ -21,7 +21,7 @@ import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
     CurrencyPipe,
     NgbTooltipModule,
     QueryBuilderModule,
-    NgbAccordionModule
+    NgbAccordionModule,
   ],
   providers: [SortService, FilterService, PageService, FreezeService],
   templateUrl: './order-list.component.html',
@@ -36,65 +36,53 @@ export class OrderListComponent {
 
   currency: string = this.authService.currency;
   noteContent: string;
-  
-  public query: Query;
-  data = new DataManager({
-    url: `${environment.backendUrl}/odata/ordersodata`,
-    adaptor: new ODataV4Adaptor(),
-    crossDomain: true,
-    headers: [{ Authorization: 'Bearer ' + this.authService.getAuthFromLocalStorage()?.AccessToken }]
-  });
+
   initRule: RuleModel = {
+    condition: 'and',
     rules: [
       {
         field: 'order_id',
         operator: 'equal',
-        value: undefined
+        type: 'number'
       },
       {
         field: 'order_status',
         operator: 'equal',
-        value: ''
+        type: 'string'
       },
       {
         field: 'market_order_number',
         operator: 'contains',
-        value: ''
+        type: 'string'
       },
       {
         field: 'store_name',
         operator: 'contains',
-        value: ''
+        type: 'string'
       },
       {
         field: 'item_title',
         operator: 'contains',
-        value: ''
+        type: 'string'
       },
       {
         field: 'note',
         operator: 'contains',
-        value: ''
+        type: 'string'
       },
       {
         field: 'created_at',
         operator: 'greaterthanorequal',
-        value: undefined
+        type: 'date',
       }
     ]
   };
-
-  ngOnInit(): void {
-    this.page.updateTitle('Orders');
-    
-  }
-
+  
   statusTemplate: TemplateColumn = {
     create: () => {
         return createElement('input', { attrs: { 'type': 'text' } });
     },
     destroy: (args: { elementId: string }) => {
-      console.log(args.elementId);
         let dropdown: DropDownList = (getComponent(document.getElementById(args.elementId)??'', 'dropdownlist') as DropDownList);
         if (dropdown) {
             dropdown.destroy();
@@ -123,7 +111,7 @@ export class OrderListComponent {
             dropDownObj.appendTo('#' + args.elements.id);
     }
   };
-
+  
   filterColumns: ColumnsModel[] = [
     {
       field: 'order_status',
@@ -137,7 +125,6 @@ export class OrderListComponent {
       field: 'order_id',
       label: 'Order ID',
       type: 'number',
-      operators: [{ key: 'Equal', value: 'equal' }],
       value: ''
     },
     {
@@ -171,14 +158,27 @@ export class OrderListComponent {
       value: undefined
     }
   ];
+  
+  public query: Query;
+  data = new DataManager({
+    url: `${environment.backendUrl}/odata/ordersodata`,
+    adaptor: new ODataV4Adaptor(),
+    crossDomain: true,
+    headers: [{ Authorization: 'Bearer ' + this.authService.getAuthFromLocalStorage()?.AccessToken }]
+  });
+
+  ngOnInit(): void {
+    this.page.updateTitle('Orders');
+  }
 
   showNote(note: string) {
     this.noteContent = note;
   }
 
   applyFilter(): void {
-    const rules = this.queryBuilder.getRules();
-    rules.rules = rules.rules?.filter(r => r.value); // remove rules with empty value
+    const rules: RuleModel = this.queryBuilder.getRules();
+    rules.rules = rules.rules?.filter((r: RuleModel) => r.value);
+    
     const predicate = this.queryBuilder.getPredicate(rules);
 
     if (predicate) {
@@ -187,7 +187,6 @@ export class OrderListComponent {
       this.query = new Query(); // clear filter
     }
 
-    this.grid.query = this.query;
     this.grid.refresh(); // reload grid
   }
 

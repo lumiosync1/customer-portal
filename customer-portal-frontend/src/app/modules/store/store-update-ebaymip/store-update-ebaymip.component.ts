@@ -36,7 +36,7 @@ export class StoreUpdateEbaymipComponent {
 
   createForm(): void {
     this.formGroup = new FormGroup({
-      store_name: new FormControl({ value: this.initData.Store.store_name, disabled: true}, [Validators.required]),
+      store_name: new FormControl({ value: this.initData.Store.store_name, disabled: false}, [Validators.required]),
       market: new FormControl({ value: this.initData.Store.market, disabled: true}, [Validators.required]),
       supplier: new FormControl({ value: this.initData.Store.supplier, disabled: false}, [Validators.required]),
       api_key: new FormControl(this.initData.Store.api_key, [Validators.required]),
@@ -54,7 +54,7 @@ export class StoreUpdateEbaymipComponent {
     const formValue = this.formGroup.value;
     const dto: StoreUpdateDto = {
       store_id: this.initData.Store.store_id,
-      store_name: this.initData.Store.store_name,
+      store_name: formValue.store_name,
       market: this.initData.Store.market,
       supplier: formValue.supplier,
       api_key: formValue.api_key,

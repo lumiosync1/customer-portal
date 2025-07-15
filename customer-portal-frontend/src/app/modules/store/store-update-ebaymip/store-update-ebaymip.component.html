@@ -13,7 +13,10 @@
           <div class="col-md-6">
             <div class="mb-6">
               <label class="form-label required">eBay User ID</label>
-              <input type="text" class="form-control" formControlName="store_name">
+              <input type="text" class="form-control" formControlName="store_name"
+                  [class.is-valid]="formGroup.controls['store_name'].valid && (formGroup.controls['store_name'].dirty || formGroup.controls['store_name'].touched)"
+                  [class.is-invalid]="formGroup.controls['store_name'].invalid && (formGroup.controls['store_name'].dirty || formGroup.controls['store_name'].touched)">
+              <div *ngIf="formGroup.controls['store_name'].hasError('required')" class="invalid-feedback">This field is required</div>
             </div>
           </div>
         </div>
@@ -38,7 +41,7 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
+        <button type="submit" class="btn btn-info" [disabled]="formGroup.invalid">
           <i class="bi bi-floppy fs-3"></i> Save
         </button>
       </form>

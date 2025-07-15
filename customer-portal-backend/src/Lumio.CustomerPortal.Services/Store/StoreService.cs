@@ -82,7 +82,7 @@ namespace Lumio.CustomerPortal.Services.Store
                 created_by = authService.CurrentUser.UserName,
                 created_at = DateTime.UtcNow,
 
-                store_name = dto.store_name,
+                store_name = dto.store_name.ToLower().Trim(),
                 market = dto.market,
                 supplier = dto.supplier,
                 active = true,
@@ -125,6 +125,7 @@ namespace Lumio.CustomerPortal.Services.Store
                 throw new Exception("Store not found");
             }
 
+            store.store_name = dto.store_name.ToLower().Trim();
             store.market = dto.market;
             store.supplier = dto.supplier;
             store.api_key = dto.api_key;

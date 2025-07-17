@@ -8,9 +8,10 @@ import { OrderService } from '../order.service';
 import { RouterLink } from '@angular/router';
 import { PageInfoService } from 'src/app/_metronic/layout';
 import { CurrencyPipe } from '@angular/common';
-import { NgbAccordionModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionItem, NgbAccordionModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { QueryBuilderModule, QueryBuilderComponent, RuleModel, TemplateColumn, ColumnsModel } from '@syncfusion/ej2-angular-querybuilder';
 import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-order-list',
@@ -30,9 +31,11 @@ import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 export class OrderListComponent {
   private page = inject(PageInfoService);
   private authService = inject(AuthService);
+  private route = inject(ActivatedRoute);
   private orderService = inject(OrderService);
   @ViewChild('grid') grid: GridComponent;
   @ViewChild('querybuilder') queryBuilder: QueryBuilderComponent;
+  @ViewChild('accordionItem') accordionItem: NgbAccordionItem;
 
   currency: string = this.authService.currency;
   noteContent: string;
@@ -119,43 +122,36 @@ export class OrderListComponent {
       type: 'string',
       template: this.statusTemplate,
       operators: [{ key: 'Equal', value: 'equal' }],
-      value: ''
     },
     {
       field: 'order_id',
       label: 'Order ID',
       type: 'number',
-      value: ''
     },
     {
       field: 'market_order_number',
       label: 'Ref. No.',
       type: 'string',
-      value: ''
     },
     {
       field: 'store_name',
       label: 'Store',
       type: 'string',
-      value: ''
     },
     {
       field: 'item_title',
       label: 'Item',
       type: 'string',
-      value: ''
     },
     {
       field: 'note',
       label: 'Note',
       type: 'string',
-      value: ''
     },
     {
       field: 'created_at',
       label: 'Created Date',
       type: 'date',
-      value: undefined
     }
   ];
   
@@ -171,6 +167,24 @@ export class OrderListComponent {
     this.page.updateTitle('Orders');
   }
 
+  ngAfterViewInit(): void {
+    const temp = JSON.stringify(this.initRule);
+    const tempRule: RuleModel = JSON.parse(temp);
+
+    this.route.queryParams.subscribe((params) => {
+      if (params['status']) {
+        this.accordionItem.expand(); // expand so user can see the list is being filtered
+        tempRule.rules![1].value = params['status'];
+      }
+      if(params['from'] && params['to']) {
+        this.accordionItem.expand(); // expand so user can see the list is being filtered
+        tempRule.rules![6].operator = 'between';
+        tempRule.rules![6].value = [params['from'], params['to']];
+      }
+    });
+    this.queryBuilder.rule = tempRule;
+  }
+
   showNote(note: string) {
     this.noteContent = note;
   }
@@ -178,7 +192,6 @@ export class OrderListComponent {
   applyFilter(): void {
     const rules: RuleModel = this.queryBuilder.getRules();
     rules.rules = rules.rules?.filter((r: RuleModel) => r.value);
-    
     const predicate = this.queryBuilder.getPredicate(rules);
 
     if (predicate) {
@@ -186,12 +199,12 @@ export class OrderListComponent {
     } else {
       this.query = new Query(); // clear filter
     }
-
+    this.grid.dataSource = this.data;
     this.grid.refresh(); // reload grid
   }
 
   clearFilter(): void {
-    this.queryBuilder.rule = this.initRule;
+    this.queryBuilder.setRules(this.initRule);
     this.applyFilter();
   }
 }

@@ -13,66 +13,78 @@
     <div class="col-md-7 col-sm-12">
         <div class="row">
             <div class="col-md-4 col-sm-12">
-                <app-stats-widget
-                    [value]="data.PendingCount"
-                    description="Pending"
-                    icon="bi-clock-fill"
-                    iconColor="pending"
-                    format="1.0-0"
-                    [isLoading]="isLoadingData">
-                </app-stats-widget>
+                <a [routerLink]="['/orders']" [queryParams]="{status: 'pending', from: from.toLocaleDateString(), to: to.toLocaleDateString()}">
+                    <app-stats-widget
+                        [value]="data.PendingCount"
+                        description="Pending"
+                        icon="bi-clock-fill"
+                        iconColor="pending"
+                        format="1.0-0"
+                        [isLoading]="isLoadingData">
+                    </app-stats-widget>
+                </a>
             </div>
             <div class="col-md-4 col-sm-12">
-                <app-stats-widget
-                    [value]="data.PurchasedCount"
-                    description="Purchased"
-                    icon="bi-cart-check-fill"
-                    iconColor="purchased"
-                    format="1.0-0"
-                    [isLoading]="isLoadingData">
-                </app-stats-widget>
+                <a [routerLink]="['/orders']" [queryParams]="{status: 'purchased', from: from.toLocaleDateString(), to: to.toLocaleDateString()}">
+                    <app-stats-widget
+                        [value]="data.PurchasedCount"
+                        description="Purchased"
+                        icon="bi-cart-check-fill"
+                        iconColor="purchased"
+                        format="1.0-0"
+                        [isLoading]="isLoadingData">
+                    </app-stats-widget>
+                </a>
             </div>
             <div class="col-md-4 col-sm-12">
-                <app-stats-widget
-                    [value]="data.FailedCount"
-                    description="Failed"
-                    icon="bi-x-circle-fill"
-                    iconColor="error"
-                    format="1.0-0"
-                    [isLoading]="isLoadingData">
-                </app-stats-widget>
+                <a [routerLink]="['/orders']" [queryParams]="{status: 'error', from: from.toLocaleDateString(), to: to.toLocaleDateString()}">
+                    <app-stats-widget
+                        [value]="data.FailedCount"
+                        description="Failed"
+                        icon="bi-x-circle-fill"
+                        iconColor="error"
+                        format="1.0-0"
+                        [isLoading]="isLoadingData">
+                    </app-stats-widget>
+                </a>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4 col-sm-12">
-                <app-stats-widget
-                    [value]="data.RemovedCount"
-                    description="Removed"
-                    icon="bi-trash-fill"
-                    iconColor="removed"
-                    format="1.0-0"
-                    [isLoading]="isLoadingData">
-                </app-stats-widget>
+                <a [routerLink]="['/orders']" [queryParams]="{status: 'removed', from: from.toLocaleDateString(), to: to.toLocaleDateString()}">
+                    <app-stats-widget
+                        [value]="data.RemovedCount"
+                        description="Removed"
+                        icon="bi-trash-fill"
+                        iconColor="removed"
+                        format="1.0-0"
+                        [isLoading]="isLoadingData">
+                    </app-stats-widget>
+                </a>
             </div>
             <div class="col-md-4 col-sm-12">
-                <app-stats-widget
-                    [value]="data.CancelledCount"
-                    description="Cancelled"
-                    icon="bi-window-x"
-                    iconColor="cancelled"
-                    format="1.0-0"
-                    [isLoading]="isLoadingData">
-                </app-stats-widget>
+                <a [routerLink]="['/orders']" [queryParams]="{status: 'cancelled', from: from.toLocaleDateString(), to: to.toLocaleDateString()}">
+                    <app-stats-widget
+                        [value]="data.CancelledCount"
+                        description="Cancelled"
+                        icon="bi-window-x"
+                        iconColor="cancelled"
+                        format="1.0-0"
+                        [isLoading]="isLoadingData">
+                    </app-stats-widget>
+                </a>
             </div>
             <div class="col-md-4 col-sm-12">
-                <app-stats-widget
-                    [value]="data.ReturnedCount"
-                    description="Returned"
-                    icon="bi-arrow-return-left"
-                    iconColor="returned"
-                    format="1.0-0"
-                    [isLoading]="isLoadingData">
-                </app-stats-widget>
+                <a [routerLink]="['/orders']" [queryParams]="{status: 'returned', from: from.toLocaleDateString(), to: to.toLocaleDateString()}">
+                    <app-stats-widget
+                        [value]="data.ReturnedCount"
+                        description="Returned"
+                        icon="bi-arrow-return-left"
+                        iconColor="returned"
+                        format="1.0-0"
+                        [isLoading]="isLoadingData">
+                    </app-stats-widget>
+                </a>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
     
     <div class="card-body">
         <div ngbAccordion>
-            <div ngbAccordionItem>
+            <div ngbAccordionItem #accordionItem="ngbAccordionItem">
               <h2 ngbAccordionHeader>
                 <button class="fs-4 fw-semibold text-white" style="background-color: #06B6D4;" ngbAccordionButton>Filter</button>
               </h2>
@@ -14,6 +14,7 @@
                     <ejs-querybuilder #querybuilder  
                         [columns]="filterColumns"
                         [rule]="initRule"
+                        (created)="applyFilter()"
                         style="border: none;"
                     >
                     </ejs-querybuilder>
@@ -33,7 +34,7 @@
         </div>
 
         <div class="mt-12">
-            <ejs-grid #grid [dataSource]="data" [query]="query" id="_order-list-004"
+            <ejs-grid #grid [query]="query" id="_order-list-004"
                 allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
                 [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'order_id', direction: 'Descending' }] }"
                 [allowFiltering]='false' 

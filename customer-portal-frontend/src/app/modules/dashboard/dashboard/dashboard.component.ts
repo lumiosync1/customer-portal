@@ -10,6 +10,7 @@ import { BestSellerItem } from '../_models/BestSellerItem';
 import { BestSellerItemsWidgetComponent } from '../widgets/best-seller-items-widget/best-seller-items-widget.component';
 import { DateRangePickerComponent, DateRangePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { DailyPurchasesWidgetComponent } from "../widgets/daily-purchases-widget/daily-purchases-widget.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +19,7 @@ import { DailyPurchasesWidgetComponent } from "../widgets/daily-purchases-widget
     BestSellerItemsWidgetComponent, 
     DateRangePickerModule, 
     DailyPurchasesWidgetComponent,
+    RouterLink,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

@@ -39,6 +39,7 @@ export class OrderListComponent {
 
   currency: string = this.authService.currency;
   noteContent: string;
+  preFilter: boolean = false;
 
   initRule: RuleModel = {
     condition: 'and',
@@ -173,20 +174,37 @@ export class OrderListComponent {
 
     this.route.queryParams.subscribe((params) => {
       if (params['status']) {
+        this.preFilter = true;
         this.accordionItem.expand(); // expand so user can see the list is being filtered
         tempRule.rules![1].value = params['status'];
       }
       if(params['from'] && params['to']) {
+        this.preFilter = true;
         this.accordionItem.expand(); // expand so user can see the list is being filtered
         tempRule.rules![6].operator = 'between';
         tempRule.rules![6].value = [params['from'], params['to']];
       }
     });
-    this.queryBuilder.rule = tempRule;
+
+    // if accordion is expanded then QueryBuilder will be created on UI and apply filter on its created event
+    if(!this.accordionItem.collapsed) {
+      this.queryBuilder.rule = tempRule;
+    }
   }
 
   showNote(note: string) {
     this.noteContent = note;
+  }
+
+  onGridCreated() {
+    // if preFilter is true, the filtering will be executed in QueryBuilder created event
+    if(this.preFilter) {
+      return;
+    }
+
+    this.query = new Query(); // clear filter
+    this.grid.dataSource = this.data;
+    this.grid.refresh(); // reload grid
   }
 
   applyFilter(): void {

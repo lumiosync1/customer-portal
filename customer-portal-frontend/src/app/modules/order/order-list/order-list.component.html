@@ -40,6 +40,7 @@
                 [allowFiltering]='false' 
                 allowTextWrap='true'
                 frozenColumns="1"
+                (created)="onGridCreated()"
                 >
                     <e-columns>
                         <e-column field='order_id' headerText='ID' textAlign='Right' width="100"></e-column>

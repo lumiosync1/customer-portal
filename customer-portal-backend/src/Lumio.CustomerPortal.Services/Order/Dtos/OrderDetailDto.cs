@@ -8,7 +8,7 @@
         /// </summary>
         public string OrderNumber { get; set; }
         public string SaleDate { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public string OrderStatus { get; set; }
         public string ItemNumber { get; set; }
         public string ItemTitle { get; set; }
@@ -41,8 +41,8 @@
 
     public class PurchaseDto
     {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTimeOffset StartTime { get; set; }
+        public DateTimeOffset EndTime { get; set; }
         public string SupplierOrderNumber { get; set; }
         public string EstimatedArrivalTime { get; set; }
         public decimal SupplierSubTotal { get; set; }
@@ -70,8 +70,8 @@
     public class PurchaseAttemptDto
     {
         public int Id { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTimeOffset StartTime { get; set; }
+        public DateTimeOffset? EndTime { get; set; }
         public string Status { get; set; }
         public string Reason { get; set; }
         public string Note { get; set; }

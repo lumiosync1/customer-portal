@@ -6,7 +6,7 @@
 
         public string market_order_number { get; set; } = null!;
 
-        public DateTime created_at { get; set; }
+        public DateTimeOffset created_at { get; set; }
 
         public string sale_date { get; set; } = null!;
 

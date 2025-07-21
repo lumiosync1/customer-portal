@@ -20,10 +20,6 @@ namespace Lumio.CustomerPortal.Api
     {
         public static void Main(string[] args)
         {
-            // allow timestamptz in Postgresql to be map to DateTime (instead of DateTimeOffset)
-            // this help OData queries on DateTime fields work
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.

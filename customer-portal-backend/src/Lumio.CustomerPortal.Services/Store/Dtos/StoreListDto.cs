@@ -10,7 +10,7 @@
 
         public string supplier { get; set; } = null!;
 
-        public DateTime created_at { get; set; }
+        public DateTimeOffset created_at { get; set; }
 
         public string? created_by { get; set; }
 

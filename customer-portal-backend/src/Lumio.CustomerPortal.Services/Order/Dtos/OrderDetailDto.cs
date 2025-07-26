@@ -34,6 +34,10 @@
 
         public string? Note { get; set; }
 
+        public bool CancelRequested { get; set; } = false;
+
+        public bool ReturnRequested { get; set; } = false;
+
         public PurchaseDto? Purchase { get; set; }
         public TrackingDto? Tracking { get; set; }
         public List<PurchaseAttemptDto>? PurchaseAttempts { get; set; } = new List<PurchaseAttemptDto>();

@@ -7,11 +7,16 @@ import { AuthService } from '../../auth';
 import { OrderService } from '../order.service';
 import { RouterLink } from '@angular/router';
 import { PageInfoService } from 'src/app/_metronic/layout';
-import { CurrencyPipe } from '@angular/common';
-import { NgbAccordionItem, NgbAccordionModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionItem, NgbAccordionModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { QueryBuilderModule, QueryBuilderComponent, RuleModel, TemplateColumn, ColumnsModel } from '@syncfusion/ej2-angular-querybuilder';
 import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 import { ActivatedRoute } from '@angular/router';
+import { DropDownButtonModule, ItemModel, MenuEventArgs } from '@syncfusion/ej2-angular-splitbuttons';
+import { Dialog, DialogUtility } from '@syncfusion/ej2-angular-popups';
+import { ToastService } from '../../shared/services/toast.service';
+import { finalize, Subscription } from 'rxjs';
+import { LoadingService } from '../../shared/services/loading.service';
+import { ResponseStatus } from '../../shared/models/base-response.model';
 
 @Component({
   selector: 'app-order-list',
@@ -19,10 +24,11 @@ import { ActivatedRoute } from '@angular/router';
   imports: [
     GridModule,
     RouterLink,
-    CurrencyPipe,
     NgbTooltipModule,
     QueryBuilderModule,
     NgbAccordionModule,
+    NgbDropdownModule,
+    DropDownButtonModule,
   ],
   providers: [SortService, FilterService, PageService, FreezeService],
   templateUrl: './order-list.component.html',
@@ -33,10 +39,18 @@ export class OrderListComponent {
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
   private orderService = inject(OrderService);
+  private toastService = inject(ToastService);
+  private spinner = inject(LoadingService);
   @ViewChild('grid') grid: GridComponent;
   @ViewChild('querybuilder') queryBuilder: QueryBuilderComponent;
   @ViewChild('accordionItem') accordionItem: NgbAccordionItem;
 
+  commands: ItemModel[] = [
+    { text: 'Request Cancel', id: 'cancel', iconCss: 'e-icons e-circle-close' },
+    { text: 'Request Return', id: 'return', iconCss: 'e-icons e-undo' },
+  ];
+
+  subscriptions: Subscription[] = [];
   currency: string = this.authService.currency;
   noteContent: string;
   preFilter: boolean = false;
@@ -225,4 +239,75 @@ export class OrderListComponent {
     this.queryBuilder.setRules(this.initRule);
     this.applyFilter();
   }
+
+  rowMenuSelect(args: MenuEventArgs, data: any) {
+    switch (args.item.id) {
+      case 'cancel':
+        this.confirmCancelRequest(data.order_id);
+        break;
+      case 'return':
+        this.confirmReturnRequest(data.order_id);
+        break;
+    }
+  }
+
+  private confirmCancelDialog: Dialog;
+  confirmCancelRequest(orderId: number) {
+    this.confirmCancelDialog = DialogUtility.confirm({
+      title: 'Confirm',
+      content: `Are you sure you want to request cancel for order #${orderId}?`,
+      okButton: {
+        text: 'Confirm',
+        click: this.cancelOrder.bind(this, orderId)
+      }
+    });
+  }
+
+  private confirmReturnDialog: Dialog;
+  confirmReturnRequest(orderId: number) {
+    this.confirmReturnDialog = DialogUtility.confirm({
+      title: 'Confirm',
+      content: `Are you sure you want to request return for order #${orderId}?`,
+      okButton: {
+        text: 'Confirm',
+        click: this.returnOrder.bind(this, orderId)
+      }
+    });
+  }
+
+  cancelOrder(orderId: number) {
+    this.confirmCancelDialog.hide();
+    this.spinner.showLoading();
+    const sub = this.orderService.requestCancelOrder(orderId)
+    .pipe(
+      finalize(() => this.spinner.hideLoading())
+    )
+    .subscribe((res) => {
+      if(res.Status !== ResponseStatus.Success) {
+        this.toastService.showError(res.Message);
+        return;
+      }
+      this.toastService.showSuccess('Requested successfully');
+      this.grid.refresh();
+    });
+    this.subscriptions.push(sub);
+  }
+
+  returnOrder(orderId: number) {
+    this.confirmReturnDialog.hide();
+    this.spinner.showLoading();
+    const sub = this.orderService.requestReturnOrder(orderId)
+    .pipe(
+      finalize(() => this.spinner.hideLoading())
+    )
+    .subscribe((res) => {
+      if(res.Status !== ResponseStatus.Success) {
+        this.toastService.showError(res.Message);
+        return;
+      }
+      this.toastService.showSuccess('Requested successfully');
+      this.grid.refresh();
+    });
+    this.subscriptions.push(sub);
+    }
 }

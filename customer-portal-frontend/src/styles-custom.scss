@@ -185,4 +185,12 @@
 .e-rightalign {
     text-align: right;
 }
+.e-centeralign {
+    text-align: center;
+}
 // ----- Syncfusion customization - end ----- //
+
+// remove caret from ngb dropdown, should be put in toggle button
+.remove-caret::after {
+    display: none !important;
+}

@@ -44,34 +44,30 @@
                 >
                     <e-columns>
                         <e-column field='order_id' headerText='ID' textAlign='Right' width="100"></e-column>
-                        <e-column field='store_name' headerText='Store' type="String" width="120"></e-column>
-                        <e-column field='market_order_number' headerText='Ref. No.' width="150"></e-column>
+                        <e-column field='market_order_number' headerText='Ref. No./Store' width="150">
+                            <ng-template #template let-data>
+                                <span>{{data.market_order_number}}</span>
+                                @if(data.store_name) {
+                                    <div [title]="'Store: ' + data.store_name">
+                                        <i class="bi bi-shop fs-3 text-primary"></i> &nbsp;
+                                        <span>{{data.store_name}}</span>
+                                    </div>
+                                }
+                            </ng-template>
+                        </e-column>
                         <e-column field='item_title' headerText='Item' width="300">
                             <ng-template #template let-data>
                                 <a [routerLink]="['/orders', data.order_id]" target="_blank">{{data.item_title}}</a>
                             </ng-template>
                         </e-column>
-                        <e-column field='order_status' headerText='Status' [filter]="{operators: [{ value: 'equal', text: 'Equal' }]}" width="120">
+                        <e-column field='order_status' headerText='Status' width="80">
                             <ng-template #template let-data>
                                 <span class="badge" [class]="'status-' + data.order_status">
                                     {{data.order_status}}
                                 </span>
                             </ng-template>
-                            <ng-template #filterTemplate let-data>
-                                <select class="form-select">
-                                    <option value="">All</option>
-                                    <option value="pending">pending</option>
-                                    <option value="purchased">purchased</option>
-                                    <option value="shipped">shipped</option>
-                                    <option value="delivered">delivered</option>
-                                    <option value="error">error</option>
-                                    <option value="removed">removed</option>
-                                    <option value="cancelled">cancelled</option>
-                                    <option value="refunded">refunded</option>
-                                </select>
-                            </ng-template>
                         </e-column>
-                        <e-column field='note' headerText='Note' type="String" width="80" minWidth="80">
+                        <e-column field='note' headerText='Note' type="String" width="60">
                             <ng-template #template let-data>
                                 @if (data.note) {
                                     <i class="bi bi-sticky fs-2 text-primary" 
@@ -82,10 +78,26 @@
                         </e-column>
                         <e-column field='sale_date' headerText='Sale Date' format="MM/dd/yyyy" width="120" ></e-column>
                         <e-column field='created_at' headerText='Created Date' format="MM/dd/yyyy HH:mm" width="120" ></e-column>
-                        <e-column field='quantity' headerText='Quantity' textAlign='Right' width="150" ></e-column>
-                        <e-column field='market_total_price' headerText='Total Price' textAlign='Right' width="120">
+                        <e-column field='market_total_price' headerText='Requests' textAlign="Center" width="80" >
                             <ng-template #template let-data>
-                                {{data.market_total_price | currency:currency}}
+                                @if(data.cancel_requested) {
+                                    <i class="e-icons e-circle-close text-warning fs-2" title="Cancel Requested"></i>
+                                }
+                                @if(data.return_requested) {
+                                    <i class="e-icons e-undo text-warning fs-2" title="Return Requested"></i>
+                                }
+                            </ng-template>
+                        </e-column>
+                        <e-column headerText='' textAlign='Right' width="50">
+                            <ng-template #template let-data>
+                                <button ejs-dropdownbutton content="" 
+                                    cssClass="e-caret-hide" iconCss="e-icons e-more-vertical-1"
+                                    [items]="[
+                                        { text: 'Request Cancel', id: 'cancel', iconCss: 'e-icons e-circle-close', disabled: !['purchased', 'shipped'].includes(data.order_status) },
+                                        { text: 'Request Return', id: 'return', iconCss: 'e-icons e-undo', disabled: !['delivered'].includes(data.order_status) },
+                                    ]"
+                                    (select)="rowMenuSelect($event, data)">
+                                </button>
                             </ng-template>
                         </e-column>
                     </e-columns>

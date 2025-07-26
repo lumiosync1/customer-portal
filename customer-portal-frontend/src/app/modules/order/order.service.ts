@@ -40,4 +40,12 @@ export class OrderService {
   updateShipToAddress(orderId: number, dto: ShipToAddressUpdateDto): Observable<BaseResponse<string>> {
     return this.http.put<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/ship-to-address`, dto);
   }
+
+  requestCancelOrder(orderId: number): Observable<BaseResponse<string>> {
+    return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/cancel`, { order_id: orderId });
+  }
+
+  requestReturnOrder(orderId: number): Observable<BaseResponse<string>> {
+    return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/return`, { order_id: orderId });
+  }
 }

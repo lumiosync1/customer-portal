@@ -33,8 +33,12 @@ namespace Lumio.CustomerPortal.Services.Order
 	,o.order_status
     ,o.note
 	,s.store_name
+	,CASE WHEN c.order_id IS NOT NULL THEN TRUE ELSE FALSE END AS cancel_requested
+	,CASE WHEN r.order_id IS NOT NULL THEN TRUE ELSE FALSE END AS return_requested
 FROM om_orders o
 LEFT OUTER JOIN stores s ON o.store_id = s.store_id
+LEFT OUTER JOIN om_cancel_requests c ON o.order_id = c.order_id
+LEFT OUTER JOIN om_return_requests r ON o.order_id = r.order_id
 WHERE TRUE
 AND o.seller_id = {authService.CurrentUser.SellerId}";
 
@@ -193,8 +197,61 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
             order.buyer_address.state = dto.ShipToState;
             order.buyer_address.zip = dto.ShipToZip;
             order.buyer_address.country = dto.ShipToCountry;
-            
+
             dbContext.om_orders.Update(order);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task RequestCancelAsync(CancelRequestDto dto)
+        {
+            bool orderExist = await dbContext.om_orders
+                .AnyAsync(r => r.order_id == dto.order_id && r.seller_id == authService.CurrentUser.SellerId);
+            if (!orderExist)
+            {
+                throw new Exception("Order not found");
+            }
+
+            bool requestExist = await dbContext.om_cancel_requests
+                .AnyAsync(r => r.order_id == dto.order_id && r.seller_id == authService.CurrentUser.SellerId);
+            if (requestExist)
+            {
+                throw new Exception("Cancel request already exists for this order");
+            }
+
+            om_cancel_request request = new om_cancel_request()
+            {
+                order_id = dto.order_id,
+                seller_id = authService.CurrentUser.SellerId,
+                created_at = DateTimeOffset.UtcNow,
+                created_by = authService.CurrentUser.UserName,
+            };
+            dbContext.om_cancel_requests.Add(request);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task RequestReturnAsync(ReturnRequestDto dto)
+        {
+            bool orderExist = await dbContext.om_orders
+                .AnyAsync(r => r.order_id == dto.order_id && r.seller_id == authService.CurrentUser.SellerId);
+            if (!orderExist)
+            {
+                throw new Exception("Order not found");
+            }
+            bool requestExist = await dbContext.om_return_requests
+                .AnyAsync(r => r.order_id == dto.order_id && r.seller_id == authService.CurrentUser.SellerId);
+            if (requestExist)
+            {
+                throw new Exception("Return request already exists for this order");
+            }
+
+            om_return_request request = new om_return_request()
+            {
+                order_id = dto.order_id,
+                seller_id = authService.CurrentUser.SellerId,
+                created_at = DateTimeOffset.UtcNow,
+                created_by = authService.CurrentUser.UserName,
+            };
+            dbContext.om_return_requests.Add(request);
             await dbContext.SaveChangesAsync();
         }
     }

@@ -17,5 +17,9 @@ namespace Lumio.CustomerPortal.Services.Order
         public Task UpdateNoteAsync(int orderId, string note);
 
         public Task UpdateShipToAddressAsync(int orderId, ShipToAddressUpdateDto dto);
+
+        public Task RequestCancelAsync(CancelRequestDto dto);
+
+        public Task RequestReturnAsync(ReturnRequestDto dto);
     }
 }

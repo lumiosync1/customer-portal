@@ -21,5 +21,9 @@
         public string? store_name { get; set; }
 
         public string? note { get; set; }
+
+        public bool cancel_requested { get; set; } = false;
+
+        public bool return_requested { get; set; } = false;
     }
 }

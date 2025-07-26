@@ -164,6 +164,34 @@
     color: #ea580c !important;
 }
 
+.status-rejected {
+    background-color: #EF4444;
+    color: white;
+    text-transform: capitalize;
+}
+
+.bg-rejected {
+    background-color: #EF4444 !important;
+}
+
+.text-rejected {
+    color: #EF4444 !important;
+}
+
+.status-approved {
+    background-color: #0bb74a;
+    color: white;
+    text-transform: capitalize;
+}
+
+.bg-approved {
+    background-color: #0bb74a !important;
+}
+
+.text-approved {
+    color: #0bb74a !important;
+}
+
 // ----- status colors - end ----- //
 
 .widget-loader {

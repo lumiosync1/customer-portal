@@ -34,6 +34,16 @@ const Routing: Routes = [
       import('../modules/order/order-import/order-import.component').then((m) => m.OrderImportComponent),
   },
   {
+    path: 'cancel-requests',
+    loadComponent: () =>
+      import('../modules/order/cancel-request-list/cancel-request-list.component').then((m) => m.CancelRequestListComponent),
+  },
+  {
+    path: 'return-requests',
+    loadComponent: () =>
+      import('../modules/order/return-request-list/return-request-list.component').then((m) => m.ReturnRequestListComponent),
+  },
+  {
     path: 'balance-transactions',
     loadComponent: () =>
       import('../modules/balance/balance-transaction-list/balance-transaction-list.component').then((m) => m.BalanceTransactionListComponent),

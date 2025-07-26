@@ -254,5 +254,35 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
             dbContext.om_return_requests.Add(request);
             await dbContext.SaveChangesAsync();
         }
+
+        public IQueryable<CancelRequestListDto> GetCancelRequestQueryable()
+        {
+            string sql = $@"SELECT c.order_id
+	                        ,o.item_title
+	                        ,c.created_at
+	                        ,c.status
+	                        ,c.note
+                        FROM om_cancel_requests c
+                        JOIN om_orders o ON c.order_id = o.order_id
+                        WHERE TRUE
+                        AND c.seller_id = {authService.CurrentUser.SellerId}";
+
+            return dbContext.Database.SqlQueryRaw<CancelRequestListDto>(sql);
+        }
+
+        public IQueryable<ReturnRequestListDto> GetReturnRequestQueryable()
+        {
+            string sql = $@"SELECT c.order_id
+	                        ,o.item_title
+	                        ,c.created_at
+	                        ,c.status
+	                        ,c.note
+                        FROM om_return_requests c
+                        JOIN om_orders o ON c.order_id = o.order_id
+                        WHERE TRUE
+                        AND c.seller_id = {authService.CurrentUser.SellerId}";
+
+            return dbContext.Database.SqlQueryRaw<ReturnRequestListDto>(sql);
+        }
     }
 }

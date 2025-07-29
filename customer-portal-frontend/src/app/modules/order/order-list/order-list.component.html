@@ -81,10 +81,10 @@
                         <e-column field='market_total_price' headerText='Requests' textAlign="Center" width="80" >
                             <ng-template #template let-data>
                                 @if(data.cancel_requested) {
-                                    <i class="e-icons e-circle-close text-warning fs-2" title="Cancel Requested"></i>
+                                    <i class="e-icons e-circle-close text-cancelled fs-2" title="Cancel Requested"></i>
                                 }
                                 @if(data.return_requested) {
-                                    <i class="e-icons e-undo text-warning fs-2" title="Return Requested"></i>
+                                    <i class="e-icons e-undo text-returned fs-2" title="Return Requested"></i>
                                 }
                             </ng-template>
                         </e-column>

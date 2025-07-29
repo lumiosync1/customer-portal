@@ -277,6 +277,7 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
 	                        ,c.created_at
 	                        ,c.status
 	                        ,c.note
+                            ,return_label_url
                         FROM om_return_requests c
                         JOIN om_orders o ON c.order_id = o.order_id
                         WHERE TRUE

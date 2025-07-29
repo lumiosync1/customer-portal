@@ -11,5 +11,7 @@
         public string status { get; set; }
 
         public string? note { get; set; }
+
+        public string? return_label_url { get; set; }
     }
 }

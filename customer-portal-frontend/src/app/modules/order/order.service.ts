@@ -6,6 +6,7 @@ import { OrderDetailDto } from './_models/OrderDetailDto';
 import { BaseResponse } from '../shared/models/base-response.model';
 import { PushOrderToQueueDto } from './_models/PushOrderToQueueDto';
 import { ShipToAddressUpdateDto } from './_models/ShipToAddressUpdateDto';
+import { OrderUpdateDto } from './_models/OrderUpdateDto';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,9 @@ export class OrderService {
 
   requestReturnOrder(orderId: number): Observable<BaseResponse<string>> {
     return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/return`, { order_id: orderId });
+  }
+
+  updateOrderInfo(orderId: number, dto: OrderUpdateDto): Observable<BaseResponse<string>> {
+    return this.http.put<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}`, dto);
   }
 }

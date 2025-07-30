@@ -25,5 +25,7 @@ namespace Lumio.CustomerPortal.Services.Order
         public IQueryable<CancelRequestListDto> GetCancelRequestQueryable();
 
         public IQueryable<ReturnRequestListDto> GetReturnRequestQueryable();
+
+        public Task UpdateOrderInfoAsync(OrderUpdateDto dto);
     }
 }

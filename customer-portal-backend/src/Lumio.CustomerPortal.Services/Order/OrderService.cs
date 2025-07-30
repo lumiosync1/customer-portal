@@ -285,5 +285,41 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
 
             return dbContext.Database.SqlQueryRaw<ReturnRequestListDto>(sql);
         }
+
+        public async Task UpdateOrderInfoAsync(OrderUpdateDto dto)
+        {
+            var order = await dbContext.om_orders
+                .Where(o => o.order_id == dto.OrderId && o.seller_id == authService.CurrentUser.SellerId)
+                .FirstOrDefaultAsync();
+
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+            if (order.order_status != OrderStatus.Pending && order.order_status != OrderStatus.Error)
+            {
+                throw new Exception("Order can only be updated if it is pending or error");
+            }
+
+            if(order.supplier.ToLower() == "amazon")
+            {
+                var parts = order.item_supplier_url.Split('/');
+                parts[parts.Length - 1] = dto.Sku.Trim();
+                order.item_supplier_url = string.Join("/", parts);
+            }
+            else
+            {
+                order.item_supplier_url = dto.Sku;
+            }
+
+            order.item_condition = dto.ItemCondition;
+            order.quantity = dto.Quantity;
+            order.market_sale_price = dto.UnitPrice;
+            order.market_shipping_fee = dto.ShippingFee;
+            order.market_sale_tax = dto.SaleTax;
+            order.market_total_price = dto.TotalPrice;
+            dbContext.om_orders.Update(order);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

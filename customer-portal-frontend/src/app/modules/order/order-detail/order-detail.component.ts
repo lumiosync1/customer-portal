@@ -51,6 +51,7 @@ export class OrderDetailComponent {
   isPrime: boolean = false;
   noteForm: FormGroup;
   shipToAddressForm: FormGroup;
+  orderForm: FormGroup;
   private removeConfirmDialog: any;
 
   ngOnInit(): void {
@@ -87,33 +88,50 @@ export class OrderDetailComponent {
         this.isPrime = offer.IsPrime;
       }
 
-      this.noteForm = this.formBuilder.group({
-        note: [this.orderDetail.Note]
-      });
-
-      this.shipToAddressForm = this.formBuilder.group({
-        ShipToName: [this.orderDetail.ShipToName, Validators.required],
-        ShipToPhone: [this.orderDetail.ShipToPhone, Validators.required],
-        ShipToAddress1: [this.orderDetail.ShipToAddress1, Validators.required],
-        ShipToAddress2: [this.orderDetail.ShipToAddress2],
-        ShipToCity: [this.orderDetail.ShipToCity, Validators.required],
-        ShipToState: [this.orderDetail.ShipToState, Validators.required],
-        ShipToZip: [this.orderDetail.ShipToZip, Validators.required],
-        ShipToCountry: [this.orderDetail.ShipToCountry, Validators.required]
-      });
-      if(this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'us'
-        || this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'usa' 
-        || this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'united states') {
-        this.shipToAddressForm.get('ShipToState')?.setValidators([Validators.required, Validators.maxLength(2)]);
-      }
-      if(this.orderDetail.OrderStatus !== OrderStatus.Pending
-        && this.orderDetail.OrderStatus !== OrderStatus.Error
-      ) {
-        this.shipToAddressForm.disable();
-      }
+      this.createForms();
     });
 
     this.subscriptions.push(sub);
+  }
+
+  createForms() {
+    this.noteForm = this.formBuilder.group({
+      note: [this.orderDetail.Note]
+    });
+
+    this.shipToAddressForm = this.formBuilder.group({
+      ShipToName: [this.orderDetail.ShipToName, Validators.required],
+      ShipToPhone: [this.orderDetail.ShipToPhone, Validators.required],
+      ShipToAddress1: [this.orderDetail.ShipToAddress1, Validators.required],
+      ShipToAddress2: [this.orderDetail.ShipToAddress2],
+      ShipToCity: [this.orderDetail.ShipToCity, Validators.required],
+      ShipToState: [this.orderDetail.ShipToState, Validators.required],
+      ShipToZip: [this.orderDetail.ShipToZip, Validators.required],
+      ShipToCountry: [this.orderDetail.ShipToCountry, Validators.required]
+    });
+    if(this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'us'
+      || this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'usa' 
+      || this.orderDetail.ShipToCountry.toLocaleLowerCase() === 'united states') {
+      this.shipToAddressForm.get('ShipToState')?.setValidators([Validators.required, Validators.maxLength(2)]);
+    }
+
+    this.orderForm = this.formBuilder.group({
+      OrderId: [this.orderDetail.OrderId, Validators.required],
+      Sku: [this.orderDetail.Sku, Validators.required],
+      ItemCondition: [this.orderDetail.ItemCondition, Validators.required],
+      Quantity: [this.orderDetail.Quantity, Validators.required],
+      UnitPrice: [this.orderDetail.UnitPrice],
+      ShippingFee: [this.orderDetail.ShippingFee],
+      SaleTax: [this.orderDetail.SaleTax],
+      TotalPrice: [this.orderDetail.TotalPrice, Validators.required],
+    });
+
+    if(this.orderDetail.OrderStatus !== OrderStatus.Pending
+      && this.orderDetail.OrderStatus !== OrderStatus.Error
+    ) {
+      this.orderForm.disable();
+      this.shipToAddressForm.disable();
+    }
   }
 
   confirmRemove() {
@@ -182,6 +200,12 @@ export class OrderDetailComponent {
   }
 
   updateShipToAddress() {
+    this.shipToAddressForm.markAllAsTouched();
+    if(this.shipToAddressForm.invalid) {
+      this.toast.showError('Please check if all fields are valid');
+      return;
+    }
+
     this.spinner.showLoading();
     const sub = this.orderService.updateShipToAddress(this.orderId, this.shipToAddressForm.value)
     .pipe(
@@ -194,6 +218,31 @@ export class OrderDetailComponent {
       }
 
       this.toast.showSuccess('Ship To Address updated successfully');
+      this.loadData();
+    });
+
+    this.subscriptions.push(sub);
+  }
+
+  updateOrderInfo() {
+    this.orderForm.markAllAsTouched();
+    if(this.orderForm.invalid) {
+      this.toast.showError('Please check if all fields are valid');
+      return;
+    }
+
+    this.spinner.showLoading();
+    const sub = this.orderService.updateOrderInfo(this.orderId, this.orderForm.value)
+    .pipe(
+      finalize(() => this.spinner.hideLoading())
+    )
+    .subscribe(response => {
+      if(response.Status !== ResponseStatus.Success) {
+        this.toast.showError(response.Message);
+        return;
+      }
+
+      this.toast.showSuccess('Order info updated successfully');
       this.loadData();
     });
 

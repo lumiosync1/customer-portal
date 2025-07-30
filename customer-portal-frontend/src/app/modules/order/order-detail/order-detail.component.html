@@ -64,32 +64,94 @@
                             <th>Supplier Item</th>
                             <td><a href="{{orderDetail.ItemSupplierUrl}}" target="_blank">{{orderDetail.Sku}}</a></td>
                         </tr>
-                        <tr>
-                            <th>Item Condition</th>
-                            <td>{{orderDetail.ItemCondition}}</td>
-                        </tr>
-                        <tr>
-                            <th>Quantity</th>
-                            <td>{{orderDetail.Quantity}}</td>
-                        </tr>
-                        <tr>
-                            <th>Unit Price</th>
-                            <td>{{orderDetail.UnitPrice | currency:currency}}</td>
-                        </tr>
-                        <tr>
-                            <th>Shipping Fee</th>
-                            <td>{{orderDetail.ShippingFee | currency:currency}}</td>
-                        </tr>
-                        <tr>
-                            <th>Sale Tax</th>
-                            <td>{{orderDetail.SaleTax | currency:currency}}</td>
-                        </tr>
-                        <tr>
-                            <th>Total Price</th>
-                            <td>{{orderDetail.TotalPrice | currency:currency}}</td>
-                        </tr>
                     </tbody>
                 </table>
+
+                <form [formGroup]="orderForm">
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtSku" class="form-label required">Supplier SKU</label>
+                            <input id="txtSku" formControlName="Sku" class="form-control" placeholder="Supplier SKU"
+                            [ngClass]="{
+                                'is-invalid': orderForm.controls['Sku'].invalid && orderForm.controls['Sku'].touched,
+                                'is-valid': orderForm.controls['Sku'].valid && orderForm.controls['Sku'].touched
+                            }">
+                            <div *ngIf="orderForm.controls['Sku'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtItemCondition" class="form-label required">Item Condition</label>
+                            <select id="txtItemCondition" class="form-select" formControlName="ItemCondition">
+                                <option>New</option>
+                                <option>Used - Like New</option>
+                                <option>Used - Very Good</option>
+                                <option>Used - Good</option>
+                                <option>Used - Acceptable</option>
+                            </select>
+                            <div *ngIf="orderForm.controls['ItemCondition'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtQuantity" class="form-label required">Quantity</label>
+                            <input id="txtQuantity" type="number" formControlName="Quantity" 
+                            class="form-control" placeholder="Quantity"
+                            step="1" autocomplete="off"
+                            [ngClass]="{
+                                'is-invalid': orderForm.controls['Quantity'].invalid && orderForm.controls['Quantity'].touched,
+                                'is-valid': orderForm.controls['Quantity'].valid && orderForm.controls['Quantity'].touched
+                            }">
+                            <div *ngIf="orderForm.controls['Quantity'].hasError('required')" class="invalid-feedback">This field is required</div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtUnitPrice" class="form-label">Unit Price</label>
+                            <input id="txtUnitPrice" type="number" formControlName="UnitPrice" 
+                            class="form-control" placeholder="Unit Price"
+                            step="0.01" autocomplete="off"
+                            [ngClass]="{
+                                'is-invalid': orderForm.controls['UnitPrice'].invalid && orderForm.controls['UnitPrice'].touched,
+                                'is-valid': orderForm.controls['UnitPrice'].valid && orderForm.controls['UnitPrice'].touched
+                            }">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtShippingFee" class="form-label">Shipping Fee</label>
+                            <input id="txtShippingFee" type="number" formControlName="ShippingFee" 
+                            class="form-control" placeholder="Shipping Fee"
+                            step="0.01" autocomplete="off"
+                            [ngClass]="{
+                                'is-invalid': orderForm.controls['ShippingFee'].invalid && orderForm.controls['ShippingFee'].touched,
+                                'is-valid': orderForm.controls['ShippingFee'].valid && orderForm.controls['ShippingFee'].touched
+                            }">
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtSaleTax" class="form-label">Sale Tax</label>
+                            <input id="txtSaleTax" type="number" formControlName="SaleTax" 
+                            class="form-control" placeholder="Sale Tax"
+                            step="0.01" autocomplete="off"
+                            [ngClass]="{
+                                'is-invalid': orderForm.controls['SaleTax'].invalid && orderForm.controls['SaleTax'].touched,
+                                'is-valid': orderForm.controls['SaleTax'].valid && orderForm.controls['SaleTax'].touched
+                            }">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-xs-12">
+                            <label for="txtTotalPrice" class="form-label required">Total Price</label>
+                            <input id="txtTotalPrice" type="number" 
+                            formControlName="TotalPrice" 
+                            class="form-control" placeholder="Total Price"
+                            step="0.01" autocomplete="off"
+                            [ngClass]="{
+                                'is-invalid': orderForm.controls['TotalPrice'].invalid && orderForm.controls['TotalPrice'].touched,
+                                'is-valid': orderForm.controls['TotalPrice'].valid && orderForm.controls['TotalPrice'].touched
+                            }">
+                        </div>
+                    </div>
+                    @if (orderDetail.OrderStatus === OrderStatus.Pending || orderDetail.OrderStatus === OrderStatus.Error) {
+                        <button class="btn btn-info" (click)="updateOrderInfo()">Update Order Info</button>
+                    }
+                </form>
                 <!--begin::Background-->
             <div class="position-absolute top-0 end-0 bottom-0 opacity-10 d-flex align-items-center me-5">
                 <i class="bi bi-cart" style="font-size: 10em">

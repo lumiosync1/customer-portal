@@ -9,6 +9,7 @@ import { BaseResponse } from '../shared/models/base-response.model';
 import { StoreUpdateInitDataDto } from './_models/StoreUpdateInitDataDto';
 import { StoreCreateInitDataDto } from './_models/StoreCreateInitDataDto';
 import { StoreAddress } from './_models/StoreAddress';
+import { StoreSettingsDto } from './_models/StoreSettingsDto';
 
 @Injectable({
   providedIn: 'root'
@@ -53,5 +54,13 @@ export class StoreService {
 
   updateStoreAddress(storeId: number, address: StoreAddress): Observable<BaseResponse<string>> {
     return this.http.put<BaseResponse<string>>(`${environment.backendUrl}/api/stores/${storeId}/address`, address);
+  }
+
+  getStoreSettings(storeId: number): Observable<BaseResponse<StoreSettingsDto>> {
+    return this.http.get<BaseResponse<StoreSettingsDto>>(`${environment.backendUrl}/api/stores/${storeId}/settings`);
+  }
+
+  updateStoreSettings(storeId: number, settings: StoreSettingsDto): Observable<BaseResponse<string>> {
+    return this.http.put<BaseResponse<string>>(`${environment.backendUrl}/api/stores/${storeId}/settings`, settings);
   }
 }

@@ -186,5 +186,65 @@ namespace Lumio.CustomerPortal.Services.Store
 
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task<StoreSettingsDto> GetStoreSettingsAsync(int id)
+        {
+            var store = await dbContext.stores
+                .Where(s => s.store_id == id 
+                && s.seller_id == authService.CurrentUser.SellerId)
+                .FirstOrDefaultAsync();
+            if (store == null)
+            {
+                throw new Exception("Store not found");
+            }
+
+            string raw = string.IsNullOrEmpty(store.settings) ? "{}" : store.settings;
+            StoreSettingsDto storeSettings = new StoreSettingsDto();
+            JsonElement jSettings = JsonDocument.Parse(raw).RootElement;
+
+            if (jSettings.TryGetProperty("need_sku_mapping", out JsonElement jSkuMapping))
+            {
+                storeSettings.need_sku_mapping = jSkuMapping.GetBoolean();
+            }
+            else
+            {
+                storeSettings.need_sku_mapping = false; // default is no need to map SKUs
+            }
+
+            if (jSettings.TryGetProperty("upload_tracking", out JsonElement jUploadTracking))
+            {
+                storeSettings.upload_tracking = jUploadTracking.GetBoolean();
+            }
+            else
+            {
+                storeSettings.upload_tracking = true; // default is to upload tracking
+            }
+
+            return storeSettings;
+        }
+
+        public async Task UpdateStoreSetttingsAsync(int id, StoreSettingsDto dto)
+        {
+            var store = await dbContext.stores
+                .Where(s => s.store_id == id
+                && s.seller_id == authService.CurrentUser.SellerId)
+                .FirstOrDefaultAsync();
+            if (store == null)
+            {
+                throw new Exception("Store not found");
+            }
+
+            string raw = string.IsNullOrEmpty(store.settings) ? "{}" : store.settings;
+
+            JsonNode jsonNode = JsonNode.Parse(raw) ?? new JsonObject();
+            jsonNode["need_sku_mapping"] = dto.need_sku_mapping;
+            jsonNode["upload_tracking"] = dto.upload_tracking;
+            store.settings = jsonNode.ToJsonString();
+
+            store.updated_by = authService.CurrentUser.UserName;
+            store.updated_at = DateTimeOffset.UtcNow;
+
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

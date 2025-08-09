@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Store Settings</h3>
+    </div>
+    <div class="card-body">
+        @if(formGroup) {
+            <form [formGroup]="formGroup" (ngSubmit)="submit()">
+                <div class="row mb-2">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="form-check form-switch form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" 
+                            formControlName="upload_tracking"
+                            id="switchUploadTracking"/>
+                            <label class="form-check-label" for="switchUploadTracking">
+                                Upload Tracking
+                            </label>
+                        </div>
+                    </div>
+                    <div class="text-muted">
+                        Enable this option to automatically upload tracking information to the store.
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-info mt-2" [disabled]="formGroup.invalid">
+                    <i class="bi bi-floppy fs-3"></i> Save Settings
+                </button>
+            </form>
+        }
+    </div>
+</div>

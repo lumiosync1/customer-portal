@@ -20,5 +20,9 @@ namespace Lumio.CustomerPortal.Services.Store
         public Task<StoreAddress> GetStoreAddressAsync(int id);
 
         public Task UpdateStoreAddressAsync(int id, StoreAddress storeAddress);
+
+        public Task<StoreSettingsDto> GetStoreSettingsAsync(int id);
+
+        public Task UpdateStoreSetttingsAsync(int id, StoreSettingsDto dto);
     }
 }

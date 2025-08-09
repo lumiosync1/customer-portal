@@ -6,17 +6,15 @@ import { LoadingService } from '../../shared/services/loading.service';
 import { StoreUpdateInitDataDto } from '../_models/StoreUpdateInitDataDto';
 import { finalize } from 'rxjs';
 import { BaseResponse, ResponseStatus } from '../../shared/models/base-response.model';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { StoreUpdateDto } from '../_models/StoreUpdateDto';
-import { NgIf } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { StoreUpdateEbaymipComponent } from "../store-update-ebaymip/store-update-ebaymip.component";
 import { StoreLocationComponent } from "../_components/store-location/store-location.component";
+import { StoreSettingsComponent } from "../_components/store-settings/store-settings.component";
 
 @Component({
   selector: 'app-store-update',
   standalone: true,
-  imports: [StoreUpdateEbaymipComponent, StoreLocationComponent],
+  imports: [StoreUpdateEbaymipComponent, StoreLocationComponent, StoreSettingsComponent],
   templateUrl: './store-update.component.html',
   styleUrl: './store-update.component.scss'
 })
@@ -30,7 +28,6 @@ export class StoreUpdateComponent {
   storeId: number;
 
   initData: StoreUpdateInitDataDto;
-  formGroup: FormGroup;
 
   ngOnInit(): void {
     this.page.updateTitle('Update Store');

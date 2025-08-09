@@ -164,5 +164,48 @@ namespace Lumio.CustomerPortal.Api.Controllers
                 return response;
             }
         }
+
+        [Route("{id}/settings")]
+        [HttpGet]
+        public async Task<BaseResponse<StoreSettingsDto>> GetStoreSettingsAsync(int id)
+        {
+            BaseResponse<StoreSettingsDto> response = new BaseResponse<StoreSettingsDto>();
+            try
+            {
+                response.Data = await storeService.GetStoreSettingsAsync(id);
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
+
+        [Route("{id}/settings")]
+        [HttpPut]
+        public async Task<BaseResponse<string>> UpdateStoreSettingsAsync(int id, [FromBody]StoreSettingsDto dto)
+        {
+            BaseResponse<string> response = new BaseResponse<string>();
+            try
+            {
+                await storeService.UpdateStoreSetttingsAsync(id, dto);
+                response.Data = "Success";
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
     }
 }

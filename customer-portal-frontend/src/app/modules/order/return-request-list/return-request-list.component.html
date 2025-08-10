@@ -27,9 +27,11 @@
                         </e-column>
                         <e-column field='return_label_url' headerText='Return Label' width="150" >
                             <ng-template #template let-data>
-                                <a [href]="data.return_label_url" target="_blank">
-                                    <i class="bi bi-qr-code fs-3"></i>
-                                </a>
+                                @if(data.return_label_url) {
+                                    <a [href]="data.return_label_url" target="_blank">
+                                        <i class="bi bi-qr-code fs-3"></i>
+                                    </a>
+                                }
                             </ng-template>
                         </e-column>
                         <e-column field='note' headerText='Note' type="String" width="200"></e-column>

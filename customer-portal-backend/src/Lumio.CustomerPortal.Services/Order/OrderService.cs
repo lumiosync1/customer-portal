@@ -229,6 +229,15 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task DeleteCancelRequestAsync(int orderId)
+        {
+            await dbContext.om_cancel_requests
+                .Where(r => r.order_id == orderId 
+                && r.seller_id == authService.CurrentUser.SellerId
+                && r.status == "pending")
+                .ExecuteDeleteAsync();
+        }
+
         public async Task RequestReturnAsync(ReturnRequestDto dto)
         {
             bool orderExist = await dbContext.om_orders
@@ -253,6 +262,15 @@ AND o.seller_id = {authService.CurrentUser.SellerId}";
             };
             dbContext.om_return_requests.Add(request);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteReturnRequestAsync(int orderId)
+        {
+            await dbContext.om_return_requests
+                .Where(r => r.order_id == orderId 
+                && r.seller_id == authService.CurrentUser.SellerId
+                && r.status == "pending")
+                .ExecuteDeleteAsync();
         }
 
         public IQueryable<CancelRequestListDto> GetCancelRequestQueryable()

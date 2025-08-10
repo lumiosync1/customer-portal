@@ -168,6 +168,28 @@ namespace Lumio.CustomerPortal.Api.Controllers
             }
         }
 
+        [Route("{orderId}/cancel")]
+        [HttpDelete]
+        public async Task<BaseResponse<string>> DeleteCancelRequestAsync(int orderId)
+        {
+            BaseResponse<string> response = new BaseResponse<string>();
+            try
+            {
+                await orderService.DeleteCancelRequestAsync(orderId);
+                response.Data = "Success";
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
+
         [Route("{orderId}/return")]
         [HttpPost]
         public async Task<BaseResponse<string>> RequestReturnAsync(int orderId, [FromBody] ReturnRequestDto dto)
@@ -176,6 +198,28 @@ namespace Lumio.CustomerPortal.Api.Controllers
             try
             {
                 await orderService.RequestReturnAsync(dto);
+                response.Data = "Success";
+                response.Status = ResponseStatus.Success;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = ResponseStatus.Error;
+                response.Message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                response.Data = null;
+                response.AdditionalInfo = ex.StackTrace;
+                return response;
+            }
+        }
+
+        [Route("{orderId}/return")]
+        [HttpDelete]
+        public async Task<BaseResponse<string>> DeleteReturnRequestAsync(int orderId)
+        {
+            BaseResponse<string> response = new BaseResponse<string>();
+            try
+            {
+                await orderService.DeleteReturnRequestAsync(orderId);
                 response.Data = "Success";
                 response.Status = ResponseStatus.Success;
                 return response;

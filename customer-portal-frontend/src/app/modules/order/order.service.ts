@@ -46,8 +46,16 @@ export class OrderService {
     return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/cancel`, { order_id: orderId });
   }
 
+  deleteCancelRequest(orderId: number): Observable<BaseResponse<string>> {
+    return this.http.delete<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/cancel`);
+  }
+
   requestReturnOrder(orderId: number): Observable<BaseResponse<string>> {
     return this.http.post<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/return`, { order_id: orderId });
+  }
+
+  deleteReturnRequest(orderId: number): Observable<BaseResponse<string>> {
+    return this.http.delete<BaseResponse<string>>(`${environment.backendUrl}/api/orders/${orderId}/return`);
   }
 
   updateOrderInfo(orderId: number, dto: OrderUpdateDto): Observable<BaseResponse<string>> {

@@ -33,6 +33,17 @@
                             </ng-template>
                         </e-column>
                         <e-column field='note' headerText='Note' type="String" width="200"></e-column>
+                        <e-column field='order_id' headerText='Action' width="80">
+                            <ng-template #template let-data>
+                                @if(data.status == 'pending') {
+                                    <button class="btn btn-sm btn-icon btn-danger" 
+                                    title="Delete"
+                                    (click)="confirmDelete(data.order_id)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                }
+                            </ng-template>
+                        </e-column>
                     </e-columns>
             </ejs-grid>
         </div>

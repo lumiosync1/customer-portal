@@ -20,7 +20,11 @@ namespace Lumio.CustomerPortal.Services.Order
 
         public Task RequestCancelAsync(CancelRequestDto dto);
 
+        public Task DeleteCancelRequestAsync(int orderId);
+
         public Task RequestReturnAsync(ReturnRequestDto dto);
+
+        public Task DeleteReturnRequestAsync(int orderId);
 
         public IQueryable<CancelRequestListDto> GetCancelRequestQueryable();
 

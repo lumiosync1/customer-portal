@@ -5,6 +5,13 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from '../../auth';
 import { PageInfoService } from 'src/app/_metronic/layout';
 import { RouterLink } from '@angular/router';
+import { Dialog, DialogUtility } from '@syncfusion/ej2-angular-popups';
+import { OrderService } from '../order.service';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { LoadingService } from '../../shared/services/loading.service';
+import { ResponseStatus } from '../../shared/models/base-response.model';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-cancel-request-list',
@@ -17,6 +24,9 @@ import { RouterLink } from '@angular/router';
 export class CancelRequestListComponent {
   private page = inject(PageInfoService);
   private authService = inject(AuthService);
+  private orderService = inject(OrderService);
+  private loadingService = inject(LoadingService);
+  private toastService = inject(ToastService);
   @ViewChild('grid') grid: GridComponent;
   
   data = new DataManager({
@@ -26,7 +36,43 @@ export class CancelRequestListComponent {
     headers: [{ Authorization: 'Bearer ' + this.authService.getAuthFromLocalStorage()?.AccessToken }]
   });
 
+  private subscriptions: Subscription[] = [];
+  private confirmDeleteDialog: Dialog;
+
   ngOnInit(): void {
     this.page.updateTitle('Cancel Requests');
+  }
+
+  confirmDelete(orderId: number): void {
+    this.confirmDeleteDialog = DialogUtility.confirm({
+      title: 'Delete Cancel Request',
+      content: 'Are you sure you want to delete this cancel request?',
+      okButton: { text: 'Confirm', click: () => this.deleteCancelRequest(orderId) },
+      cancelButton: { text: 'Close' },
+    });
+  }
+
+  deleteCancelRequest(orderId: number): void {
+    this.loadingService.showLoading();
+    const sub = this.orderService.deleteCancelRequest(orderId)
+    .pipe(
+      finalize(() => {
+        this.loadingService.hideLoading();
+        this.confirmDeleteDialog.hide();
+      })
+    )
+    .subscribe((res) => {
+      if(res.Status !== ResponseStatus.Success) {
+        this.toastService.showError(res.Message);
+        return;
+      }
+      this.toastService.showSuccess('Deleted successfully');
+      this.grid.refresh();
+    });
+    this.subscriptions.push(sub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 }

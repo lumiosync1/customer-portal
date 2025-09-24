@@ -77,6 +77,14 @@
                             </ng-template>
                         </e-column>
                         <e-column field='sale_date' headerText='Sale Date' format="MM/dd/yyyy" width="120" ></e-column>
+                        <e-column field='market_total_price' headerText='Price' format="C" width="120" >
+                            <ng-template #template let-data>
+                                <div>Market: {{data.market_total_price | currency}}</div>
+                                @if(data.supplier_total_price) {
+                                    <div>Supplier: {{data.supplier_total_price | currency}}</div>
+                                }
+                            </ng-template>
+                        </e-column>
                         <e-column field='created_at' headerText='Created Date' format="MM/dd/yyyy HH:mm" width="120" ></e-column>
                         <e-column field='market_total_price' headerText='Requests' textAlign="Center" width="80" >
                             <ng-template #template let-data>

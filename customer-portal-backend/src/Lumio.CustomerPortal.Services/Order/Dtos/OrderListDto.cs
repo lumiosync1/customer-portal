@@ -16,6 +16,8 @@
 
         public decimal market_total_price { get; set; }
 
+        public decimal? supplier_total_price { get; set; }
+
         public string? order_status { get; set; }
 
         public string? store_name { get; set; }

@@ -17,13 +17,15 @@ import { ToastService } from '../../shared/services/toast.service';
 import { finalize, Subscription } from 'rxjs';
 import { LoadingService } from '../../shared/services/loading.service';
 import { ResponseStatus } from '../../shared/models/base-response.model';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-order-list',
   standalone: true,
   imports: [
-    GridModule,
     RouterLink,
+    CurrencyPipe,
+    GridModule,
     NgbTooltipModule,
     QueryBuilderModule,
     NgbAccordionModule,
@@ -92,6 +94,16 @@ export class OrderListComponent {
         field: 'created_at',
         operator: 'greaterthanorequal',
         type: 'date',
+      },
+      {
+        field: 'market_total_price',
+        operator: 'greaterthanorequal',
+        type: 'number',
+      },
+      {
+        field: 'supplier_total_price',
+        operator: 'greaterthanorequal',
+        type: 'number',
       }
     ]
   };
@@ -167,7 +179,17 @@ export class OrderListComponent {
       field: 'created_at',
       label: 'Created Date',
       type: 'date',
-    }
+    },
+    {
+      field: 'market_total_price',
+      label: 'Market Price',
+      type: 'number',
+    },
+    {
+      field: 'supplier_total_price',
+      label: 'Supplier Price',
+      type: 'number',
+    },
   ];
   
   public query: Query;
@@ -232,7 +254,7 @@ export class OrderListComponent {
       this.query = new Query(); // clear filter
     }
     this.grid.dataSource = this.data;
-    this.grid.refresh(); // reload grid
+    // this.grid.refresh(); // reload grid
   }
 
   clearFilter(): void {

@@ -29,7 +29,8 @@ namespace Lumio.CustomerPortal.Services.Order
 	,o.sale_date
 	,o.item_title
 	,o.quantity
-	,o.market_total_price
+	,o.market_total_price::decimal
+    ,p.supplier_total_price::decimal
 	,o.order_status
     ,o.note
 	,s.store_name
@@ -39,6 +40,7 @@ FROM om_orders o
 LEFT OUTER JOIN stores s ON o.store_id = s.store_id
 LEFT OUTER JOIN om_cancel_requests c ON o.order_id = c.order_id
 LEFT OUTER JOIN om_return_requests r ON o.order_id = r.order_id
+LEFT OUTER JOIN om_order_purchases p ON o.order_id = p.order_id
 WHERE TRUE
 AND o.seller_id = {authService.CurrentUser.SellerId}";
 

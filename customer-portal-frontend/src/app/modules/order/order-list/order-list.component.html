@@ -79,9 +79,9 @@
                         <e-column field='sale_date' headerText='Sale Date' format="MM/dd/yyyy" width="120" ></e-column>
                         <e-column field='market_total_price' headerText='Price' format="C" width="120" >
                             <ng-template #template let-data>
-                                <div>Market: {{data.market_total_price | currency}}</div>
+                                <div class="text-end">Market: {{data.market_total_price | currency}}</div>
                                 @if(data.supplier_total_price) {
-                                    <div>Supplier: {{data.supplier_total_price | currency}}</div>
+                                    <div class="text-end">Supplier: {{data.supplier_total_price | currency}}</div>
                                 }
                             </ng-template>
                         </e-column>

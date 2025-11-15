@@ -114,6 +114,14 @@ namespace Lumio.CustomerPortal.Services.Auth
                 throw new Exception("Plan not found.");
             }
 
+            var existingUser = await mainDbContext.sellers
+                .Where(u => u.seller_name.ToLower() == dto.UserName.ToLower())
+                .FirstOrDefaultAsync();
+            if (existingUser != null)
+            {
+                throw new Exception("User already exists.");
+            }
+
             // create new seller
             seller seller = new seller()
             {

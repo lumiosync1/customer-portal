@@ -55,7 +55,8 @@ namespace Lumio.CustomerPortal.Api.Controllers
             catch (Exception ex)
             {
                 string message = "Something went wrong.";
-                if(ex.InnerException != null && ex.InnerException.Message.Contains("duplicate key value violates unique constraint"))
+                if((ex.InnerException != null && ex.InnerException.Message.Contains("duplicate key value violates unique constraint"))
+                    || ex.Message.Contains("duplicate key value violates unique constraint"))
                 {
                     message = $"username {dto.UserName} already exists";
                 }

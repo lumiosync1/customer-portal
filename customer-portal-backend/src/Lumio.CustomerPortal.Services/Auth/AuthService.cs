@@ -119,7 +119,7 @@ namespace Lumio.CustomerPortal.Services.Auth
                 .FirstOrDefaultAsync();
             if (existingUser != null)
             {
-                throw new Exception("User already exists.");
+                throw new Exception("duplicate key value violates unique constraint");
             }
 
             // create new seller

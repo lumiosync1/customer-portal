@@ -72,7 +72,7 @@
                 }
               ],
               "outputHashing": "all",
-              "outputPath": "D:/DEPLOY/Lumio/customer-portal-frontend/production"
+              "outputPath": "publish"
             },
             "demo": {
               "budgets": [

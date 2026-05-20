@@ -80,10 +80,7 @@ namespace Lumio.CustomerPortal.Api
 
             app.UseCors(policy =>
             {
-                policy.WithOrigins("http://localhost:4200",
-                                   "http://www.contoso.com",
-                                   "https://demo-portal.lumiosync.com",
-                                   "https://portal.lumiosync.com")
+                policy.AllowAnyOrigin()
                       .AllowAnyHeader()
                       .AllowAnyMethod();
             });

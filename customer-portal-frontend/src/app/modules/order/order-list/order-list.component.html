@@ -1,122 +1,117 @@
 <h1>Orders</h1>
 
 <div class="card mt-4">
-    
+
     <div class="card-body">
         <div ngbAccordion>
             <div ngbAccordionItem #accordionItem="ngbAccordionItem">
-              <h2 ngbAccordionHeader>
-                <button class="fs-4 fw-semibold text-white" style="background-color: #06B6D4;" ngbAccordionButton>Filter</button>
-              </h2>
-              <div ngbAccordionCollapse>
-                <div ngbAccordionBody>
-                  <ng-template>
-                    <ejs-querybuilder #querybuilder  
-                        [columns]="filterColumns"
-                        [rule]="initRule"
-                        (created)="applyFilter()"
-                        style="border: none;"
-                    >
-                    </ejs-querybuilder>
-                    
-                    <div class="d-flex gap-2 ms-2 mb-2">
-                        <button class="btn btn-info" (click)="applyFilter()">
-                            <i class="bi bi-search fs-3"></i> Filter
-                        </button>
-                        <button class="btn btn-secondary" (click)="clearFilter()">
-                            <i class="bi bi-x fs-3"></i> Reset
-                        </button>
+                <h2 ngbAccordionHeader>
+                    <button class="fs-4 fw-semibold text-white" style="background-color: #06B6D4;"
+                        ngbAccordionButton>Filter</button>
+                </h2>
+                <div ngbAccordionCollapse>
+                    <div ngbAccordionBody>
+                        <ng-template>
+                            <ejs-querybuilder #querybuilder [columns]="filterColumns" [rule]="initRule"
+                                (created)="applyFilter()" style="border: none;">
+                            </ejs-querybuilder>
+
+                            <div class="d-flex gap-2 ms-2 mb-2">
+                                <button class="btn btn-info" (click)="applyFilter()">
+                                    <i class="bi bi-search fs-3"></i> Filter
+                                </button>
+                                <button class="btn btn-secondary" (click)="clearFilter()">
+                                    <i class="bi bi-x fs-3"></i> Reset
+                                </button>
+                            </div>
+                        </ng-template>
                     </div>
-                  </ng-template>
                 </div>
-              </div>
             </div>
         </div>
 
         <div class="mt-12">
-            <ejs-grid #grid [query]="query" id="_order-list-004"
-                allowPaging='true' [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' 
-                [allowSorting]='true' [sortSettings]="{ columns: [{ field: 'order_id', direction: 'Descending' }] }"
-                [allowFiltering]='false' 
-                allowTextWrap='true'
-                frozenColumns="1"
-                (created)="onGridCreated()"
-                >
-                    <e-columns>
-                        <e-column field='order_id' headerText='ID' textAlign='Right' width="100"></e-column>
-                        <e-column field='market_order_number' headerText='Ref. No./Store' width="150">
-                            <ng-template #template let-data>
-                                <span>{{data.market_order_number}}</span>
-                                @if(data.store_name) {
-                                    <div [title]="'Store: ' + data.store_name">
-                                        <i class="bi bi-shop fs-3 text-primary"></i> &nbsp;
-                                        <span>{{data.store_name}}</span>
-                                    </div>
-                                }
-                            </ng-template>
-                        </e-column>
-                        <e-column field='item_title' headerText='Item' width="300">
-                            <ng-template #template let-data>
-                                <a [routerLink]="['/orders', data.order_id]" target="_blank">{{data.item_title}}</a>
-                            </ng-template>
-                        </e-column>
-                        <e-column field='order_status' headerText='Status' width="80">
-                            <ng-template #template let-data>
-                                <span class="badge" [class]="'status-' + data.order_status">
-                                    {{data.order_status}}
-                                </span>
-                            </ng-template>
-                        </e-column>
-                        <e-column field='note' headerText='Note' type="String" width="60">
-                            <ng-template #template let-data>
-                                @if (data.note) {
-                                    <i class="bi bi-sticky fs-2 text-primary" 
-                                    [ngbTooltip]="noteContainer"
-                                    (mouseover)="showNote(data.note)"></i>
-                                }
-                            </ng-template>
-                        </e-column>
-                        <e-column field='sale_date' headerText='Sale Date' format="MM/dd/yyyy" width="120" ></e-column>
-                        <e-column field='market_total_price' headerText='Price' format="C" width="120" >
-                            <ng-template #template let-data>
-                                <div class="text-end">Market: {{data.market_total_price | currency}}</div>
-                                @if(data.supplier_total_price) {
-                                    <div class="text-end">Supplier: {{data.supplier_total_price | currency}}</div>
-                                }
-                            </ng-template>
-                        </e-column>
-                        <e-column field='created_at' headerText='Created Date' format="MM/dd/yyyy HH:mm" width="120" ></e-column>
-                        <e-column field='market_total_price' headerText='Requests' textAlign="Center" width="80" >
-                            <ng-template #template let-data>
-                                @if(data.cancel_requested) {
-                                    <i class="e-icons e-circle-close text-cancelled fs-2" title="Cancel Requested"></i>
-                                }
-                                @if(data.return_requested) {
-                                    <i class="e-icons e-undo text-returned fs-2" title="Return Requested"></i>
-                                }
-                            </ng-template>
-                        </e-column>
-                        <e-column headerText='' textAlign='Right' width="50">
-                            <ng-template #template let-data>
-                                <button ejs-dropdownbutton content="" 
-                                    cssClass="e-caret-hide" iconCss="e-icons e-more-vertical-1"
-                                    [items]="[
+            <ejs-grid #grid [query]="query" id="_order-list-004" allowPaging='true'
+                [pageSettings]='{ pageSize: 20, pageSizes: [10, 20, 30] }' [allowSorting]='true'
+                [sortSettings]="{ columns: [{ field: 'order_id', direction: 'Descending' }] }" [allowFiltering]='false'
+                allowTextWrap='true' frozenColumns="1" (created)="onGridCreated()" [allowExcelExport]='true'
+                [toolbar]="['ExcelExport']" (toolbarClick)='toolbarClick($event)'
+                (excelQueryCellInfo)="excelQueryCellInfo($event)">
+                <e-columns>
+                    <e-column field='order_id' headerText='ID' textAlign='Right' width="100"></e-column>
+                    <e-column field='market_order_number' headerText='Ref. No./Store' width="150">
+                        <ng-template #template let-data>
+                            <span>{{data.market_order_number}}</span>
+                            @if(data.store_name) {
+                            <div [title]="'Store: ' + data.store_name">
+                                <i class="bi bi-shop fs-3 text-primary"></i> &nbsp;
+                                <span>{{data.store_name}}</span>
+                            </div>
+                            }
+                        </ng-template>
+                    </e-column>
+                    <e-column field='item_title' headerText='Item' width="300">
+                        <ng-template #template let-data>
+                            <a [routerLink]="['/orders', data.order_id]" target="_blank">{{data.item_title}}</a>
+                        </ng-template>
+                    </e-column>
+                    <e-column field='order_status' headerText='Status' width="80">
+                        <ng-template #template let-data>
+                            <span class="badge" [class]="'status-' + data.order_status">
+                                {{data.order_status}}
+                            </span>
+                        </ng-template>
+                    </e-column>
+                    <e-column field='note' headerText='Note' type="String" width="60">
+                        <ng-template #template let-data>
+                            @if (data.note) {
+                            <i class="bi bi-sticky fs-2 text-primary" [ngbTooltip]="noteContainer"
+                                (mouseover)="showNote(data.note)"></i>
+                            }
+                        </ng-template>
+                    </e-column>
+                    <e-column field='sale_date' headerText='Sale Date' format="MM/dd/yyyy" width="120"></e-column>
+                    <e-column field='market_total_price' headerText='Price' format="C" width="120">
+                        <ng-template #template let-data>
+                            <div class="text-end">Market: {{data.market_total_price | currency}}</div>
+                            @if(data.supplier_total_price) {
+                            <div class="text-end">Supplier: {{data.supplier_total_price | currency}}</div>
+                            }
+                        </ng-template>
+                    </e-column>
+                    <e-column field='supplier_total_price' format="C2" headerText='Supplier Price' width="120"
+                        [visible]="false"></e-column>
+                    <e-column field='created_at' headerText='Created Date' format="MM/dd/yyyy HH:mm"
+                        width="120"></e-column>
+                    <e-column headerText='Requests' textAlign="Center" width="80">
+                        <ng-template #template let-data>
+                            @if(data.cancel_requested) {
+                            <i class="e-icons e-circle-close text-cancelled fs-2" title="Cancel Requested"></i>
+                            }
+                            @if(data.return_requested) {
+                            <i class="e-icons e-undo text-returned fs-2" title="Return Requested"></i>
+                            }
+                        </ng-template>
+                    </e-column>
+                    <e-column headerText='' textAlign='Right' width="50">
+                        <ng-template #template let-data>
+                            <button ejs-dropdownbutton content="" cssClass="e-caret-hide"
+                                iconCss="e-icons e-more-vertical-1" [items]="[
                                         { text: 'Request Cancel', id: 'cancel', iconCss: 'e-icons e-circle-close', disabled: !['purchased', 'shipped'].includes(data.order_status) },
                                         { text: 'Request Return', id: 'return', iconCss: 'e-icons e-undo', disabled: !['delivered'].includes(data.order_status) },
-                                    ]"
-                                    (select)="rowMenuSelect($event, data)">
-                                </button>
-                            </ng-template>
-                        </e-column>
-                    </e-columns>
+                                    ]" (select)="rowMenuSelect($event, data)">
+                            </button>
+                        </ng-template>
+                    </e-column>
+                </e-columns>
             </ejs-grid>
         </div>
-        
-    </div>
-  </div>
 
-  <ng-template #noteContainer>
+    </div>
+</div>
+
+<ng-template #noteContainer>
     <div style="white-space: pre-line;">
         {{noteContent}}
     </div>
-  </ng-template>
+</ng-template>

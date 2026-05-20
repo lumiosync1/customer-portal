@@ -1,5 +1,5 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { FilterService, FreezeService, GridComponent, GridModule, PageService, SortService } from '@syncfusion/ej2-angular-grids';
+import { FilterService, FreezeService, GridComponent, GridModule, PageService, SortService, ToolbarItems, ToolbarService, ExcelExportService, ExcelQueryCellInfoEventArgs, ExcelExportProperties } from '@syncfusion/ej2-angular-grids';
 import { DataManager, ODataV4Adaptor, Query } from '@syncfusion/ej2-data';
 import { getComponent, createElement, isNullOrUndefined } from '@syncfusion/ej2-base';
 import { environment } from 'src/environments/environment';
@@ -11,7 +11,7 @@ import { NgbAccordionItem, NgbAccordionModule, NgbDropdownModule, NgbTooltipModu
 import { QueryBuilderModule, QueryBuilderComponent, RuleModel, TemplateColumn, ColumnsModel } from '@syncfusion/ej2-angular-querybuilder';
 import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 import { ActivatedRoute } from '@angular/router';
-import { DropDownButtonModule, ItemModel, MenuEventArgs } from '@syncfusion/ej2-angular-splitbuttons';
+import { ClickEventArgs, DropDownButtonModule, ItemModel, MenuEventArgs } from '@syncfusion/ej2-angular-splitbuttons';
 import { Dialog, DialogUtility } from '@syncfusion/ej2-angular-popups';
 import { ToastService } from '../../shared/services/toast.service';
 import { finalize, Subscription } from 'rxjs';
@@ -32,7 +32,7 @@ import { CurrencyPipe } from '@angular/common';
     NgbDropdownModule,
     DropDownButtonModule,
   ],
-  providers: [SortService, FilterService, PageService, FreezeService],
+  providers: [SortService, FilterService, PageService, FreezeService, ExcelExportService, ToolbarService,],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.scss'
 })
@@ -51,6 +51,8 @@ export class OrderListComponent {
     { text: 'Request Cancel', id: 'cancel', iconCss: 'e-icons e-circle-close' },
     { text: 'Request Return', id: 'return', iconCss: 'e-icons e-undo' },
   ];
+
+  toolbarOptions = ['ExcelExport'];
 
   subscriptions: Subscription[] = [];
   currency: string = this.authService.currency;
@@ -107,41 +109,41 @@ export class OrderListComponent {
       }
     ]
   };
-  
+
   statusTemplate: TemplateColumn = {
     create: () => {
-        return createElement('input', { attrs: { 'type': 'text' } });
+      return createElement('input', { attrs: { 'type': 'text' } });
     },
     destroy: (args: { elementId: string }) => {
-        let dropdown: DropDownList = (getComponent(document.getElementById(args.elementId)??'', 'dropdownlist') as DropDownList);
-        if (dropdown) {
-            dropdown.destroy();
-        }
+      let dropdown: DropDownList = (getComponent(document.getElementById(args.elementId) ?? '', 'dropdownlist') as DropDownList);
+      if (dropdown) {
+        dropdown.destroy();
+      }
     },
     write: (args: { elements: Element, values: string[] | string, operator: string }) => {
-      let ds: {text: string, value: string}[] = [
-        {text: 'Pending', value: 'pending'},
-        {text: 'Purchased', value: 'purchased'},
-        {text: 'Shipped', value: 'shipped'},
-        {text: 'Delivered', value: 'delivered'},
-        {text: 'Cancelled', value: 'cancelled'},
-        {text: 'Error', value: 'error'},
-        {text: 'Removed', value: 'removed'},
-        {text: 'Refunded', value: 'refunded'}
+      let ds: { text: string, value: string }[] = [
+        { text: 'Pending', value: 'pending' },
+        { text: 'Purchased', value: 'purchased' },
+        { text: 'Shipped', value: 'shipped' },
+        { text: 'Delivered', value: 'delivered' },
+        { text: 'Cancelled', value: 'cancelled' },
+        { text: 'Error', value: 'error' },
+        { text: 'Removed', value: 'removed' },
+        { text: 'Refunded', value: 'refunded' }
       ];
-        let dropDownObj: DropDownList = new DropDownList({
-                dataSource: ds,
-                fields: { text: 'text', value: 'value' },
-                value: args.values as string,
-                placeholder: 'Select Status',
-                change: (e: any) => {
-                    this.queryBuilder.notifyChange(e.itemData.value, e.element);
-                }
-            });
-            dropDownObj.appendTo('#' + args.elements.id);
+      let dropDownObj: DropDownList = new DropDownList({
+        dataSource: ds,
+        fields: { text: 'text', value: 'value' },
+        value: args.values as string,
+        placeholder: 'Select Status',
+        change: (e: any) => {
+          this.queryBuilder.notifyChange(e.itemData.value, e.element);
+        }
+      });
+      dropDownObj.appendTo('#' + args.elements.id);
     }
   };
-  
+
   filterColumns: ColumnsModel[] = [
     {
       field: 'order_status',
@@ -191,7 +193,7 @@ export class OrderListComponent {
       type: 'number',
     },
   ];
-  
+
   public query: Query;
   data = new DataManager({
     url: `${environment.backendUrl}/odata/ordersodata`,
@@ -202,6 +204,7 @@ export class OrderListComponent {
 
   ngOnInit(): void {
     this.page.updateTitle('Orders');
+    this.toolbarOptions = ['ExcelExport', 'CsvExport'];
   }
 
   ngAfterViewInit(): void {
@@ -214,7 +217,7 @@ export class OrderListComponent {
         this.accordionItem.expand(); // expand so user can see the list is being filtered
         tempRule.rules![1].value = params['status'];
       }
-      if(params['from'] && params['to']) {
+      if (params['from'] && params['to']) {
         this.preFilter = true;
         this.accordionItem.expand(); // expand so user can see the list is being filtered
         tempRule.rules![6].operator = 'between';
@@ -223,7 +226,7 @@ export class OrderListComponent {
     });
 
     // if accordion is expanded then QueryBuilder will be created on UI and apply filter on its created event
-    if(!this.accordionItem.collapsed) {
+    if (!this.accordionItem.collapsed) {
       this.queryBuilder.rule = tempRule;
     }
   }
@@ -234,7 +237,7 @@ export class OrderListComponent {
 
   onGridCreated() {
     // if preFilter is true, the filtering will be executed in QueryBuilder created event
-    if(this.preFilter) {
+    if (this.preFilter) {
       return;
     }
 
@@ -301,17 +304,17 @@ export class OrderListComponent {
     this.confirmCancelDialog.hide();
     this.spinner.showLoading();
     const sub = this.orderService.requestCancelOrder(orderId)
-    .pipe(
-      finalize(() => this.spinner.hideLoading())
-    )
-    .subscribe((res) => {
-      if(res.Status !== ResponseStatus.Success) {
-        this.toastService.showError(res.Message);
-        return;
-      }
-      this.toastService.showSuccess('Requested successfully');
-      this.grid.refresh();
-    });
+      .pipe(
+        finalize(() => this.spinner.hideLoading())
+      )
+      .subscribe((res) => {
+        if (res.Status !== ResponseStatus.Success) {
+          this.toastService.showError(res.Message);
+          return;
+        }
+        this.toastService.showSuccess('Requested successfully');
+        this.grid.refresh();
+      });
     this.subscriptions.push(sub);
   }
 
@@ -319,17 +322,41 @@ export class OrderListComponent {
     this.confirmReturnDialog.hide();
     this.spinner.showLoading();
     const sub = this.orderService.requestReturnOrder(orderId)
-    .pipe(
-      finalize(() => this.spinner.hideLoading())
-    )
-    .subscribe((res) => {
-      if(res.Status !== ResponseStatus.Success) {
-        this.toastService.showError(res.Message);
-        return;
-      }
-      this.toastService.showSuccess('Requested successfully');
-      this.grid.refresh();
-    });
+      .pipe(
+        finalize(() => this.spinner.hideLoading())
+      )
+      .subscribe((res) => {
+        if (res.Status !== ResponseStatus.Success) {
+          this.toastService.showError(res.Message);
+          return;
+        }
+        this.toastService.showSuccess('Requested successfully');
+        this.grid.refresh();
+      });
     this.subscriptions.push(sub);
+  }
+
+  toolbarClick(args: any): void {
+    (this.grid as GridComponent).showSpinner();
+    if (args.item.properties.text === 'Excel Export') {
+      const excelExportProperties: ExcelExportProperties = {
+        includeHiddenColumn: true
+      };
+      // 'Grid_excelexport' -> Grid component id + _ + toolbar item name
+      (this.grid as GridComponent).excelExport(excelExportProperties);
     }
+    else if (args.item.properties.text === 'Csv Export') {
+      // 'Grid_csvexport' -> Grid component id + _ + toolbar item name
+      (this.grid as GridComponent).csvExport();
+    }
+    (this.grid as GridComponent).hideSpinner();
+  }
+
+  excelQueryCellInfo(args: ExcelQueryCellInfoEventArgs): void {
+    const data = (args.data as any);
+    // if (args.column.headerText === 'Price') {
+    //   args.value = '$' + data['market_total_price'];
+
+    // }
+  }
 }
